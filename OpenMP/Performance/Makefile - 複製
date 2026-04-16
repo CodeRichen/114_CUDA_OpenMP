@@ -1,0 +1,29 @@
+CC = gcc
+CFLAGS = -std=c99
+
+source = assign-uni.c assign-shared-omp.c assign-private-omp.c assign-heap-omp.c
+
+all:	
+	assign-uni assign-shared-omp assign-private-omp assign-heap-omp
+
+run-assign:
+	time ./assign-uni
+	time ./assign-omp
+	time ./assign-private-omp
+	time ./assign-heap-omp
+
+%-omp: %.c
+	$(CC) -fopenmp $(CFLAGS) $< -lm -o $@ 
+
+%-uni: %.c
+	$(CC) $(CFLAGS) $< -lm -o $@
+
+%.pdf: %.tex $(source)
+	pdflatex $<
+
+tar:
+	tar -cvf PP-OpenMP-advanced.tar Makefile *.c
+
+clean:
+	rm *-uni *-omp *.aux *.log *.nav *.snm *.toc *.vrb *.out *~
+

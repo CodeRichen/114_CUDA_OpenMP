@@ -1,0 +1,40 @@
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+*.o
+*.a
+*.so
+*.obj
+*.lib
+*.dll
+
+# Executables / Binaries
+*.exe
+*.out
+*.app
+
+# CUDA / GPU specific artifacts
+*.ptx
+*.cubin
+*.fatbin
+
+# Large data files, logs, and core dumps
+*.log
+*.dat
+*.csv
+core
+core.*
+out.txt
+*.txt
+
+# Build directories
+bin/
+build/
+obj/
+out/
+Exe/
+
+# Editor and IDE configurations
+.vscode/
+.vs/
+*.suo
+*.user
+*.swp
