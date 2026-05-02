@@ -97,104 +97,110 @@ int main(int argc, char **argv)
 	cudaEventRecord(start,0);
 	// 啟動 GPU 計時（stream 0）。
 
-	// 這裡改成一次執行測試所有「已實作」的 kernel。
-	// 只要某個 kernel launch 成功，就會同步、複製結果並做比對。
-	// vecAdd_gpu_kernel_2_18 目前只有宣告、沒有定義，所以不會納入測試。
-	int allKernelPass = 1;
-	int testedKernelCount = 0;
-	#define RUN_KERNEL_TEST(KERNEL_NAME, ...) \
-		do { \
-			printf("\n [%s] 開始測試\n", KERNEL_NAME); \
-			cudaEvent_t kernelStart, kernelStop; \
-			cudaEventCreate(&kernelStart); \
-			cudaEventCreate(&kernelStop); \
-			cudaEventRecord(kernelStart,0); \
-			cudaMemset(d_vecC, 0, sizeof(float)*ELEMENT_COUNT); \
-			__VA_ARGS__; \
-			cudaError_t launchErr = cudaGetLastError(); \
-			if (launchErr != cudaSuccess) { \
-				printf("  Launch 失敗 : %s\n", cudaGetErrorString(launchErr)); \
-				allKernelPass = 0; \
-			} else { \
-				cudaError_t syncErr = cudaDeviceSynchronize(); \
-				if (syncErr != cudaSuccess) { \
-					printf("  同步失敗 : %s\n", cudaGetErrorString(syncErr)); \
-					allKernelPass = 0; \
-				} else { \
-					cudaEventRecord(kernelStop,0); \
-					cudaEventSynchronize(kernelStop); \
-					float kernelElapsedMs = 0.0f; \
-					cudaEventElapsedTime(&kernelElapsedMs, kernelStart, kernelStop); \
-					printf("  Kernel 時間 : %3.20f s\n", kernelElapsedMs / 1000.0f); \
-					R = cudaMemcpy(h_vecResultFromDevice,d_vecC,sizeof(float)*ELEMENT_COUNT,cudaMemcpyDeviceToHost); \
-					printf("  Memcpy h_vecResultFromDevice : %s\n",cudaGetErrorString(R)); \
-					if(check_result(h_vecResultFromHost,h_vecResultFromDevice)) \
-						printf("  Result Check : OK!\n"); \
-					else { \
-						printf("  Result Check : QQ!\n"); \
-						allKernelPass = 0; \
-					} \
-				} \
-			} \
-			cudaEventDestroy(kernelStart); \
-			cudaEventDestroy(kernelStop); \
-			testedKernelCount++; \
-		} while(0)
-	
-	RUN_KERNEL_TEST("vecAdd_gpu_kernel_1_1", vecAdd_gpu_kernel_1_1<<<1,1>>>(d_vecA,d_vecB,d_vecC));
-	RUN_KERNEL_TEST("vecAdd_gpu_kernel_1_2", vecAdd_gpu_kernel_1_2<<<1,2>>>(d_vecA,d_vecB,d_vecC));
-	RUN_KERNEL_TEST("vecAdd_gpu_kernel_1_256", vecAdd_gpu_kernel_1_256<<<1,256>>>(d_vecA,d_vecB,d_vecC));
-	RUN_KERNEL_TEST("vecAdd_gpu_kernel_2_256", vecAdd_gpu_kernel_2_256<<<2,256>>>(d_vecA,d_vecB,d_vecC));
-	RUN_KERNEL_TEST("vecAdd_gpu_kernel_1_4096", vecAdd_gpu_kernel_1_4096<<<1,4096>>>(d_vecA,d_vecB,d_vecC));
-	RUN_KERNEL_TEST("vecAdd_gpu_kernel_256_1", vecAdd_gpu_kernel_256_1<<<256,1>>>(d_vecA,d_vecB,d_vecC));
-	RUN_KERNEL_TEST("vecAdd_gpu_kernel_256_2", vecAdd_gpu_kernel_256_2<<<256,2>>>(d_vecA,d_vecB,d_vecC));
-	RUN_KERNEL_TEST("vecAdd_gpu_kernel_better", vecAdd_gpu_kernel_better<<<BLOCKSPERGRID,THREADSPERBLOCK>>>(d_vecA,d_vecB,d_vecC));
-	RUN_KERNEL_TEST("vecAdd_gpu_kernel_2_19", vecAdd_gpu_kernel_2_19<<<BLOCKSPERGRID,THREADSPERBLOCK>>>(d_vecA,d_vecB,d_vecC));
-	RUN_KERNEL_TEST("vecAdd_gpu_kernel_2_18", vecAdd_gpu_kernel_2_18<<<BLOCKSPERGRID,THREADSPERBLOCK>>>(d_vecA,d_vecB,d_vecC));
-	RUN_KERNEL_TEST("vecAdd_gpu_kernel_2_10", vecAdd_gpu_kernel_2_10<<<BLOCKSPERGRID,THREADSPERBLOCK>>>(d_vecA,d_vecB,d_vecC));
-	#undef RUN_KERNEL_TEST
+	// 改用 user 指定的一系列 (grid, block) 配對進行測試
+	int grids[] = {
+		1,1,1,2,4,256,256,256,
+		1024,2048,4096,8192,16384,32768,65536,131072,262144,524288,1048576
+	};
+	int blocks[] = {
+		1,2,256,256,256,1,2,4,
+		1024,512,256,128,64,32,16,8,4,2,1
+	};
+	int configs = sizeof(grids)/sizeof(grids[0]);
+	double *times = (double*)malloc(sizeof(double)*configs);
+	int *ok = (int*)malloc(sizeof(int)*configs);
+	for (int i=0;i<configs;i++){ times[i] = -1.0; ok[i]=0; }
 
-	cudaEventRecord(stop,0);
-	cudaEventSynchronize(stop);
-	// 停止 GPU 計時（若未啟動 kernel，則量到的是近乎空操作時間）。
-	
-	float elapsedTime;
-    cudaEventElapsedTime(&elapsedTime, start, stop);
-	// elapsedTime 單位為毫秒。
+	// Query device limits
+	int dev; cudaGetDevice(&dev);
+	cudaDeviceProp prop; cudaGetDeviceProperties(&prop, dev);
+	int maxThreadsPerBlock = prop.maxThreadsPerBlock;
 
+	int successful = 0;
+	for (int i=0;i<configs;i++){
+		int g = grids[i];
+		int b = blocks[i];
+		printf("\n[Test %d] <<<%d,%d>>>\n", i+1, g, b);
+		if (b > maxThreadsPerBlock){
+			printf("  Skip: threads_per_block=%d > device max %d\n", b, maxThreadsPerBlock);
+			continue;
+		}
+		cudaMemset(d_vecC, 0, sizeof(float)*ELEMENT_COUNT);
+		cudaEvent_t kstart, kstop; cudaEventCreate(&kstart); cudaEventCreate(&kstop);
+		cudaEventRecord(kstart,0);
+		vecAdd_gpu_kernel_better<<<g,b>>>(d_vecA,d_vecB,d_vecC);
+		cudaError_t launchErr = cudaGetLastError();
+		if (launchErr != cudaSuccess){
+			printf("  Launch failed: %s\n", cudaGetErrorString(launchErr));
+			cudaEventDestroy(kstart); cudaEventDestroy(kstop);
+			continue;
+		}
+		cudaError_t syncErr = cudaDeviceSynchronize();
+		if (syncErr != cudaSuccess){
+			printf("  Sync failed: %s\n", cudaGetErrorString(syncErr));
+			cudaEventDestroy(kstart); cudaEventDestroy(kstop);
+			continue;
+		}
+		cudaEventRecord(kstop,0); cudaEventSynchronize(kstop);
+		float ms=0.0f; cudaEventElapsedTime(&ms,kstart,kstop);
+		times[i] = (double)ms/1000.0;
+		R = cudaMemcpy(h_vecResultFromDevice,d_vecC,sizeof(float)*ELEMENT_COUNT,cudaMemcpyDeviceToHost);
+		printf("  Memcpy result: %s\n", cudaGetErrorString(R));
+		if (check_result(h_vecResultFromHost,h_vecResultFromDevice)){
+			printf("  Result: OK  time=%3.6fs\n", times[i]);
+			ok[i]=1; successful++;
+		} else {
+			printf("  Result: QQ (mismatch)  time=%3.6fs\n", times[i]);
+			ok[i]=0;
+		}
+		cudaEventDestroy(kstart); cudaEventDestroy(kstop);
+	}
+
+	// 統計：找最快、最慢、平均（只計成功的）
+	double sum=0; double minT=1e300; double maxT=-1.0; int minIdx=-1, maxIdx=-1; int count=0;
+	for (int i=0;i<configs;i++){
+		if (!ok[i]) continue;
+		double t = times[i]; sum += t; count++;
+		if (t < minT){ minT=t; minIdx=i; }
+		if (t > maxT){ maxT=t; maxIdx=i; }
+	}
+	double avg = (count>0)? (sum/count) : -1.0;
+
+	// 完成測試，整理並印出統計結果（只統計成功的測試）
 	free(h_vecA);
 	free(h_vecB);
 	free(h_vecResultFromDevice);
-	// 釋放 Host 記憶體。
 
 	cudaFree(d_vecA);
 	cudaFree(d_vecB);
 	cudaFree(d_vecC);
-	// 釋放 Device 記憶體。
 
-	printf("\n ======== Execution Infomation ========\n");
-	printf(" GPU total test time: %3.20f s\n",elapsedTime/1000);
-	printf(" Excuetion Time on CPU: %3.20f s\n",CPU_elapsedTime);
-	printf(" Tested kernel count = %d\n",testedKernelCount);
-	printf(" All kernel passed = %s\n",allKernelPass ? "YES" : "NO");
-	printf(" Speed up = %f\n",(CPU_elapsedTime/(elapsedTime/1000)));
-	printf(" ======================================\n\n"); 
-	// 印出時間與簡易加速比。
-	
+	printf("\n ======== Test Summary ========\n");
+	if (count == 0) {
+		printf(" No successful GPU tests.\n");
+	} else {
+		printf(" Successful tests: %d / %d\n", count, configs);
+		printf(" Fastest: <<<%d,%d>>> %3.6fs\n", grids[minIdx], blocks[minIdx], minT);
+		printf(" Slowest: <<<%d,%d>>> %3.6fs\n", grids[maxIdx], blocks[maxIdx], maxT);
+		printf(" Average (successful): %3.6fs\n", avg);
+		printf(" CPU time: %3.6fs\n", CPU_elapsedTime);
+		if (maxT > 0.0) {
+			printf(" Slowest GPU vs CPU: ratio CPU/SlowGPU = %3.6f\n", CPU_elapsedTime / maxT);
+		}
+	}
+	printf(" ================================\n\n");
 
-	//system("pause");
 	return 0;
 }
 
 __global__ void vecAdd_gpu_kernel_better(float vecA[],float vecB[],float vecC[])
 {
-	// 標準 CUDA 寫法：一個 thread 計算一個元素。
-    int i = blockDim.x * blockIdx.x + threadIdx.x;
-    if (i < ELEMENT_COUNT)
-    {
-        vecC[i] = vecB[i] + vecA[i];
-    }
-
+	// 改為 grid-stride loop，讓任意 (grid, block) 組合都能正確覆蓋整個陣列。
+	unsigned int idx = blockDim.x * blockIdx.x + threadIdx.x;
+	unsigned int stride = blockDim.x * gridDim.x;
+	for (unsigned int i = idx; i < ELEMENT_COUNT; i += stride) {
+		vecC[i] = vecB[i] + vecA[i];
+	}
 }
 
 __global__ void vecAdd_gpu_kernel_2_19(float vecA[],float vecB[],float vecC[])

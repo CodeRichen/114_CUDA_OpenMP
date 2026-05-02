@@ -1,3 +1,0 @@
-cd /home/A1125515/114/CUDA_sample
-FILE=second_cuda
-nvcc ${FILE}.cu -o Exe/${FILE} && ./Exe/${FILE}
