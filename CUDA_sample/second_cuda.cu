@@ -1,6 +1,17 @@
 // Second CUDA program
 // Ping-Che Chen
-
+// 16
+// Max error: 1.19209e-07  Average error: 9.72329e-10
+// Time used: 0.0063   (315.61 GFLOPS)
+// 32
+// Max error: 1.19209e-07  Average error: 9.72329e-10
+// Time used: 0.0247   (80.82 GFLOPS)
+// 8
+// Max error: 1.19209e-07  Average error: 9.72329e-10
+// Time used: 0.0336   (59.61 GFLOPS)
+// 64
+// Max error: 1  Average error: 1
+// Time used: 0.0213   (93.98 GFLOPS)
 
 #include <stdio.h>
 #include <stdlib.h>

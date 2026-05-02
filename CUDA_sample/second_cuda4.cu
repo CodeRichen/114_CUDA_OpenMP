@@ -16,8 +16,6 @@ __global__ static void matMultCUDA(const float* a, size_t lda, const float* b, s
 	const int tid = threadIdx.x;
 	const int row = blockIdx.x;
 	int i,j;
-	if(blockIdx.x==0 && threadIdx.x==0)
-		printf("%d\n", );
 	for(i = tid; i < n; i += blockDim.x){
 		data[i] = a[row * lda + i];
 	}
