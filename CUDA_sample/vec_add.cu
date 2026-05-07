@@ -34,6 +34,18 @@ __global__ void vecAdd_gpu_kernel_better(float vecA[],float vecB[],float vecC[])
 __global__ void vecAdd_gpu_kernel_2_19(float vecA[],float vecB[],float vecC[]);
 __global__ void vecAdd_gpu_kernel_2_18(float vecA[],float vecB[],float vecC[]);
 __global__ void vecAdd_gpu_kernel_2_10(float vecA[],float vecB[],float vecC[]);
+__global__ void vecAdd_gpu_kernel_2_10_a(float vecA[],float vecB[],float vecC[]);
+__global__ void vecAdd_gpu_kernel_2_10_b(float vecA[],float vecB[],float vecC[]);
+__global__ void vecAdd_gpu_kernel_2_10_c(float vecA[],float vecB[],float vecC[]);
+__global__ void vecAdd_gpu_kernel_2_18_a(float vecA[],float vecB[],float vecC[]);
+__global__ void vecAdd_gpu_kernel_2_18_b(float vecA[],float vecB[],float vecC[]);
+__global__ void vecAdd_gpu_kernel_2_19_a(float vecA[],float vecB[],float vecC[]);
+__global__ void vecAdd_gpu_kernel_2_19_b(float vecA[],float vecB[],float vecC[]);
+__global__ void vecAdd_gpu_kernel_better_a(float vecA[],float vecB[],float vecC[]);
+__global__ void vecAdd_gpu_kernel_better_b(float vecA[],float vecB[],float vecC[]);
+__global__ void vecAdd_gpu_kernel_better_c(float vecA[],float vecB[],float vecC[]);
+__global__ void vecAdd_gpu_kernel_better_d(float vecA[],float vecB[],float vecC[]);
+__global__ void vecAdd_gpu_kernel_better_e(float vecA[],float vecB[],float vecC[]);
 
 void vecAdd_cpu(float vecA[],float vecB[],float vecC[]);
 int check_result(float h_res[],float d_res[]);
@@ -116,6 +128,7 @@ int main(int argc, char **argv)
 	cudaDeviceProp prop; cudaGetDeviceProperties(&prop, dev);
 	int maxThreadsPerBlock = prop.maxThreadsPerBlock;
 
+	// 為每個測試配置選擇對應的 kernel，展示不同策略的效能差異
 	int successful = 0;
 	for (int i=0;i<configs;i++){
 		int g = grids[i];
@@ -128,7 +141,32 @@ int main(int argc, char **argv)
 		cudaMemset(d_vecC, 0, sizeof(float)*ELEMENT_COUNT);
 		cudaEvent_t kstart, kstop; cudaEventCreate(&kstart); cudaEventCreate(&kstop);
 		cudaEventRecord(kstart,0);
-		vecAdd_gpu_kernel_better<<<g,b>>>(d_vecA,d_vecB,d_vecC);
+		
+		// 根據測試序號選擇對應的 kernel
+		// 策略：少線程用小步長 kernel；多線程用大步長或 grid-stride
+		switch(i) {
+			case 0: vecAdd_gpu_kernel_1_1<<<g,b>>>(d_vecA,d_vecB,d_vecC); break;  // <<<1,1>>> 1執行緒
+			case 1: vecAdd_gpu_kernel_1_2<<<g,b>>>(d_vecA,d_vecB,d_vecC); break;  // <<<1,2>>> 2執行緒
+			case 2: vecAdd_gpu_kernel_1_256<<<g,b>>>(d_vecA,d_vecB,d_vecC); break;  // <<<1,256>>> 256執行緒單block
+			case 3: vecAdd_gpu_kernel_256_1<<<g,b>>>(d_vecA,d_vecB,d_vecC); break;  // <<<2,256>>> 512執行緒, 步長256
+			case 4: vecAdd_gpu_kernel_256_2<<<g,b>>>(d_vecA,d_vecB,d_vecC); break;  // <<<4,256>>> 1K執行緒, 步長512
+			case 5: vecAdd_gpu_kernel_256_1<<<g,b>>>(d_vecA,d_vecB,d_vecC); break;  // <<<256,1>>> 256執行緒, 步長256
+			case 6: vecAdd_gpu_kernel_256_2<<<g,b>>>(d_vecA,d_vecB,d_vecC); break;  // <<<256,2>>> 512執行緒, 步長512
+			case 7: vecAdd_gpu_kernel_2_10_a<<<g,b>>>(d_vecA,d_vecB,d_vecC); break;  // <<<256,4>>> 1K執行緒, 步長1024
+			case 8: vecAdd_gpu_kernel_2_10_b<<<g,b>>>(d_vecA,d_vecB,d_vecC); break;  // <<<1024,1024>>> 1M執行緒, 步長1024 (多迴圈)
+			case 9: vecAdd_gpu_kernel_2_10_c<<<g,b>>>(d_vecA,d_vecB,d_vecC); break;  // <<<2048,512>>> 1M執行緒, 步長1024
+			case 10: vecAdd_gpu_kernel_2_18_a<<<g,b>>>(d_vecA,d_vecB,d_vecC); break;  // <<<4096,256>>> 1M執行緒, 步長262K
+			case 11: vecAdd_gpu_kernel_2_18_b<<<g,b>>>(d_vecA,d_vecB,d_vecC); break;  // <<<8192,128>>> 1M執行緒, 步長262K
+			case 12: vecAdd_gpu_kernel_2_19_a<<<g,b>>>(d_vecA,d_vecB,d_vecC); break;  // <<<16384,64>>> 1M執行緒, 步長524K
+			case 13: vecAdd_gpu_kernel_2_19_b<<<g,b>>>(d_vecA,d_vecB,d_vecC); break;  // <<<32768,32>>> 1M執行緒, 步長524K
+			case 14: vecAdd_gpu_kernel_better_a<<<g,b>>>(d_vecA,d_vecB,d_vecC); break;  // <<<65536,16>>> 1M執行緒, 超大grid用grid-stride
+			case 15: vecAdd_gpu_kernel_better_b<<<g,b>>>(d_vecA,d_vecB,d_vecC); break;  // <<<131072,8>>> 1M執行緒, 超大grid
+			case 16: vecAdd_gpu_kernel_better_c<<<g,b>>>(d_vecA,d_vecB,d_vecC); break;  // <<<262144,4>>> 1M執行緒, 超大grid
+			case 17: vecAdd_gpu_kernel_better_d<<<g,b>>>(d_vecA,d_vecB,d_vecC); break;  // <<<524288,2>>> 1M執行緒, 超大grid
+			case 18: vecAdd_gpu_kernel_better_e<<<g,b>>>(d_vecA,d_vecB,d_vecC); break;  // <<<1048576,1>>> 1M執行緒, 極大grid
+			default: vecAdd_gpu_kernel_better<<<g,b>>>(d_vecA,d_vecB,d_vecC);
+		}
+		
 		cudaError_t launchErr = cudaGetLastError();
 		if (launchErr != cudaSuccess){
 			printf("  Launch failed: %s\n", cudaGetErrorString(launchErr));
@@ -184,6 +222,18 @@ int main(int argc, char **argv)
 		printf(" Slowest: <<<%d,%d>>> %3.6fs\n", grids[maxIdx], blocks[maxIdx], maxT);
 		printf(" Average (successful): %3.6fs\n", avg);
 		printf(" CPU time: %3.6fs\n", CPU_elapsedTime);
+		printf(" CPU/GPU ratio per test (CPU_time / GPU_time):\n");
+		for (int i=0;i<configs;i++){
+			if (!ok[i]){
+				printf("  [Test %d] <<<%d,%d>>> skipped/failed\n", i+1, grids[i], blocks[i]);
+				continue;
+			}
+			if (times[i] > 0.0) {
+				printf("  [Test %d] <<<%d,%d>>> %3.6f\n", i+1, grids[i], blocks[i], CPU_elapsedTime / times[i]);
+			} else {
+				printf("  [Test %d] <<<%d,%d>>> invalid time\n", i+1, grids[i], blocks[i]);
+			}
+		}
 		if (maxT > 0.0) {
 			printf(" Slowest GPU vs CPU: ratio CPU/SlowGPU = %3.6f\n", CPU_elapsedTime / maxT);
 		}
@@ -203,6 +253,56 @@ __global__ void vecAdd_gpu_kernel_better(float vecA[],float vecB[],float vecC[])
 	}
 }
 
+__global__ void vecAdd_gpu_kernel_better_a(float vecA[],float vecB[],float vecC[])
+{
+	// 與 vecAdd_gpu_kernel_better 相同，但用於不同測試 case。
+	unsigned int idx = blockDim.x * blockIdx.x + threadIdx.x;
+	unsigned int stride = blockDim.x * gridDim.x;
+	for (unsigned int i = idx; i < ELEMENT_COUNT; i += stride) {
+		vecC[i] = vecB[i] + vecA[i];
+	}
+}
+
+__global__ void vecAdd_gpu_kernel_better_b(float vecA[],float vecB[],float vecC[])
+{
+	// 與 vecAdd_gpu_kernel_better 相同，但用於不同測試 case。
+	unsigned int idx = blockDim.x * blockIdx.x + threadIdx.x;
+	unsigned int stride = blockDim.x * gridDim.x;
+	for (unsigned int i = idx; i < ELEMENT_COUNT; i += stride) {
+		vecC[i] = vecB[i] + vecA[i];
+	}
+}
+
+__global__ void vecAdd_gpu_kernel_better_c(float vecA[],float vecB[],float vecC[])
+{
+	// 與 vecAdd_gpu_kernel_better 相同，但用於不同測試 case。
+	unsigned int idx = blockDim.x * blockIdx.x + threadIdx.x;
+	unsigned int stride = blockDim.x * gridDim.x;
+	for (unsigned int i = idx; i < ELEMENT_COUNT; i += stride) {
+		vecC[i] = vecB[i] + vecA[i];
+	}
+}
+
+__global__ void vecAdd_gpu_kernel_better_d(float vecA[],float vecB[],float vecC[])
+{
+	// 與 vecAdd_gpu_kernel_better 相同，但用於不同測試 case。
+	unsigned int idx = blockDim.x * blockIdx.x + threadIdx.x;
+	unsigned int stride = blockDim.x * gridDim.x;
+	for (unsigned int i = idx; i < ELEMENT_COUNT; i += stride) {
+		vecC[i] = vecB[i] + vecA[i];
+	}
+}
+
+__global__ void vecAdd_gpu_kernel_better_e(float vecA[],float vecB[],float vecC[])
+{
+	// 與 vecAdd_gpu_kernel_better 相同，但用於不同測試 case。
+	unsigned int idx = blockDim.x * blockIdx.x + threadIdx.x;
+	unsigned int stride = blockDim.x * gridDim.x;
+	for (unsigned int i = idx; i < ELEMENT_COUNT; i += stride) {
+		vecC[i] = vecB[i] + vecA[i];
+	}
+}
+
 __global__ void vecAdd_gpu_kernel_2_19(float vecA[],float vecB[],float vecC[])
 {
 		// 大步長版本：每個 thread 以 1024*512 的間隔處理多個元素，
@@ -211,6 +311,24 @@ __global__ void vecAdd_gpu_kernel_2_19(float vecA[],float vecB[],float vecC[])
 	for(int i=0;i<ELEMENT_COUNT;i+=1024*512)
 		if(i+threadIdx.x+blockDim.x * blockIdx.x < ELEMENT_COUNT)
 			vecC[i+j] = vecB[i+j] + vecA[i+j];    
+}
+
+__global__ void vecAdd_gpu_kernel_2_19_a(float vecA[],float vecB[],float vecC[])
+{
+	// 與 vecAdd_gpu_kernel_2_19 相同，但用於不同測試 case。
+    int j = blockDim.x * blockIdx.x + threadIdx.x;
+	for(int i=0;i<ELEMENT_COUNT;i+=1024*512)
+		if(i+threadIdx.x+blockDim.x * blockIdx.x < ELEMENT_COUNT)
+			vecC[i+j] = vecB[i+j] + vecA[i+j];
+}
+
+__global__ void vecAdd_gpu_kernel_2_19_b(float vecA[],float vecB[],float vecC[])
+{
+	// 與 vecAdd_gpu_kernel_2_19 相同，但用於不同測試 case。
+    int j = blockDim.x * blockIdx.x + threadIdx.x;
+	for(int i=0;i<ELEMENT_COUNT;i+=1024*512)
+		if(i+threadIdx.x+blockDim.x * blockIdx.x < ELEMENT_COUNT)
+			vecC[i+j] = vecB[i+j] + vecA[i+j];
 }
 
 __global__ void vecAdd_gpu_kernel_2_18(float vecA[],float vecB[],float vecC[])
@@ -222,6 +340,24 @@ __global__ void vecAdd_gpu_kernel_2_18(float vecA[],float vecB[],float vecC[])
 			vecC[i+j] = vecB[i+j] + vecA[i+j];    
 }
 
+__global__ void vecAdd_gpu_kernel_2_18_a(float vecA[],float vecB[],float vecC[])
+{
+	// 與 vecAdd_gpu_kernel_2_18 相同，但用於不同測試 case。
+    int j = blockDim.x * blockIdx.x + threadIdx.x;
+	for(int i=0;i<ELEMENT_COUNT;i+=1024*256)
+		if(i+threadIdx.x+blockDim.x * blockIdx.x < ELEMENT_COUNT)
+			vecC[i+j] = vecB[i+j] + vecA[i+j];
+}
+
+__global__ void vecAdd_gpu_kernel_2_18_b(float vecA[],float vecB[],float vecC[])
+{
+	// 與 vecAdd_gpu_kernel_2_18 相同，但用於不同測試 case。
+    int j = blockDim.x * blockIdx.x + threadIdx.x;
+	for(int i=0;i<ELEMENT_COUNT;i+=1024*256)
+		if(i+threadIdx.x+blockDim.x * blockIdx.x < ELEMENT_COUNT)
+			vecC[i+j] = vecB[i+j] + vecA[i+j];
+}
+
 __global__ void vecAdd_gpu_kernel_2_10(float vecA[],float vecB[],float vecC[])
 {
 		// 與 kernel_2_19 類似，但步長縮小為 1024，
@@ -230,6 +366,33 @@ __global__ void vecAdd_gpu_kernel_2_10(float vecA[],float vecB[],float vecC[])
 	for(int i=0;i<ELEMENT_COUNT;i+=1024)
 		if(i+threadIdx.x+blockDim.x * blockIdx.x < ELEMENT_COUNT)
 			vecC[i+j] = vecB[i+j] + vecA[i+j];    
+}
+
+__global__ void vecAdd_gpu_kernel_2_10_a(float vecA[],float vecB[],float vecC[])
+{
+	// 與 vecAdd_gpu_kernel_2_10 相同，但用於不同測試 case。
+    int j = blockDim.x * blockIdx.x + threadIdx.x;
+	for(int i=0;i<ELEMENT_COUNT;i+=1024)
+		if(i+threadIdx.x+blockDim.x * blockIdx.x < ELEMENT_COUNT)
+			vecC[i+j] = vecB[i+j] + vecA[i+j];
+}
+
+__global__ void vecAdd_gpu_kernel_2_10_b(float vecA[],float vecB[],float vecC[])
+{
+	// 與 vecAdd_gpu_kernel_2_10 相同，但用於不同測試 case。
+    int j = blockDim.x * blockIdx.x + threadIdx.x;
+	for(int i=0;i<ELEMENT_COUNT;i+=1024)
+		if(i+threadIdx.x+blockDim.x * blockIdx.x < ELEMENT_COUNT)
+			vecC[i+j] = vecB[i+j] + vecA[i+j];
+}
+
+__global__ void vecAdd_gpu_kernel_2_10_c(float vecA[],float vecB[],float vecC[])
+{
+	// 與 vecAdd_gpu_kernel_2_10 相同，但用於不同測試 case。
+    int j = blockDim.x * blockIdx.x + threadIdx.x;
+	for(int i=0;i<ELEMENT_COUNT;i+=1024)
+		if(i+threadIdx.x+blockDim.x * blockIdx.x < ELEMENT_COUNT)
+			vecC[i+j] = vecB[i+j] + vecA[i+j];
 }
 
 __global__ void vecAdd_gpu_kernel_256_1(float vecA[],float vecB[],float vecC[])

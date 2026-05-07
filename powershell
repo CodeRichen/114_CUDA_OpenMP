@@ -1,0 +1,3 @@
+cd /home/A1125515/114/CUDA_sample
+FILE=vec_add
+nvcc ${FILE}.cu -o Exe/${FILE} && ./Exe/${FILE}
