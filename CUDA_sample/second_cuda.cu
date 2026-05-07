@@ -16,23 +16,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 #include <cuda_runtime.h>
 
 
 #define BLOCK_SIZE	16
 
-__global__ static void matMultCUDA(const float* a, size_t lda, const float* b, size_t ldb, float* c, size_t ldc, int n)
+__global__ static void matMultCUDA(const double* a, size_t lda, const double* b, size_t ldb, double* c, size_t ldc, int n)
 {
-	__shared__ float matA[BLOCK_SIZE][BLOCK_SIZE];
-	__shared__ float matB[BLOCK_SIZE][BLOCK_SIZE];
+	__shared__ double matA[BLOCK_SIZE][BLOCK_SIZE];
+	__shared__ double matB[BLOCK_SIZE][BLOCK_SIZE];
 	const int tidc = threadIdx.x;
 	const int tidr = threadIdx.y;
 	const int bidc = blockIdx.x * BLOCK_SIZE;
 	const int bidr = blockIdx.y * BLOCK_SIZE;
 	int i, j;
 
-	float results = 0;
-	float comp = 0;
+	double results = 0;
+	double comp = 0;
 
 	for(j = 0; j < n; j += BLOCK_SIZE) {
 		matA[tidr][tidc] = a[(tidr + bidr) * lda + tidc + j];
@@ -41,7 +42,7 @@ __global__ static void matMultCUDA(const float* a, size_t lda, const float* b, s
 		__syncthreads();
 
 		for(i = 0; i < BLOCK_SIZE; i++) {
-			float t;
+			double t;
 			comp -= matA[tidr][i] * matB[i][tidc];
 			t = results - comp;
 			comp = (t - results) + comp;
@@ -56,30 +57,30 @@ __global__ static void matMultCUDA(const float* a, size_t lda, const float* b, s
 
 
 
-clock_t matmultCUDA(const float* a, int lda, const float* b, int ldb, float* c, int ldc, int n)
+clock_t matmultCUDA(const double* a, int lda, const double* b, int ldb, double* c, int ldc, int n)
 {
-	float *ac, *bc, *cc;
+	double *ac, *bc, *cc;
 	clock_t start, end;
 	size_t pitch_a, pitch_b, pitch_c;
 	int newn = ((n + BLOCK_SIZE - 1) / BLOCK_SIZE) * BLOCK_SIZE;
 
 	start = clock();
-	cudaMallocPitch((void**) &ac, &pitch_a, sizeof(float) * newn, newn);
-	cudaMallocPitch((void**) &bc, &pitch_b, sizeof(float) * newn, newn);
-	cudaMallocPitch((void**) &cc, &pitch_c, sizeof(float) * newn, newn);
+	cudaMallocPitch((void**) &ac, &pitch_a, sizeof(double) * newn, newn);
+	cudaMallocPitch((void**) &bc, &pitch_b, sizeof(double) * newn, newn);
+	cudaMallocPitch((void**) &cc, &pitch_c, sizeof(double) * newn, newn);
 
 	cudaMemset(ac, 0, pitch_a * newn);
 	cudaMemset(bc, 0, pitch_b * newn);
 
-	cudaMemcpy2D(ac, pitch_a, a, sizeof(float) * lda, sizeof(float) * n, n, cudaMemcpyHostToDevice);
-	cudaMemcpy2D(bc, pitch_b, b, sizeof(float) * ldb, sizeof(float) * n, n, cudaMemcpyHostToDevice);
+	cudaMemcpy2D(ac, pitch_a, a, sizeof(double) * lda, sizeof(double) * n, n, cudaMemcpyHostToDevice);
+	cudaMemcpy2D(bc, pitch_b, b, sizeof(double) * ldb, sizeof(double) * n, n, cudaMemcpyHostToDevice);
 
 	int bx = (n + BLOCK_SIZE - 1) / BLOCK_SIZE;
 	dim3 blocks(bx, bx);
 	dim3 threads(BLOCK_SIZE, BLOCK_SIZE);
-	matMultCUDA<<<blocks, threads>>>(ac, pitch_a / sizeof(float), bc, pitch_b / sizeof(float), cc, pitch_c / sizeof(float), n);
+	matMultCUDA<<<blocks, threads>>>(ac, pitch_a / sizeof(double), bc, pitch_b / sizeof(double), cc, pitch_c / sizeof(double), n);
 
-	cudaMemcpy2D(c, sizeof(float) * ldc, cc, pitch_c, sizeof(float) * n, n, cudaMemcpyDeviceToHost);
+	cudaMemcpy2D(c, sizeof(double) * ldc, cc, pitch_c, sizeof(double) * n, n, cudaMemcpyDeviceToHost);
 
 	cudaFree(ac);
 	cudaFree(bc);
@@ -91,7 +92,7 @@ clock_t matmultCUDA(const float* a, int lda, const float* b, int ldb, float* c, 
 }
 
 
-void matmult(const float* a, int lda, const float* b, int ldb, float* c, int ldc, int n)
+void matmult(const double* a, int lda, const double* b, int ldb, double* c, int ldc, int n)
 {
 	int i, j, k;
 
@@ -107,28 +108,30 @@ void matmult(const float* a, int lda, const float* b, int ldb, float* c, int ldc
 }
 
 
-void matgen(float* a, int lda, int n)
+void matgen(double* a, int lda, int n)
 {
 	int i, j;
 
 	for(i = 0; i < n; i++) {
 		for(j = 0; j < n; j++) {
-			a[i * lda + j] = (float) rand() / RAND_MAX + (float) rand() / (RAND_MAX * RAND_MAX);
+			double r1 = (double) rand() / (double) RAND_MAX;
+			double r2 = (double) rand() / (double) RAND_MAX;
+			a[i * lda + j] = r1 + (r2 / (double) RAND_MAX);
 		}
 	}
 }
 
 
-void compare_mat(const float* a, int lda, const float* b, int ldb, int n)
+void compare_mat(const double* a, int lda, const double* b, int ldb, int n)
 {
-	float max_err = 0;
-	float average_err = 0;
+	double max_err = 0;
+	double average_err = 0;
 	int i, j;
 
 	for(i = 0; i < n; i++) {
 		for(j = 0; j < n; j++) {
 			if(b[i * ldb + j] != 0) {
-				float err = fabs((a[i * lda + j] - b[i * ldb + j]) / b[i * ldb + j]);
+				double err = fabs((a[i * lda + j] - b[i * ldb + j]) / b[i * ldb + j]);
 				if(max_err < err) max_err = err;
 				average_err += err;
 			}
@@ -172,17 +175,17 @@ bool InitCUDA()
 
 int main()
 {
-	float *a, *b, *c, *d;
+	double *a, *b, *c, *d;
 	int n = 1000;
 
 	if(!InitCUDA()) {
 		return 0;
 	}
 
-	a = (float*) malloc(sizeof(float) * n * n);
-	b = (float*) malloc(sizeof(float) * n * n);
-	c = (float*) malloc(sizeof(float) * n * n);
-	d = (float*) malloc(sizeof(float) * n * n);
+	a = (double*) malloc(sizeof(double) * n * n);
+	b = (double*) malloc(sizeof(double) * n * n);
+	c = (double*) malloc(sizeof(double) * n * n);
+	d = (double*) malloc(sizeof(double) * n * n);
 
 	srand(0);
 
