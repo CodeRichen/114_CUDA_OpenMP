@@ -6,16 +6,24 @@ nvcc ${FILE}.cu -o Exe/${FILE} && ./Exe/${FILE}
 
 專題用.cu
 
-cd /home/A1125515/114/CUDA_sample/test/專題
-FILE=hash
+cd /home/A1125515/114/CUDA_sample/test/專題/canny
+FILE=canny_cuda
+nvcc ${FILE}.cu -o ${FILE} && ./${FILE}
+
+cd /home/A1125515/114/CUDA_sample/test/專題/ffmpeg
+FILE=cuda_volume
 nvcc ${FILE}.cu -o ${FILE} && ./${FILE}
 
 專題用.cpp
 
-cd /home/A1125515/114/CUDA_sample/test/專題
+cd /home/A1125515/114/CUDA_sample/test/專題/canny
 FILE=canny_cpu
 g++ -O3 ${FILE}.cpp -o ${FILE}
 ./${FILE}
+
+cd /home/A1125515/114/CUDA_sample/test/專題/ffmpeg
+FILE=cuda_volume
+nvcc ${FILE}.cu -o ${FILE} && ./${FILE}
 
 測試用.cpp
 
@@ -23,3 +31,8 @@ cd /home/A1125515/114/CUDA_sample/test/C3
 FILE=tlforce
 g++ -O3 ${FILE}.cpp -o ${FILE}
 ./${FILE}
+
+ffmpeg -i media.mp4 -f image2pipe -vcodec rawvideo -pix_fmt rgb24 - | \
+./cuda_volume | \
+ffmpeg -y -f rawvideo -vcodec rawvideo -pix_fmt rgb24 -s 1280x720 -r 30 -i - \
+-c:v libx264 -pix_fmt yuv420p output.mp4
