@@ -28,9 +28,9 @@ __global__ void sobel_kernel(unsigned char* input, unsigned char* output, int w,
 int main() {
     int width, height, channels;
     // 1. 讀取圖片 (強制轉為灰階 1 channel)
-    unsigned char *h_in = stbi_load("input.png", &width, &height, &channels, 1);
+    unsigned char *h_in = stbi_load("input.jpg", &width, &height, &channels, 1);
     if (!h_in) {
-        printf("找不到 input.png 檔案！\n");
+        printf("找不到 input.jpg 檔案！\n");
         return -1;
     }
 
@@ -62,9 +62,9 @@ int main() {
 
     // 5. 拷貝回結果並存檔
     cudaMemcpy(h_out, d_out, size, cudaMemcpyDeviceToHost);
-    stbi_write_png("output.png", width, height, 1, h_out, 0);
+    stbi_write_jpg("output.jpg", width, height, 1, h_out, 0);
 
-    printf("結果已存至 output.png\n");
+    printf("結果已存至 output.jpg\n");
 
     stbi_image_free(h_in);
     free(h_out);

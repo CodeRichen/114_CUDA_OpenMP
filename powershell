@@ -25,6 +25,11 @@ cd /home/A1125515/114/CUDA_sample/test/專題/ffmpeg
 FILE=cuda_volume
 nvcc ${FILE}.cu -o ${FILE} && ./${FILE}
 
+cd /home/A1125515/114/CUDA_sample/test/專題/ffmpeg
+FILE=cpp_volume
+g++ -O2 ${FILE}.cpp -o ${FILE}
+./${FILE}
+
 測試用.cpp
 
 cd /home/A1125515/114/CUDA_sample/test/C3
@@ -32,7 +37,12 @@ FILE=tlforce
 g++ -O3 ${FILE}.cpp -o ${FILE}
 ./${FILE}
 
+ffmpeg -i media.mp4 -f f32le -acodec pcm_f32le -ac 1 -ar 44100 - | \
+./cpp_volume | \
+ffmpeg -y -f f32le -ar 44100 -ac 1 -i - -i media.mp4 \
+-map 0:a -map 1:v -c:v copy -c:a aac -shortest output.mp4
+
 ffmpeg -i media.mp4 -f image2pipe -vcodec rawvideo -pix_fmt rgb24 - | \
-./cuda_volume | \
-ffmpeg -y -f rawvideo -vcodec rawvideo -pix_fmt rgb24 -s 1280x720 -r 30 -i - \
--c:v libx264 -pix_fmt yuv420p output.mp4
+./cuda_volume2 | \
+ffmpeg -y -f rawvideo -vcodec rawvideo -pix_fmt rgb24 -s 896x504 -r 20 -i - \
+-c:v libx264 -pix_fmt yuv420p output_final.mp4

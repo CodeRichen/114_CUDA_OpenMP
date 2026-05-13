@@ -12,9 +12,9 @@ int main() {
     int width, height, channels;
     
     // 1. 讀取圖片 (強制轉為灰階 1 channel)
-    unsigned char *input_data = stbi_load("input.png", &width, &height, &channels, 1);
+    unsigned char *input_data = stbi_load("input.jpg", &width, &height, &channels, 1);
     if (!input_data) {
-        std::cerr << "錯誤：找不到 input.png！請確認圖片在同資料夾下。" << std::endl;
+        std::cerr << "錯誤：找不到 input.jpg！請確認圖片在同資料夾下。" << std::endl;
         return -1;
     }
 
@@ -48,11 +48,11 @@ int main() {
     std::chrono::duration<double, std::milli> elapsed = end - start;
 
     // 4. 存檔
-    stbi_write_png("output_cpu.png", width, height, 1, output_data.data(), 0);
+    stbi_write_jpg("output_cpu.jpg", width, height, 1, output_data.data(), 0);
 
     std::cout << "CPU 處理完成！" << std::endl;
     std::cout << "消耗時間: " << elapsed.count() << " ms" << std::endl;
-    std::cout << "結果已存至 output_cpu.png" << std::endl;
+    std::cout << "結果已存至 output_cpu.jpg" << std::endl;
 
     stbi_image_free(input_data);
     return 0;
