@@ -1,3 +1,25 @@
+上課用.cu
+
 cd /home/A1125515/114/CUDA_sample
-FILE=second_cuda
+FILE=second_cuda3
 nvcc ${FILE}.cu -o Exe/${FILE} && ./Exe/${FILE}
+
+專題用.cu
+
+cd /home/A1125515/114/CUDA_sample/test/專題
+FILE=hash
+nvcc ${FILE}.cu -o ${FILE} && ./${FILE}
+
+專題用.cpp
+
+cd /home/A1125515/114/CUDA_sample/test/專題
+FILE=canny_cpu
+g++ -O3 ${FILE}.cpp -o ${FILE}
+./${FILE}
+
+測試用.cpp
+
+cd /home/A1125515/114/CUDA_sample/test/C3
+FILE=tlforce
+g++ -O3 ${FILE}.cpp -o ${FILE}
+./${FILE}
