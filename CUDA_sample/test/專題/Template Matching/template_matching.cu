@@ -8,13 +8,12 @@
 do { \
     cudaError_t err = call; \
     if (err != cudaSuccess) { \
-        fprintf(stderr, "CUDA error at %s:%d code=%d(%s)\n", __FILE__, __line__, err, cudaGetErrorString(err)); \
+        fprintf(stderr, "CUDA error at %s:%d code=%d(%s)\n", __FILE__, __LINE__, err, cudaGetErrorString(err)); \
         exit(EXIT_FAILURE); \
     } \
 } while(0)
 
-// 讀取 CSV 檔案。因為資料都是 single digits 0-9 且有逗號，可以使用 fgetc 或 fscanf。
-// 為求效率，我們可以讀整個檔案並解析。
+// 讀取檔案函式
 unsigned char* load_matrix(const char* filename, int rows, int cols) {
     FILE* fp = fopen(filename, "r");
     if (!fp) {
@@ -25,11 +24,12 @@ unsigned char* load_matrix(const char* filename, int rows, int cols) {
     unsigned char* mat = (unsigned char*)malloc(rows * cols * sizeof(unsigned char));
     int count = 0;
     int c;
-    while ((c = fgetc(fp)) != EOF && count < rows * cols) {
+    while ((c = fgetc(fp)) != EOF && count < rows * cols) { 
         if (c >= '0' && c <= '9') {
             mat[count++] = (unsigned char)(c - '0');
         }
     }
+    fprintf(stderr, "Loaded %d elements from %s\n", count, filename);
     fclose(fp);
     return mat;
 }
@@ -42,7 +42,6 @@ __global__ void matchKernel(const unsigned char* T, int T_r, int T_c,
     int r = blockIdx.y * blockDim.y + threadIdx.y;
 
     if (r < T_r - S_r + 1 && c < T_c - S_c + 1) {
-        // Compute mean of X (S) and Y (window in T)
         float sumX = 0, sumY = 0;
         int n = S_r * S_c;
         for (int i = 0; i < S_r; i++) {
@@ -119,8 +118,7 @@ int main(int argc, char** argv) {
     CHECK_CUDA(cudaMemcpy(d_T, h_T, t_rows * t_cols * sizeof(unsigned char), cudaMemcpyHostToDevice));
     CHECK_CUDA(cudaMemcpy(d_S, h_S, s_rows * s_cols * sizeof(unsigned char), cudaMemcpyHostToDevice));
 
-    // Try multiple block sizes
-    int block_sizes[][2] = {{16, 16}, {32, 32}, {16, 32}};
+    int block_sizes[][2] = {{16, 16}, {32, 32}, {32, 16}};
     int num_configs = sizeof(block_sizes) / sizeof(block_sizes[0]);
 
     float* h_pcc_out = (float*)malloc(out_size * sizeof(float));
@@ -150,12 +148,14 @@ int main(int argc, char** argv) {
     float max_pcc = -2.0f;
     unsigned int min_ssd = 0xFFFFFFFF;
 
-    for (int i = 0; i < out_size; i++) {
-        if (h_pcc_out[i] > max_pcc) max_pcc = h_pcc_out[i];
-        if (h_ssd_out[i] < min_ssd) min_ssd = h_ssd_out[i];
+    for (int r = 0; r < out_r; r++) {
+        for (int c = 0; c < out_c; c++) {
+            int idx = r * out_c + c;
+            if (h_pcc_out[idx] > max_pcc) max_pcc = h_pcc_out[idx];
+            if (h_ssd_out[idx] < min_ssd) min_ssd = h_ssd_out[idx];
+        }
     }
     
-    // Allow slight float error
     printf("PCC Result (Row, Col):\n");
     for (int r = 0; r < out_r; r++) {
         for (int c = 0; c < out_c; c++) {
@@ -176,14 +176,8 @@ int main(int argc, char** argv) {
         }
     }
 
-    free(h_T);
-    free(h_S);
-    free(h_pcc_out);
-    free(h_ssd_out);
-    cudaFree(d_T);
-    cudaFree(d_S);
-    cudaFree(d_pcc);
-    cudaFree(d_ssd);
+    free(h_T); free(h_S); free(h_pcc_out); free(h_ssd_out);
+    cudaFree(d_T); cudaFree(d_S); cudaFree(d_pcc); cudaFree(d_ssd);
 
     return 0;
 }
