@@ -2,399 +2,283 @@
 [測資 1] T:(3750x4320) S:(3x3)
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x16
-  [Run 1] Global:   2.1108 ms | Shared(S):   1.9096 ms | Shared(T):   2.0975 ms
-  [Run 2] Global:   1.8610 ms | Shared(S):   1.8903 ms | Shared(T):   2.0767 ms
-  [Run 3] Global:   1.8565 ms | Shared(S):   1.8897 ms | Shared(T):   2.0831 ms
-平均時間 - Global:   1.9428 ms | Shared(S):   1.8965 ms | Shared(T):   2.0857 ms
+  [Run 1] Global:   1.8783 ms | Opt(T_share, S_const):   2.0234 ms
+  [Run 2] Global:   1.8561 ms | Opt(T_share, S_const):   2.0069 ms
+  [Run 3] Global:   1.8563 ms | Opt(T_share, S_const):   2.0029 ms
+平均時間 - Global:   1.8636 ms | Opt(T_share, S_const):   2.0111 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x128
-  [Run 1] Global:   2.3512 ms | Shared(S):   2.3722 ms | Shared(T):   2.7664 ms
-  [Run 2] Global:   2.3505 ms | Shared(S):   2.3732 ms | Shared(T):   2.7670 ms
-  [Run 3] Global:   2.3493 ms | Shared(S):   2.3735 ms | Shared(T):   2.7726 ms
-平均時間 - Global:   2.3503 ms | Shared(S):   2.3729 ms | Shared(T):   2.7687 ms
+  [Run 1] Global:   2.3495 ms | Opt(T_share, S_const):   2.6747 ms
+  [Run 2] Global:   2.3492 ms | Opt(T_share, S_const):   2.6678 ms
+  [Run 3] Global:   2.3486 ms | Opt(T_share, S_const):   2.6734 ms
+平均時間 - Global:   2.3491 ms | Opt(T_share, S_const):   2.6720 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x32
-  [Run 1] Global:   2.2065 ms | Shared(S):   2.1975 ms | Shared(T):   2.6556 ms
-  [Run 2] Global:   2.2083 ms | Shared(S):   2.1506 ms | Shared(T):   2.5901 ms
-  [Run 3] Global:   2.1527 ms | Shared(S):   2.1463 ms | Shared(T):   2.5916 ms
-平均時間 - Global:   2.1892 ms | Shared(S):   2.1648 ms | Shared(T):   2.6124 ms
+  [Run 1] Global:   2.1505 ms | Opt(T_share, S_const):   2.4561 ms
+  [Run 2] Global:   2.1513 ms | Opt(T_share, S_const):   2.4574 ms
+  [Run 3] Global:   2.1510 ms | Opt(T_share, S_const):   2.4582 ms
+平均時間 - Global:   2.1509 ms | Opt(T_share, S_const):   2.4572 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 128x 8
-  [Run 1] Global:   2.0795 ms | Shared(S):   2.1097 ms | Shared(T):   2.5682 ms
-  [Run 2] Global:   2.0764 ms | Shared(S):   2.1103 ms | Shared(T):   2.5676 ms
-  [Run 3] Global:   2.0776 ms | Shared(S):   2.1104 ms | Shared(T):   2.5681 ms
-平均時間 - Global:   2.0778 ms | Shared(S):   2.1101 ms | Shared(T):   2.5680 ms
+  [Run 1] Global:   2.0783 ms | Opt(T_share, S_const):   2.4511 ms
+  [Run 2] Global:   2.0788 ms | Opt(T_share, S_const):   2.4505 ms
+  [Run 3] Global:   2.0768 ms | Opt(T_share, S_const):   2.4495 ms
+平均時間 - Global:   2.0780 ms | Opt(T_share, S_const):   2.4504 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 64x16
-  [Run 1] Global:   2.1197 ms | Shared(S):   2.1324 ms | Shared(T):   2.5704 ms
-  [Run 2] Global:   2.1205 ms | Shared(S):   2.1321 ms | Shared(T):   2.5715 ms
-  [Run 3] Global:   2.1212 ms | Shared(S):   2.1330 ms | Shared(T):   2.5724 ms
-平均時間 - Global:   2.1204 ms | Shared(S):   2.1325 ms | Shared(T):   2.5714 ms
+  [Run 1] Global:   2.1193 ms | Opt(T_share, S_const):   2.4236 ms
+  [Run 2] Global:   2.1207 ms | Opt(T_share, S_const):   2.4248 ms
+  [Run 3] Global:   2.1203 ms | Opt(T_share, S_const):   2.4351 ms
+平均時間 - Global:   2.1201 ms | Opt(T_share, S_const):   2.4278 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x64
-  [Run 1] Global:   2.1329 ms | Shared(S):   2.1919 ms | Shared(T):   2.6802 ms
-  [Run 2] Global:   2.1351 ms | Shared(S):   2.1981 ms | Shared(T):   2.6792 ms
-  [Run 3] Global:   2.1332 ms | Shared(S):   2.1949 ms | Shared(T):   2.6802 ms
-平均時間 - Global:   2.1337 ms | Shared(S):   2.1950 ms | Shared(T):   2.6799 ms
+  [Run 1] Global:   2.1420 ms | Opt(T_share, S_const):   2.5843 ms
+  [Run 2] Global:   2.1370 ms | Opt(T_share, S_const):   2.5846 ms
+  [Run 3] Global:   2.1352 ms | Opt(T_share, S_const):   2.5829 ms
+平均時間 - Global:   2.1381 ms | Opt(T_share, S_const):   2.5839 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size:  4x256
-  [Run 1] Global:   3.3432 ms | Shared(S):   3.3292 ms | Shared(T):   2.8571 ms
-  [Run 2] Global:   3.3461 ms | Shared(S):   3.3249 ms | Shared(T):   2.8813 ms
-  [Run 3] Global:   3.3436 ms | Shared(S):   3.3326 ms | Shared(T):   2.9123 ms
-平均時間 - Global:   3.3443 ms | Shared(S):   3.3289 ms | Shared(T):   2.8835 ms
+  [Run 1] Global:   3.3517 ms | Opt(T_share, S_const):   2.8056 ms
+  [Run 2] Global:   3.3358 ms | Opt(T_share, S_const):   2.8447 ms
+  [Run 3] Global:   3.3356 ms | Opt(T_share, S_const):   2.7656 ms
+平均時間 - Global:   3.3410 ms | Opt(T_share, S_const):   2.8053 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 256x 4
-  [Run 1] Global:   2.0519 ms | Shared(S):   2.0955 ms | Shared(T):   2.5424 ms
-  [Run 2] Global:   2.0547 ms | Shared(S):   2.0972 ms | Shared(T):   2.5415 ms
-  [Run 3] Global:   2.0539 ms | Shared(S):   2.0975 ms | Shared(T):   2.5441 ms
-平均時間 - Global:   2.0535 ms | Shared(S):   2.0967 ms | Shared(T):   2.5427 ms
+  [Run 1] Global:   2.0501 ms | Opt(T_share, S_const):   2.4453 ms
+  [Run 2] Global:   2.0501 ms | Opt(T_share, S_const):   2.4474 ms
+  [Run 3] Global:   2.0514 ms | Opt(T_share, S_const):   2.4452 ms
+平均時間 - Global:   2.0506 ms | Opt(T_share, S_const):   2.4460 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x32
-  [Run 1] Global:   1.8511 ms | Shared(S):   1.8887 ms | Shared(T):   2.1952 ms
-  [Run 2] Global:   1.8537 ms | Shared(S):   1.8897 ms | Shared(T):   2.1955 ms
-  [Run 3] Global:   1.8512 ms | Shared(S):   1.8889 ms | Shared(T):   2.2001 ms
-平均時間 - Global:   1.8520 ms | Shared(S):   1.8891 ms | Shared(T):   2.1969 ms
+  [Run 1] Global:   1.8487 ms | Opt(T_share, S_const):   2.1072 ms
+  [Run 2] Global:   1.8484 ms | Opt(T_share, S_const):   2.1061 ms
+  [Run 3] Global:   1.8478 ms | Opt(T_share, S_const):   2.1050 ms
+平均時間 - Global:   1.8483 ms | Opt(T_share, S_const):   2.1061 ms
 ---------------------------------------------------------------------------------
-▶ 匹配結果 (依照 PCC 相似度 - 僅顯示第一名)
+▶ CPU Sequential Version (No Parallelization)
+  CPU Time: 526.2449 ms
+  [CPU Top 1相似] PCC:  1.0000, 位置: (581,1280) 
+        [   4   1   3 ]
+        [   9   8   7 ]
+        [   8   9   0 ]
+---------------------------------------------------------------------------------
+▶ 匹配結果 (僅顯示 PCC 第一名相似區塊)
   [Top 1相似] PCC:  1.0000, 位置: (581,1280) 
         [   4   1   3 ]
         [   9   8   7 ]
         [   8   9   0 ]
-  [Top 1不相似] PCC: -0.9953, 位置: (3139,2578) 
-        [   5   9   7 ]
-        [   0   1   2 ]
-        [   1   0   9 ]
-
-▶ 匹配結果 (依照 SSD 誤差 - 顯示前三名)
-  [Top 1相似] SSD:          0, 位置: (581,1280) 
-        [   4   1   3 ]
-        [   9   8   7 ]
-        [   8   9   0 ]
-  [Top 2相似] SSD:          3, 位置: (788,481) (2142,2484) (2339,1246) 
-        [   3   1   3 ]
-        [   8   8   8 ]
-        [   8   9   0 ]
-  [Top 3相似] SSD:          4, 位置: (166,3476) (277,2391) (476,3607) (1054,1925) (1100,295) (1225,1057) (1979,2403) (2099,668) (2108,3974) (2187,1840) (2200,3155) (2971,3090) (2985,175) (3184,3109) (3464,4124) (3603,1551) (3723,903) 
-        [   3   2   3 ]
-        [   9   9   8 ]
-        [   8   9   0 ]
-  [Top 1不相似] SSD:        506, 位置: (2019,4306) (3492,4168) 
-        [   0   9   9 ]
-        [   1   0   1 ]
-        [   0   0   9 ]
-  [Top 2不相似] SSD:        504, 位置: (290,3346) 
-        [   0   9   9 ]
-        [   2   0   0 ]
-        [   0   0   9 ]
-  [Top 3不相似] SSD:        498, 位置: (1126,390) 
-        [   9   9   9 ]
-        [   1   0   1 ]
-        [   0   1   9 ]
 =================================================================================
 [測資 2] T:(7750x1320) S:(5x5)
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x16
-  [Run 1] Global:   2.4513 ms | Shared(S):   2.3949 ms | Shared(T):   2.5661 ms
-  [Run 2] Global:   2.4501 ms | Shared(S):   2.3921 ms | Shared(T):   2.5649 ms
-  [Run 3] Global:   2.4453 ms | Shared(S):   2.3925 ms | Shared(T):   2.5643 ms
-平均時間 - Global:   2.4489 ms | Shared(S):   2.3932 ms | Shared(T):   2.5651 ms
+  [Run 1] Global:   2.4505 ms | Opt(T_share, S_const):   2.3531 ms
+  [Run 2] Global:   2.4459 ms | Opt(T_share, S_const):   2.3518 ms
+  [Run 3] Global:   2.4445 ms | Opt(T_share, S_const):   2.3513 ms
+平均時間 - Global:   2.4470 ms | Opt(T_share, S_const):   2.3521 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x128
-  [Run 1] Global:   3.2596 ms | Shared(S):   3.2088 ms | Shared(T):   3.0732 ms
-  [Run 2] Global:   3.2557 ms | Shared(S):   3.2092 ms | Shared(T):   3.0737 ms
-  [Run 3] Global:   3.2564 ms | Shared(S):   3.2072 ms | Shared(T):   3.0738 ms
-平均時間 - Global:   3.2572 ms | Shared(S):   3.2084 ms | Shared(T):   3.0736 ms
+  [Run 1] Global:   3.2558 ms | Opt(T_share, S_const):   2.8731 ms
+  [Run 2] Global:   3.2585 ms | Opt(T_share, S_const):   2.8726 ms
+  [Run 3] Global:   3.2743 ms | Opt(T_share, S_const):   2.8735 ms
+平均時間 - Global:   3.2629 ms | Opt(T_share, S_const):   2.8731 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x32
-  [Run 1] Global:   2.8088 ms | Shared(S):   2.7479 ms | Shared(T):   3.0969 ms
-  [Run 2] Global:   2.8084 ms | Shared(S):   2.7470 ms | Shared(T):   3.0965 ms
-  [Run 3] Global:   2.8109 ms | Shared(S):   2.7492 ms | Shared(T):   3.0978 ms
-平均時間 - Global:   2.8094 ms | Shared(S):   2.7481 ms | Shared(T):   3.0971 ms
+  [Run 1] Global:   2.8088 ms | Opt(T_share, S_const):   2.8581 ms
+  [Run 2] Global:   2.8104 ms | Opt(T_share, S_const):   2.8578 ms
+  [Run 3] Global:   2.8106 ms | Opt(T_share, S_const):   2.8579 ms
+平均時間 - Global:   2.8099 ms | Opt(T_share, S_const):   2.8579 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 128x 8
-  [Run 1] Global:   2.9412 ms | Shared(S):   2.8754 ms | Shared(T):   3.2302 ms
-  [Run 2] Global:   2.9387 ms | Shared(S):   2.8755 ms | Shared(T):   3.2311 ms
-  [Run 3] Global:   2.9393 ms | Shared(S):   2.8772 ms | Shared(T):   3.2285 ms
-平均時間 - Global:   2.9398 ms | Shared(S):   2.8760 ms | Shared(T):   3.2300 ms
+  [Run 1] Global:   2.9409 ms | Opt(T_share, S_const):   2.9916 ms
+  [Run 2] Global:   2.9404 ms | Opt(T_share, S_const):   2.9927 ms
+  [Run 3] Global:   2.9400 ms | Opt(T_share, S_const):   2.9910 ms
+平均時間 - Global:   2.9404 ms | Opt(T_share, S_const):   2.9918 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 64x16
-  [Run 1] Global:   2.8224 ms | Shared(S):   2.7577 ms | Shared(T):   3.0983 ms
-  [Run 2] Global:   2.8213 ms | Shared(S):   2.7581 ms | Shared(T):   3.0963 ms
-  [Run 3] Global:   2.8206 ms | Shared(S):   2.7553 ms | Shared(T):   3.0988 ms
-平均時間 - Global:   2.8215 ms | Shared(S):   2.7570 ms | Shared(T):   3.0978 ms
+  [Run 1] Global:   2.8222 ms | Opt(T_share, S_const):   2.8549 ms
+  [Run 2] Global:   2.8208 ms | Opt(T_share, S_const):   2.8535 ms
+  [Run 3] Global:   2.8211 ms | Opt(T_share, S_const):   2.8538 ms
+平均時間 - Global:   2.8214 ms | Opt(T_share, S_const):   2.8541 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x64
-  [Run 1] Global:   2.8408 ms | Shared(S):   2.7629 ms | Shared(T):   3.0739 ms
-  [Run 2] Global:   2.8407 ms | Shared(S):   2.7629 ms | Shared(T):   3.0720 ms
-  [Run 3] Global:   2.8410 ms | Shared(S):   2.7625 ms | Shared(T):   3.0713 ms
-平均時間 - Global:   2.8408 ms | Shared(S):   2.7628 ms | Shared(T):   3.0724 ms
+  [Run 1] Global:   2.8413 ms | Opt(T_share, S_const):   2.8400 ms
+  [Run 2] Global:   2.8411 ms | Opt(T_share, S_const):   2.8367 ms
+  [Run 3] Global:   2.8412 ms | Opt(T_share, S_const):   2.8385 ms
+平均時間 - Global:   2.8412 ms | Opt(T_share, S_const):   2.8384 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size:  4x256
-  [Run 1] Global:   4.3679 ms | Shared(S):   4.2557 ms | Shared(T):   3.3177 ms
-  [Run 2] Global:   4.3541 ms | Shared(S):   4.2540 ms | Shared(T):   3.2779 ms
-  [Run 3] Global:   4.3514 ms | Shared(S):   4.2557 ms | Shared(T):   3.2597 ms
-平均時間 - Global:   4.3578 ms | Shared(S):   4.2552 ms | Shared(T):   3.2851 ms
+  [Run 1] Global:   4.3519 ms | Opt(T_share, S_const):   3.0208 ms
+  [Run 2] Global:   4.3528 ms | Opt(T_share, S_const):   3.0188 ms
+  [Run 3] Global:   4.3530 ms | Opt(T_share, S_const):   3.0266 ms
+平均時間 - Global:   4.3526 ms | Opt(T_share, S_const):   3.0220 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 256x 4
-  [Run 1] Global:   3.0296 ms | Shared(S):   2.9559 ms | Shared(T):   3.3758 ms
-  [Run 2] Global:   3.0289 ms | Shared(S):   2.9569 ms | Shared(T):   3.3747 ms
-  [Run 3] Global:   3.0294 ms | Shared(S):   2.9564 ms | Shared(T):   3.3749 ms
-平均時間 - Global:   3.0293 ms | Shared(S):   2.9564 ms | Shared(T):   3.3751 ms
+  [Run 1] Global:   3.0311 ms | Opt(T_share, S_const):   3.0796 ms
+  [Run 2] Global:   3.0300 ms | Opt(T_share, S_const):   3.0801 ms
+  [Run 3] Global:   3.0293 ms | Opt(T_share, S_const):   3.0802 ms
+平均時間 - Global:   3.0301 ms | Opt(T_share, S_const):   3.0799 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x32
-  [Run 1] Global:   2.5635 ms | Shared(S):   2.5231 ms | Shared(T):   2.6934 ms
-  [Run 2] Global:   2.5628 ms | Shared(S):   2.5233 ms | Shared(T):   2.6940 ms
-  [Run 3] Global:   2.5643 ms | Shared(S):   2.5230 ms | Shared(T):   2.6931 ms
-平均時間 - Global:   2.5635 ms | Shared(S):   2.5231 ms | Shared(T):   2.6935 ms
+  [Run 1] Global:   2.5638 ms | Opt(T_share, S_const):   2.3564 ms
+  [Run 2] Global:   2.5655 ms | Opt(T_share, S_const):   2.3563 ms
+  [Run 3] Global:   2.5645 ms | Opt(T_share, S_const):   2.3552 ms
+平均時間 - Global:   2.5646 ms | Opt(T_share, S_const):   2.3560 ms
 ---------------------------------------------------------------------------------
-▶ 匹配結果 (依照 PCC 相似度 - 僅顯示第一名)
+▶ CPU Sequential Version (No Parallelization)
+  CPU Time: 774.5735 ms
+  [CPU Top 1相似] PCC:  1.0000, 位置: (7691,688) 
+        [   2   3   7   0   8 ]
+        [   2   7   1   8   7 ]
+        [   5   1   4   2   9 ]
+        [   6   9   4   7   6 ]
+        [   7   1   4   0   5 ]
+---------------------------------------------------------------------------------
+▶ 匹配結果 (僅顯示 PCC 第一名相似區塊)
   [Top 1相似] PCC:  1.0000, 位置: (7691,688) 
         [   2   3   7   0   8 ]
         [   2   7   1   8   7 ]
         [   5   1   4   2   9 ]
         [   6   9   4   7   6 ]
         [   7   1   4   0   5 ]
-  [Top 1不相似] PCC: -0.8724, 位置: (4024,414) 
-        [   9   7   2   9   2 ]
-        [   7   2   9   0   0 ]
-        [   5   9   4   9   1 ]
-        [   6   0   2   0   7 ]
-        [   0   8   3   8   2 ]
-
-▶ 匹配結果 (依照 SSD 誤差 - 顯示前三名)
-  [Top 1相似] SSD:          0, 位置: (7691,688) 
-        [   2   3   7   0   8 ]
-        [   2   7   1   8   7 ]
-        [   5   1   4   2   9 ]
-        [   6   9   4   7   6 ]
-        [   7   1   4   0   5 ]
-  [Top 2相似] SSD:         52, 位置: (1612,575) 
-        [   2   3   7   2   9 ]
-        [   3   6   1   6   8 ]
-        [   3   3   1   2   8 ]
-        [   7   7   5   5   6 ]
-        [   6   2   3   3   5 ]
-  [Top 3相似] SSD:         65, 位置: (1979,637) 
-        [   3   3   6   4   7 ]
-        [   6   8   2   9   9 ]
-        [   2   0   5   0   8 ]
-        [   5   8   5   8   6 ]
-        [   6   1   5   1   5 ]
-  [Top 1不相似] SSD:        918, 位置: (4024,414) 
-        [   9   7   2   9   2 ]
-        [   7   2   9   0   0 ]
-        [   5   9   4   9   1 ]
-        [   6   0   2   0   7 ]
-        [   0   8   3   8   2 ]
-  [Top 2不相似] SSD:        914, 位置: (7172,494) 
-        [   9   9   2   8   0 ]
-        [   1   4   9   0   0 ]
-        [   6   9   5   7   7 ]
-        [   1   0   9   0   0 ]
-        [   2   9   7   8   9 ]
-  [Top 3不相似] SSD:        875, 位置: (3787,1157) 
-        [   9   7   3   7   0 ]
-        [   1   0   9   0   1 ]
-        [   0   7   0   9   0 ]
-        [   8   0   7   7   6 ]
-        [   0   7   0   8   4 ]
 =================================================================================
 [測資 3] T:(8140x9925) S:(3x3)
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x16
-  [Run 1] Global:   8.7020 ms | Shared(S):   8.9048 ms | Shared(T):   9.9670 ms
-  [Run 2] Global:   8.7003 ms | Shared(S):   8.9008 ms | Shared(T):   9.9617 ms
-  [Run 3] Global:   8.6967 ms | Shared(S):   8.9061 ms | Shared(T):   9.9729 ms
-平均時間 - Global:   8.6996 ms | Shared(S):   8.9039 ms | Shared(T):   9.9672 ms
+  [Run 1] Global:   8.7001 ms | Opt(T_share, S_const):   9.6314 ms
+  [Run 2] Global:   8.7020 ms | Opt(T_share, S_const):   9.6377 ms
+  [Run 3] Global:   8.6969 ms | Opt(T_share, S_const):   9.6304 ms
+平均時間 - Global:   8.6997 ms | Opt(T_share, S_const):   9.6332 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x128
-  [Run 1] Global:  11.5083 ms | Shared(S):  11.6310 ms | Shared(T):  14.1795 ms
-  [Run 2] Global:  11.5114 ms | Shared(S):  11.6267 ms | Shared(T):  14.1763 ms
-  [Run 3] Global:  11.5103 ms | Shared(S):  11.6264 ms | Shared(T):  14.1688 ms
-平均時間 - Global:  11.5100 ms | Shared(S):  11.6280 ms | Shared(T):  14.1749 ms
+  [Run 1] Global:  11.5090 ms | Opt(T_share, S_const):  13.7029 ms
+  [Run 2] Global:  11.5060 ms | Opt(T_share, S_const):  13.7052 ms
+  [Run 3] Global:  11.5064 ms | Opt(T_share, S_const):  13.7037 ms
+平均時間 - Global:  11.5071 ms | Opt(T_share, S_const):  13.7040 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x32
-  [Run 1] Global:  10.5486 ms | Shared(S):  10.5512 ms | Shared(T):  12.7918 ms
-  [Run 2] Global:  10.5184 ms | Shared(S):  10.5491 ms | Shared(T):  12.7938 ms
-  [Run 3] Global:  10.5239 ms | Shared(S):  10.5487 ms | Shared(T):  12.7974 ms
-平均時間 - Global:  10.5303 ms | Shared(S):  10.5497 ms | Shared(T):  12.7943 ms
+  [Run 1] Global:  10.5218 ms | Opt(T_share, S_const):  12.0998 ms
+  [Run 2] Global:  10.5164 ms | Opt(T_share, S_const):  12.0998 ms
+  [Run 3] Global:  10.5101 ms | Opt(T_share, S_const):  12.1036 ms
+平均時間 - Global:  10.5161 ms | Opt(T_share, S_const):  12.1011 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 128x 8
-  [Run 1] Global:  10.1794 ms | Shared(S):  10.4156 ms | Shared(T):  12.7814 ms
-  [Run 2] Global:  10.1781 ms | Shared(S):  10.4155 ms | Shared(T):  12.7798 ms
-  [Run 3] Global:  10.1842 ms | Shared(S):  10.4179 ms | Shared(T):  12.7827 ms
-平均時間 - Global:  10.1806 ms | Shared(S):  10.4163 ms | Shared(T):  12.7813 ms
+  [Run 1] Global:  10.1807 ms | Opt(T_share, S_const):  12.1869 ms
+  [Run 2] Global:  10.1741 ms | Opt(T_share, S_const):  12.1823 ms
+  [Run 3] Global:  10.1732 ms | Opt(T_share, S_const):  12.1875 ms
+平均時間 - Global:  10.1760 ms | Opt(T_share, S_const):  12.1856 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 64x16
-  [Run 1] Global:  10.4226 ms | Shared(S):  10.4620 ms | Shared(T):  12.7385 ms
-  [Run 2] Global:  10.4231 ms | Shared(S):  10.4650 ms | Shared(T):  12.7405 ms
-  [Run 3] Global:  10.4248 ms | Shared(S):  10.4652 ms | Shared(T):  12.7382 ms
-平均時間 - Global:  10.4235 ms | Shared(S):  10.4640 ms | Shared(T):  12.7391 ms
+  [Run 1] Global:  10.4186 ms | Opt(T_share, S_const):  11.9747 ms
+  [Run 2] Global:  10.4123 ms | Opt(T_share, S_const):  11.9769 ms
+  [Run 3] Global:  10.4166 ms | Opt(T_share, S_const):  11.9742 ms
+平均時間 - Global:  10.4158 ms | Opt(T_share, S_const):  11.9753 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x64
-  [Run 1] Global:  10.2315 ms | Shared(S):  10.8133 ms | Shared(T):  13.2883 ms
-  [Run 2] Global:  10.2252 ms | Shared(S):  10.8239 ms | Shared(T):  13.2897 ms
-  [Run 3] Global:  10.2301 ms | Shared(S):  10.8236 ms | Shared(T):  13.2903 ms
-平均時間 - Global:  10.2289 ms | Shared(S):  10.8203 ms | Shared(T):  13.2894 ms
+  [Run 1] Global:  10.2482 ms | Opt(T_share, S_const):  12.7540 ms
+  [Run 2] Global:  10.2652 ms | Opt(T_share, S_const):  12.7469 ms
+  [Run 3] Global:  10.2575 ms | Opt(T_share, S_const):  12.7610 ms
+平均時間 - Global:  10.2570 ms | Opt(T_share, S_const):  12.7540 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size:  4x256
-  [Run 1] Global:  15.4445 ms | Shared(S):  15.4560 ms | Shared(T):  15.8580 ms
-  [Run 2] Global:  15.4487 ms | Shared(S):  15.4564 ms | Shared(T):  15.8459 ms
-  [Run 3] Global:  15.4540 ms | Shared(S):  15.7942 ms | Shared(T):  15.8845 ms
-平均時間 - Global:  15.4491 ms | Shared(S):  15.5689 ms | Shared(T):  15.8628 ms
+  [Run 1] Global:  15.4408 ms | Opt(T_share, S_const):  15.4481 ms
+  [Run 2] Global:  15.4411 ms | Opt(T_share, S_const):  15.4448 ms
+  [Run 3] Global:  15.4405 ms | Opt(T_share, S_const):  15.4642 ms
+平均時間 - Global:  15.4408 ms | Opt(T_share, S_const):  15.4524 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 256x 4
-  [Run 1] Global:   9.9014 ms | Shared(S):  10.3546 ms | Shared(T):  12.6750 ms
-  [Run 2] Global:   9.9037 ms | Shared(S):  10.3553 ms | Shared(T):  12.6730 ms
-  [Run 3] Global:   9.9050 ms | Shared(S):  10.3545 ms | Shared(T):  12.6730 ms
-平均時間 - Global:   9.9034 ms | Shared(S):  10.3548 ms | Shared(T):  12.6737 ms
+  [Run 1] Global:   9.8999 ms | Opt(T_share, S_const):  12.2017 ms
+  [Run 2] Global:   9.8997 ms | Opt(T_share, S_const):  12.1999 ms
+  [Run 3] Global:   9.9031 ms | Opt(T_share, S_const):  12.2017 ms
+平均時間 - Global:   9.9009 ms | Opt(T_share, S_const):  12.2011 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x32
-  [Run 1] Global:   8.9040 ms | Shared(S):   9.1698 ms | Shared(T):  10.7948 ms
-  [Run 2] Global:   8.9087 ms | Shared(S):   9.1730 ms | Shared(T):  10.8055 ms
-  [Run 3] Global:   8.8989 ms | Shared(S):   9.1752 ms | Shared(T):  10.7904 ms
-平均時間 - Global:   8.9039 ms | Shared(S):   9.1727 ms | Shared(T):  10.7969 ms
+  [Run 1] Global:   8.9044 ms | Opt(T_share, S_const):  10.4038 ms
+  [Run 2] Global:   8.9079 ms | Opt(T_share, S_const):  10.4037 ms
+  [Run 3] Global:   8.8992 ms | Opt(T_share, S_const):  10.3955 ms
+平均時間 - Global:   8.9038 ms | Opt(T_share, S_const):  10.4010 ms
 ---------------------------------------------------------------------------------
-▶ 匹配結果 (依照 PCC 相似度 - 僅顯示第一名)
+▶ CPU Sequential Version (No Parallelization)
+  CPU Time: 2586.5544 ms
+  [CPU Top 1相似] PCC:  1.0000, 位置: (2800,6) (4653,4239) 
+        [   0   7   0 ]
+        [   0   9   0 ]
+        [   6   6   6 ]
+---------------------------------------------------------------------------------
+▶ 匹配結果 (僅顯示 PCC 第一名相似區塊)
   [Top 1相似] PCC:  1.0000, 位置: (2800,6) (4653,4239) 
         [   0   7   0 ]
         [   0   9   0 ]
         [   6   6   6 ]
-  [Top 1不相似] PCC: -0.9962, 位置: (6448,4749) (8026,7854) 
-        [   8   4   8 ]
-        [   8   2   8 ]
-        [   4   4   4 ]
-
-▶ 匹配結果 (依照 SSD 誤差 - 顯示前三名)
-  [Top 1相似] SSD:          0, 位置: (2800,6) (4653,4239) 
-        [   0   7   0 ]
-        [   0   9   0 ]
-        [   6   6   6 ]
-  [Top 2相似] SSD:          2, 位置: (480,6006) (1281,5378) (1791,1744) (5105,1041) (5266,1328) (5781,8639) (6172,5078) (7098,6831) (7819,3638) 
-        [   0   7   0 ]
-        [   0   9   1 ]
-        [   7   6   6 ]
-  [Top 3相似] SSD:          3, 位置: (1168,2643) (1328,4187) (1669,6588) (1941,9184) (2332,7051) (2443,1863) (3502,6502) (3820,9103) (3832,4553) (4078,2836) (4085,7436) (4109,7200) (4644,804) (4919,258) (5010,6894) (5925,3306) (5986,7056) (6308,4897) (6404,5704) (7643,2622) (7706,8400) 
-        [   0   7   0 ]
-        [   0   8   0 ]
-        [   5   5   6 ]
-  [Top 1不相似] SSD:        545, 位置: (3225,3013) 
-        [   9   0   9 ]
-        [   8   0   9 ]
-        [   0   0   0 ]
-  [Top 2不相似] SSD:        535, 位置: (3232,3362) (5054,8766) 
-        [   9   0   9 ]
-        [   9   0   9 ]
-        [   0   0   3 ]
-  [Top 3不相似] SSD:        534, 位置: (3943,1899) (4683,1849) (5486,1185) 
-        [   9   0   8 ]
-        [   9   0   9 ]
-        [   0   1   0 ]
 =================================================================================
 [測資 4] T:(50x50) S:(5x5)
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x16
-  [Run 1] Global:   0.0176 ms | Shared(S):   0.0083 ms | Shared(T):   0.0082 ms
-  [Run 2] Global:   0.0090 ms | Shared(S):   0.0068 ms | Shared(T):   0.0073 ms
-  [Run 3] Global:   0.0083 ms | Shared(S):   0.0070 ms | Shared(T):   0.0064 ms
-平均時間 - Global:   0.0116 ms | Shared(S):   0.0074 ms | Shared(T):   0.0073 ms
+  [Run 1] Global:   0.0179 ms | Opt(T_share, S_const):   0.0078 ms
+  [Run 2] Global:   0.0087 ms | Opt(T_share, S_const):   0.0074 ms
+  [Run 3] Global:   0.0087 ms | Opt(T_share, S_const):   0.0066 ms
+平均時間 - Global:   0.0118 ms | Opt(T_share, S_const):   0.0073 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x128
-  [Run 1] Global:   0.0091 ms | Shared(S):   0.0080 ms | Shared(T):   0.0081 ms
-  [Run 2] Global:   0.0093 ms | Shared(S):   0.0080 ms | Shared(T):   0.0082 ms
-  [Run 3] Global:   0.0091 ms | Shared(S):   0.0082 ms | Shared(T):   0.0080 ms
-平均時間 - Global:   0.0092 ms | Shared(S):   0.0081 ms | Shared(T):   0.0081 ms
+  [Run 1] Global:   0.0093 ms | Opt(T_share, S_const):   0.0071 ms
+  [Run 2] Global:   0.0096 ms | Opt(T_share, S_const):   0.0068 ms
+  [Run 3] Global:   0.0093 ms | Opt(T_share, S_const):   0.0067 ms
+平均時間 - Global:   0.0094 ms | Opt(T_share, S_const):   0.0069 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x32
-  [Run 1] Global:   0.0123 ms | Shared(S):   0.0102 ms | Shared(T):   0.0122 ms
-  [Run 2] Global:   0.0123 ms | Shared(S):   0.0102 ms | Shared(T):   0.0120 ms
-  [Run 3] Global:   0.0123 ms | Shared(S):   0.0103 ms | Shared(T):   0.0122 ms
-平均時間 - Global:   0.0123 ms | Shared(S):   0.0103 ms | Shared(T):   0.0121 ms
+  [Run 1] Global:   0.0112 ms | Opt(T_share, S_const):   0.0116 ms
+  [Run 2] Global:   0.0126 ms | Opt(T_share, S_const):   0.0108 ms
+  [Run 3] Global:   0.0123 ms | Opt(T_share, S_const):   0.0113 ms
+平均時間 - Global:   0.0120 ms | Opt(T_share, S_const):   0.0112 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 128x 8
-  [Run 1] Global:   0.0121 ms | Shared(S):   0.0114 ms | Shared(T):   0.0108 ms
-  [Run 2] Global:   0.0121 ms | Shared(S):   0.0113 ms | Shared(T):   0.0119 ms
-  [Run 3] Global:   0.0120 ms | Shared(S):   0.0114 ms | Shared(T):   0.0120 ms
-平均時間 - Global:   0.0121 ms | Shared(S):   0.0114 ms | Shared(T):   0.0116 ms
+  [Run 1] Global:   0.0112 ms | Opt(T_share, S_const):   0.0116 ms
+  [Run 2] Global:   0.0127 ms | Opt(T_share, S_const):   0.0122 ms
+  [Run 3] Global:   0.0130 ms | Opt(T_share, S_const):   0.0103 ms
+平均時間 - Global:   0.0123 ms | Opt(T_share, S_const):   0.0114 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 64x16
-  [Run 1] Global:   0.0123 ms | Shared(S):   0.0114 ms | Shared(T):   0.0113 ms
-  [Run 2] Global:   0.0125 ms | Shared(S):   0.0105 ms | Shared(T):   0.0120 ms
-  [Run 3] Global:   0.0130 ms | Shared(S):   0.0226 ms | Shared(T):   0.0106 ms
-平均時間 - Global:   0.0126 ms | Shared(S):   0.0148 ms | Shared(T):   0.0113 ms
+  [Run 1] Global:   0.0125 ms | Opt(T_share, S_const):   0.0111 ms
+  [Run 2] Global:   0.0125 ms | Opt(T_share, S_const):   0.0103 ms
+  [Run 3] Global:   0.0124 ms | Opt(T_share, S_const):   0.0118 ms
+平均時間 - Global:   0.0125 ms | Opt(T_share, S_const):   0.0111 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x64
-  [Run 1] Global:   0.0109 ms | Shared(S):   0.0088 ms | Shared(T):   0.0100 ms
-  [Run 2] Global:   0.0109 ms | Shared(S):   0.0098 ms | Shared(T):   0.0100 ms
-  [Run 3] Global:   0.0113 ms | Shared(S):   0.0097 ms | Shared(T):   0.0100 ms
-平均時間 - Global:   0.0110 ms | Shared(S):   0.0095 ms | Shared(T):   0.0100 ms
+  [Run 1] Global:   0.0106 ms | Opt(T_share, S_const):   0.0094 ms
+  [Run 2] Global:   0.0111 ms | Opt(T_share, S_const):   0.0093 ms
+  [Run 3] Global:   0.0109 ms | Opt(T_share, S_const):   0.0090 ms
+平均時間 - Global:   0.0109 ms | Opt(T_share, S_const):   0.0092 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size:  4x256
-  [Run 1] Global:   0.0083 ms | Shared(S):   0.0070 ms | Shared(T):   0.0076 ms
-  [Run 2] Global:   0.0075 ms | Shared(S):   0.0076 ms | Shared(T):   0.0075 ms
-  [Run 3] Global:   0.0077 ms | Shared(S):   0.0078 ms | Shared(T):   0.0066 ms
-平均時間 - Global:   0.0078 ms | Shared(S):   0.0075 ms | Shared(T):   0.0072 ms
+  [Run 1] Global:   0.0077 ms | Opt(T_share, S_const):   0.0080 ms
+  [Run 2] Global:   0.0082 ms | Opt(T_share, S_const):   0.0074 ms
+  [Run 3] Global:   0.0089 ms | Opt(T_share, S_const):   0.0067 ms
+平均時間 - Global:   0.0082 ms | Opt(T_share, S_const):   0.0074 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 256x 4
-  [Run 1] Global:   0.0092 ms | Shared(S):   0.0082 ms | Shared(T):   0.0099 ms
-  [Run 2] Global:   0.0101 ms | Shared(S):   0.0080 ms | Shared(T):   0.0092 ms
-  [Run 3] Global:   0.0093 ms | Shared(S):   0.0091 ms | Shared(T):   0.0085 ms
-平均時間 - Global:   0.0095 ms | Shared(S):   0.0084 ms | Shared(T):   0.0092 ms
+  [Run 1] Global:   0.0097 ms | Opt(T_share, S_const):   0.0080 ms
+  [Run 2] Global:   0.0090 ms | Opt(T_share, S_const):   0.0082 ms
+  [Run 3] Global:   0.0093 ms | Opt(T_share, S_const):   0.0082 ms
+平均時間 - Global:   0.0094 ms | Opt(T_share, S_const):   0.0081 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x32
-  [Run 1] Global:   0.0261 ms | Shared(S):   0.0083 ms | Shared(T):   0.0252 ms
-  [Run 2] Global:   0.0152 ms | Shared(S):   0.0091 ms | Shared(T):   0.0083 ms
-  [Run 3] Global:   0.0096 ms | Shared(S):   0.0082 ms | Shared(T):   0.0084 ms
-平均時間 - Global:   0.0170 ms | Shared(S):   0.0085 ms | Shared(T):   0.0139 ms
+  [Run 1] Global:   0.0086 ms | Opt(T_share, S_const):   0.0078 ms
+  [Run 2] Global:   0.0102 ms | Opt(T_share, S_const):   0.0078 ms
+  [Run 3] Global:   0.0092 ms | Opt(T_share, S_const):   0.0078 ms
+平均時間 - Global:   0.0093 ms | Opt(T_share, S_const):   0.0078 ms
 ---------------------------------------------------------------------------------
-▶ 匹配結果 (依照 PCC 相似度 - 僅顯示第一名)
+▶ CPU Sequential Version (No Parallelization)
+  CPU Time:   0.1552 ms
+  [CPU Top 1相似] PCC:  1.0000, 位置: (18,17) 
+        [   9   9   4   5   7 ]
+        [   6   8   4   2   2 ]
+        [   8   2   2   2   6 ]
+        [   2   1   4   0   8 ]
+        [   3   4   9   1   0 ]
+---------------------------------------------------------------------------------
+▶ 匹配結果 (僅顯示 PCC 第一名相似區塊)
   [Top 1相似] PCC:  1.0000, 位置: (18,17) 
         [   9   9   4   5   7 ]
         [   6   8   4   2   2 ]
         [   8   2   2   2   6 ]
         [   2   1   4   0   8 ]
         [   3   4   9   1   0 ]
-  [Top 1不相似] PCC: -0.6173, 位置: (21,10) 
-        [   0   1   6   8   5 ]
-        [   6   5   2   5   9 ]
-        [   0   3   7   6   7 ]
-        [   7   9   7   8   7 ]
-        [   7   5   2   7   6 ]
-
-▶ 匹配結果 (依照 SSD 誤差 - 顯示前三名)
-  [Top 1相似] SSD:          0, 位置: (18,17) 
-        [   9   9   4   5   7 ]
-        [   6   8   4   2   2 ]
-        [   8   2   2   2   6 ]
-        [   2   1   4   0   8 ]
-        [   3   4   9   1   0 ]
-  [Top 2相似] SSD:        164, 位置: (37,39) (40,8) 
-        [   6   5   8   3   4 ]
-        [   9   8   5   4   1 ]
-        [   3   6   4   2   6 ]
-        [   2   1   6   3   8 ]
-        [   3   4   3   2   0 ]
-  [Top 3相似] SSD:        167, 位置: (31,2) 
-        [   5   9   4   6   1 ]
-        [   9   7   3   1   0 ]
-        [   4   3   3   4   8 ]
-        [   1   1   0   3   3 ]
-        [   4   2   9   5   0 ]
-  [Top 1不相似] SSD:        758, 位置: (31,37) 
-        [   3   1   7   0   5 ]
-        [   0   0   4   8   9 ]
-        [   4   1   9   2   5 ]
-        [   7   9   8   7   5 ]
-        [   9   8   1   6   8 ]
-  [Top 2不相似] SSD:        746, 位置: (36,21) 
-        [   0   5   7   0   0 ]
-        [   5   1   1   3   3 ]
-        [   1   9   0   9   7 ]
-        [   4   8   9   8   1 ]
-        [   8   8   3   8   6 ]
-  [Top 3不相似] SSD:        740, 位置: (38,20) 
-        [   0   1   9   0   9 ]
-        [   9   4   8   9   8 ]
-        [   0   8   8   3   8 ]
-        [   7   9   2   6   3 ]
-        [   6   5   2   6   6 ]
