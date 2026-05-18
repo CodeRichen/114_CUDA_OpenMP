@@ -149,22 +149,15 @@ __global__ void matchKernelShared_S(const unsigned char* T, int T_r, int T_c,
     }
 }
 
-__global__ void matchKernelShared_ST(const unsigned char* T, int T_r, int T_c,
-                                     const unsigned char* S, int S_r, int S_c,
-                                     float* pcc_out, unsigned int* ssd_out) 
+__global__ void matchKernelShared_T(const unsigned char* T, int T_r, int T_c,
+                                    const unsigned char* S, int S_r, int S_c,
+                                    float* pcc_out, unsigned int* ssd_out) 
 {
-    unsigned char* s_S = s_mem;
-    unsigned char* s_T = s_mem + S_r * S_c;
+    unsigned char* s_T = s_mem;
 
     int tid = threadIdx.y * blockDim.x + threadIdx.x;
-    int S_area = S_r * S_c;
     
-    // 1. 把 Template S 載入 Shared Memory 中
-    for (int i = tid; i < S_area; i += blockDim.x * blockDim.y) {
-        s_S[i] = S[i];
-    }
-
-    // 2. 把目標區域 (Tile of T 包含 padding) 載入 Shared Memory 中
+    // 把目標區域 (Tile of T 包含 padding) 載入 Shared Memory 中
     int tile_w = blockDim.x;
     int tile_h = blockDim.y;
     int T_tile_w = tile_w + S_c - 1;
@@ -193,10 +186,10 @@ __global__ void matchKernelShared_ST(const unsigned char* T, int T_r, int T_c,
 
     if (r < T_r - S_r + 1 && c < T_c - S_c + 1) {
         float sumX = 0, sumY = 0;
-        int n = S_area;
+        int n = S_r * S_c;
         for (int i = 0; i < S_r; i++) {
             for (int j = 0; j < S_c; j++) {
-                float valX = s_S[i * S_c + j];
+                float valX = S[i * S_c + j]; // S 讀取 Global (或 Constant Cache)
                 float valY = s_T[(threadIdx.y + i) * T_tile_w + (threadIdx.x + j)];
                 sumX += valX;
                 sumY += valY;
@@ -210,7 +203,7 @@ __global__ void matchKernelShared_ST(const unsigned char* T, int T_r, int T_c,
 
         for (int i = 0; i < S_r; i++) {
             for (int j = 0; j < S_c; j++) {
-                float x = s_S[i * S_c + j];
+                float x = S[i * S_c + j];
                 float y = s_T[(threadIdx.y + i) * T_tile_w + (threadIdx.x + j)];
                 
                 float dx = x - meanX;
@@ -296,9 +289,9 @@ void run_test_case(TestCase tc) {
         printf("---------------------------------------------------------------------------------\n");
         printf("▶ Block Size: %2dx%2d\n", block.x, block.y);
 
-        float total_ms_global = 0, total_ms_shared_s = 0, total_ms_shared_st = 0;
+        float total_ms_global = 0, total_ms_shared_s = 0, total_ms_shared_t = 0;
         // 每種組合重複執行 3 次
-        for (int r = 1; r <= 3; r++) {
+        for (int r_run = 1; r_run <= 3; r_run++) {
             // 1. Global Memory Version
             cudaEventRecord(start);
             matchKernel<<<grid, block>>>(d_T, tc.t_rows, tc.t_cols, d_S, tc.s_rows, tc.s_cols, d_pcc, d_ssd);
@@ -320,26 +313,25 @@ void run_test_case(TestCase tc) {
             cudaEventElapsedTime(&ms_shared_s, start, stop);
             total_ms_shared_s += ms_shared_s;
 
-            // 3. Shared Memory Version (Both S and T)
-            size_t shared_mem_size_st = tc.s_rows * tc.s_cols * sizeof(unsigned char) + 
-                                        (block.y + tc.s_rows - 1) * (block.x + tc.s_cols - 1) * sizeof(unsigned char);
+            // 3. Shared Memory Version (Only T)
+            size_t shared_mem_size_t = (block.y + tc.s_rows - 1) * (block.x + tc.s_cols - 1) * sizeof(unsigned char);
             cudaEventRecord(start);
-            matchKernelShared_ST<<<grid, block, shared_mem_size_st>>>(d_T, tc.t_rows, tc.t_cols, d_S, tc.s_rows, tc.s_cols, d_pcc, d_ssd);
+            matchKernelShared_T<<<grid, block, shared_mem_size_t>>>(d_T, tc.t_rows, tc.t_cols, d_S, tc.s_rows, tc.s_cols, d_pcc, d_ssd);
             cudaEventRecord(stop);
             cudaEventSynchronize(stop);
             
-            float ms_shared_st = 0;
-            cudaEventElapsedTime(&ms_shared_st, start, stop);
-            total_ms_shared_st += ms_shared_st;
+            float ms_shared_t = 0;
+            cudaEventElapsedTime(&ms_shared_t, start, stop);
+            total_ms_shared_t += ms_shared_t;
 
             CHECK_CUDA(cudaMemcpy(h_pcc_out, d_pcc, out_size * sizeof(float), cudaMemcpyDeviceToHost));
             CHECK_CUDA(cudaMemcpy(h_ssd_out, d_ssd, out_size * sizeof(unsigned int), cudaMemcpyDeviceToHost));
 
-            printf("  [Run %d] Global: %8.4f ms | Shared(S): %8.4f ms | Shared(S+T): %8.4f ms\n", 
-                   r, ms_global, ms_shared_s, ms_shared_st);
+            printf("  [Run %d] Global: %8.4f ms | Shared(S): %8.4f ms | Shared(T): %8.4f ms\n", 
+                   r_run, ms_global, ms_shared_s, ms_shared_t);
         }
-        printf("平均時間 - Global: %8.4f ms | Shared(S): %8.4f ms | Shared(S+T): %8.4f ms\n", 
-               total_ms_global / 3.0f, total_ms_shared_s / 3.0f, total_ms_shared_st / 3.0f);
+        printf("平均時間 - Global: %8.4f ms | Shared(S): %8.4f ms | Shared(T): %8.4f ms\n", 
+               total_ms_global / 3.0f, total_ms_shared_s / 3.0f, total_ms_shared_t / 3.0f);
     }
 
     // 在執行完所有 block size 測試後，針對最後一次獲得的結果統計 Top 3 相似與不相似
