@@ -116,8 +116,9 @@ void run_test_case(TestCase tc) {
     CHECK_CUDA(cudaMemcpy(d_T, h_T, tc.t_rows * tc.t_cols * sizeof(unsigned char), cudaMemcpyHostToDevice));
     CHECK_CUDA(cudaMemcpy(d_S, h_S, tc.s_rows * tc.s_cols * sizeof(unsigned char), cudaMemcpyHostToDevice));
 
-    // 4種Block Size配置
-    int block_sizes[4][2] = {{16, 16}, {32, 16}, {16, 32}, {32, 32}};
+    int test_num = 9;
+    // int block_sizes[test_num][2] = {{2,2},{4,4},{8,8},{8,16},{16,8},{16, 16}, {32, 16}, {16, 32}, {32, 32}};
+    int block_sizes[test_num][2] = {{16, 16}, {20,20}, {32, 16}, {16, 32},{64, 16}, {16, 64}};
     
     float* h_pcc_out = (float*)malloc(out_size * sizeof(float));
     unsigned int* h_ssd_out = (unsigned int*)malloc(out_size * sizeof(unsigned int));
@@ -126,13 +127,14 @@ void run_test_case(TestCase tc) {
     cudaEventCreate(&start);
     cudaEventCreate(&stop);
 
-    for (int b = 0; b < 4; b++) {
+    for (int b = 0; b < test_num; b++) {
         dim3 block(block_sizes[b][0], block_sizes[b][1]);
         dim3 grid((out_c + block.x - 1) / block.x, (out_r + block.y - 1) / block.y);
 
         printf("---------------------------------------------------------------------------------\n");
         printf("▶ Block Size: %2dx%2d\n", block.x, block.y);
 
+        float total_ms = 0;
         // 每種組合重複執行 3 次
         for (int r = 1; r <= 3; r++) {
             cudaEventRecord(start);
@@ -142,35 +144,72 @@ void run_test_case(TestCase tc) {
             
             float milliseconds = 0;
             cudaEventElapsedTime(&milliseconds, start, stop);
+            total_ms += milliseconds;
             
             CHECK_CUDA(cudaMemcpy(h_pcc_out, d_pcc, out_size * sizeof(float), cudaMemcpyDeviceToHost));
             CHECK_CUDA(cudaMemcpy(h_ssd_out, d_ssd, out_size * sizeof(unsigned int), cudaMemcpyDeviceToHost));
 
-            float max_pcc = -2.0f;
-            unsigned int min_ssd = 0xFFFFFFFF;
+            printf("  [Run %d] Time: %8.4f ms\n", r, milliseconds);
+        }
+        printf("平均時間: %8.4f ms\n", total_ms / 3.0f);
+    }
 
+    // 在執行完所有 block size 測試後，針對最後一次獲得的結果統計 Top 3 相似與不相似
+    float max1 = -2.0f, max2 = -2.0f, max3 = -2.0f;
+    float min1 = 2.0f, min2 = 2.0f, min3 = 2.0f;
+
+    for (int i = 0; i < out_size; i++) {
+        float v = h_pcc_out[i];
+        if (isnan(v)) continue;
+
+        // 找最大的前三個 (最相似)
+        if (fabs(v - max1) < 1e-4 || fabs(v - max2) < 1e-4 || fabs(v - max3) < 1e-4) {
+            // 已存在相同數值
+        } else if (v > max1) {
+            max3 = max2; max2 = max1; max1 = v;
+        } else if (v > max2) {
+            max3 = max2; max2 = v;
+        } else if (v > max3) {
+            max3 = v;
+        }
+
+        // 找最小的前三個 (最不相似)
+        if (fabs(v - min1) < 1e-4 || fabs(v - min2) < 1e-4 || fabs(v - min3) < 1e-4) {
+            // 已存在相同數值
+        } else if (v < min1) {
+            min3 = min2; min2 = min1; min1 = v;
+        } else if (v < min2) {
+            min3 = min2; min2 = v;
+        } else if (v < min3) {
+            min3 = v;
+        }
+    }
+
+    printf("---------------------------------------------------------------------------------\n");
+    printf("▶ 匹配結果 (依照 PCC 相似度)\n");
+    
+    float top_max[] = {max1, max2, max3};
+    for(int rank = 0; rank < 3; rank++) {
+        if(top_max[rank] > -2.0f) {
+            printf("  [Top %d相似] PCC: %.4f, 位置: ", rank + 1, top_max[rank]);
             for (int i = 0; i < out_size; i++) {
-                if (h_pcc_out[i] > max_pcc) max_pcc = h_pcc_out[i];
-                if (h_ssd_out[i] < min_ssd) min_ssd = h_ssd_out[i];
-            }
-            
-            printf("  [Run %d] Time: %8.4f ms | Max PCC: %7.4f, Min SSD: %5u | ", r, milliseconds, max_pcc, min_ssd);
-            
-            // 輸出結果座標與誤差判斷
-            // 由於可能存在多個相同結果，僅印出座標第一筆作為概覽，或者全部印出
-            int match_count = 0;
-            printf("Pos: ");
-            for (int i = 0; i < out_size; i++) {
-                if (fabs(h_pcc_out[i] - max_pcc) < 1e-4) {
-                    int row = i / out_c;
-                    int col = i % out_c;
-                    if (match_count < 2) {
-                        printf("(%d,%d) ", row, col);
-                    }
-                    match_count++;
+                if (fabs(h_pcc_out[i] - top_max[rank]) < 1e-4) {
+                    printf("(%d,%d) ", i / out_c, i % out_c);
                 }
             }
-            if (match_count > 2) printf("...及其他共 %d 處", match_count);
+            printf("\n");
+        }
+    }
+
+    float top_min[] = {min1, min2, min3};
+    for(int rank = 0; rank < 3; rank++) {
+        if(top_min[rank] < 2.0f) {
+            printf("  [Top %d不相似] PCC: %.4f, 位置: ", rank + 1, top_min[rank]);
+            for (int i = 0; i < out_size; i++) {
+                if (fabs(h_pcc_out[i] - top_min[rank]) < 1e-4) {
+                    printf("(%d,%d) ", i / out_c, i % out_c);
+                }
+            }
             printf("\n");
         }
     }
@@ -181,6 +220,12 @@ void run_test_case(TestCase tc) {
 }
 
 int main() {
+    FILE *out_file = freopen("output.txt", "w", stdout);
+    if (!out_file) {
+        fprintf(stderr, "Failed to open output.txt for writing\n");
+        return 1;
+    }
+
     TestCase tests[] = {
         {1, "test data/1/T1_3750_4320.txt", 3750, 4320, "test data/1/S1_3_3.txt", 3, 3},
         {2, "test data/2/T2_7750_1320.txt", 7750, 1320, "test data/2/S2_5_5.txt", 5, 5},
