@@ -22,8 +22,7 @@
 *.csv
 core
 core.*
-out.txt
-*.txt
+# *.txt
 
 # Build directories
 bin/
@@ -31,7 +30,7 @@ build/
 obj/
 out/
 Exe/
-
+test data/
 # Editor and IDE configurations
 .vscode/
 .vs/

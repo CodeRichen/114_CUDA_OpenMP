@@ -1,0 +1,161 @@
+
+
+ ========== Check cudaMalloc ==========
+ Malloc d_vecA : no error
+ Malloc d_vecB : no error
+ Malloc d_vecC : no error
+
+ ======== Check Data Transfer =========
+ Memory Copy d_vecA : no error
+ Memory Copy d_vecB : no error
+
+
+ [vecAdd_gpu_kernel_1_1] 開始測試
+  Kernel 時間 : 0.06130313500761985779 s
+  Memcpy h_vecResultFromDevice : no error
+  Result Check : OK!
+
+ [vecAdd_gpu_kernel_1_2] 開始測試
+  Kernel 時間 : 0.04938582330942153931 s
+  Memcpy h_vecResultFromDevice : no error
+  Result Check : OK!
+
+ [vecAdd_gpu_kernel_1_256] 開始測試
+  Kernel 時間 : 0.00140604807529598475 s
+  Memcpy h_vecResultFromDevice : no error
+  Result Check : OK!
+
+ [vecAdd_gpu_kernel_2_256] 開始測試
+  Kernel 時間 : 0.00073619198519736528 s
+  Memcpy h_vecResultFromDevice : no error
+  Result Check : OK!
+
+ [vecAdd_gpu_kernel_1_4096] 開始測試
+  Launch 失敗 : invalid configuration argument
+
+ [vecAdd_gpu_kernel_256_1] 開始測試
+  Kernel 時間 : 0.00130092795006930828 s
+  Memcpy h_vecResultFromDevice : no error
+  Result Check : OK!
+
+ [vecAdd_gpu_kernel_256_2] 開始測試
+  Kernel 時間 : 0.00068566401023417711 s
+  Memcpy h_vecResultFromDevice : no error
+  Result Check : OK!
+
+ [vecAdd_gpu_kernel_better] 開始測試
+  Kernel 時間 : 0.00006662400119239464 s
+  Memcpy h_vecResultFromDevice : no error
+  Result Check : OK!
+
+ [vecAdd_gpu_kernel_2_19] 開始測試
+  Kernel 時間 : 0.00008793600136414170 s
+  Memcpy h_vecResultFromDevice : no error
+  Result Check : OK!
+
+ [vecAdd_gpu_kernel_2_18] 開始測試
+  Kernel 時間 : 0.00014169600035529584 s
+  Memcpy h_vecResultFromDevice : no error
+  Result Check : OK!
+
+ [vecAdd_gpu_kernel_2_10] 開始測試
+  Kernel 時間 : 0.00833014398813247681 s
+  Memcpy h_vecResultFromDevice : no error
+  Result Check : OK!
+
+ 
+  ========== Check cudaMalloc2 ==========
+ Malloc d_vecA : no error
+ Malloc d_vecB : no error
+ Malloc d_vecC : no error
+
+ ======== Check Data Transfer =========
+ Memory Copy d_vecA : no error
+ Memory Copy d_vecB : no error
+
+
+[Test 1] <<<1,1>>>
+  Memcpy result: no error
+  Result: OK  time=0.119285s
+
+[Test 2] <<<1,2>>>
+  Memcpy result: no error
+  Result: OK  time=0.054842s
+
+[Test 3] <<<1,256>>>
+  Memcpy result: no error
+  Result: OK  time=0.001433s
+
+[Test 4] <<<2,256>>>
+  Memcpy result: no error
+  Result: OK  time=0.000729s
+
+[Test 5] <<<4,256>>>
+  Memcpy result: no error
+  Result: OK  time=0.000388s
+
+[Test 6] <<<256,1>>>
+  Memcpy result: no error
+  Result: OK  time=0.001338s
+
+[Test 7] <<<256,2>>>
+  Memcpy result: no error
+  Result: OK  time=0.000690s
+
+[Test 8] <<<256,4>>>
+  Memcpy result: no error
+  Result: OK  time=0.000371s
+
+[Test 9] <<<1024,1024>>>
+  Memcpy result: no error
+  Result: OK  time=0.000048s
+
+[Test 10] <<<2048,512>>>
+  Memcpy result: no error
+  Result: OK  time=0.000047s
+
+[Test 11] <<<4096,256>>>
+  Memcpy result: no error
+  Result: OK  time=0.000047s
+
+[Test 12] <<<8192,128>>>
+  Memcpy result: no error
+  Result: OK  time=0.000047s
+
+[Test 13] <<<16384,64>>>
+  Memcpy result: no error
+  Result: OK  time=0.000048s
+
+[Test 14] <<<32768,32>>>
+  Memcpy result: no error
+  Result: OK  time=0.000075s
+
+[Test 15] <<<65536,16>>>
+  Memcpy result: no error
+  Result: OK  time=0.000136s
+
+[Test 16] <<<131072,8>>>
+  Memcpy result: no error
+  Result: OK  time=0.000247s
+
+[Test 17] <<<262144,4>>>
+  Memcpy result: no error
+  Result: OK  time=0.000469s
+
+[Test 18] <<<524288,2>>>
+  Memcpy result: no error
+  Result: OK  time=0.000944s
+
+[Test 19] <<<1048576,1>>>
+  Memcpy result: no error
+  Result: OK  time=0.001865s
+
+ ======== Test Summary ========
+ Successful tests: 19 / 19
+ Fastest: <<<4096,256>>> 0.000047s
+ Slowest: <<<1,1>>> 0.119285s
+ Average (successful): 0.009634s
+ CPU time: 0.003356s
+ Slowest GPU vs CPU: ratio CPU/SlowGPU = 0.028134
+ ================================
+

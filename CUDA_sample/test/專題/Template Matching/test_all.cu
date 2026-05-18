@@ -84,15 +84,18 @@ __global__ void matchKernel(const unsigned char* T, int T_r, int T_c,
     }
 }
 
-extern __shared__ unsigned char s_S[];
-__global__ void matchKernelShared(const unsigned char* T, int T_r, int T_c,
-                                  const unsigned char* S, int S_r, int S_c,
-                                  float* pcc_out, unsigned int* ssd_out) 
+extern __shared__ unsigned char s_mem[];
+
+__global__ void matchKernelShared_S(const unsigned char* T, int T_r, int T_c,
+                                    const unsigned char* S, int S_r, int S_c,
+                                    float* pcc_out, unsigned int* ssd_out) 
 {
+    unsigned char* s_S = s_mem;
+
     int tid = threadIdx.y * blockDim.x + threadIdx.x;
     int S_area = S_r * S_c;
     
-    // 把 Template S 載入 Shared Memory 中
+    // 1. 把 Template S 載入 Shared Memory 中
     for (int i = tid; i < S_area; i += blockDim.x * blockDim.y) {
         s_S[i] = S[i];
     }
@@ -146,6 +149,93 @@ __global__ void matchKernelShared(const unsigned char* T, int T_r, int T_c,
     }
 }
 
+__global__ void matchKernelShared_ST(const unsigned char* T, int T_r, int T_c,
+                                     const unsigned char* S, int S_r, int S_c,
+                                     float* pcc_out, unsigned int* ssd_out) 
+{
+    unsigned char* s_S = s_mem;
+    unsigned char* s_T = s_mem + S_r * S_c;
+
+    int tid = threadIdx.y * blockDim.x + threadIdx.x;
+    int S_area = S_r * S_c;
+    
+    // 1. 把 Template S 載入 Shared Memory 中
+    for (int i = tid; i < S_area; i += blockDim.x * blockDim.y) {
+        s_S[i] = S[i];
+    }
+
+    // 2. 把目標區域 (Tile of T 包含 padding) 載入 Shared Memory 中
+    int tile_w = blockDim.x;
+    int tile_h = blockDim.y;
+    int T_tile_w = tile_w + S_c - 1;
+    int T_tile_h = tile_h + S_r - 1;
+    int T_area = T_tile_w * T_tile_h;
+
+    int block_start_c = blockIdx.x * tile_w;
+    int block_start_r = blockIdx.y * tile_h;
+
+    for (int i = tid; i < T_area; i += blockDim.x * blockDim.y) {
+        int tr = i / T_tile_w;
+        int tc = i % T_tile_w;
+        int global_r = block_start_r + tr;
+        int global_c = block_start_c + tc;
+        
+        if (global_r < T_r && global_c < T_c) {
+            s_T[tr * T_tile_w + tc] = T[global_r * T_c + global_c];
+        } else {
+            s_T[tr * T_tile_w + tc] = 0;
+        }
+    }
+    __syncthreads();
+
+    int c = block_start_c + threadIdx.x;
+    int r = block_start_r + threadIdx.y;
+
+    if (r < T_r - S_r + 1 && c < T_c - S_c + 1) {
+        float sumX = 0, sumY = 0;
+        int n = S_area;
+        for (int i = 0; i < S_r; i++) {
+            for (int j = 0; j < S_c; j++) {
+                float valX = s_S[i * S_c + j];
+                float valY = s_T[(threadIdx.y + i) * T_tile_w + (threadIdx.x + j)];
+                sumX += valX;
+                sumY += valY;
+            }
+        }
+        float meanX = sumX / n;
+        float meanY = sumY / n;
+
+        float num = 0, denX = 0, denY = 0;
+        unsigned int ssd = 0;
+
+        for (int i = 0; i < S_r; i++) {
+            for (int j = 0; j < S_c; j++) {
+                float x = s_S[i * S_c + j];
+                float y = s_T[(threadIdx.y + i) * T_tile_w + (threadIdx.x + j)];
+                
+                float dx = x - meanX;
+                float dy = y - meanY;
+                
+                num += dx * dy;
+                denX += dx * dx;
+                denY += dy * dy;
+                
+                float diff = x - y;
+                ssd += (unsigned int)(diff * diff);
+            }
+        }
+
+        float pcc = 0.0f;
+        if (denX > 0 && denY > 0) {
+            pcc = num / (sqrtf(denX) * sqrtf(denY));
+        }
+
+        int out_idx = r * (T_c - S_c + 1) + c;
+        pcc_out[out_idx] = pcc;
+        ssd_out[out_idx] = ssd;
+    }
+}
+
 // 測資結構體
 typedef struct {
     int id;
@@ -154,6 +244,17 @@ typedef struct {
     const char* s_file;
     int s_rows, s_cols;
 } TestCase;
+
+// 印出擷取出對應匹配位置的 T 陣列內容
+void print_matched_array(const unsigned char* h_T, int T_cols, int target_r, int target_c, int S_r, int S_c) {
+    for (int r = 0; r < S_r; r++) {
+        printf("        [ ");
+        for (int c = 0; c < S_c; c++) {
+            printf("%3d ", h_T[(target_r + r) * T_cols + (target_c + c)]);
+        }
+        printf("]\n");
+    }
+}
 
 void run_test_case(TestCase tc) {
     printf("=================================================================================\n");
@@ -195,10 +296,10 @@ void run_test_case(TestCase tc) {
         printf("---------------------------------------------------------------------------------\n");
         printf("▶ Block Size: %2dx%2d\n", block.x, block.y);
 
-        float total_ms_global = 0, total_ms_shared = 0;
+        float total_ms_global = 0, total_ms_shared_s = 0, total_ms_shared_st = 0;
         // 每種組合重複執行 3 次
         for (int r = 1; r <= 3; r++) {
-            // Global Memory Version
+            // 1. Global Memory Version
             cudaEventRecord(start);
             matchKernel<<<grid, block>>>(d_T, tc.t_rows, tc.t_cols, d_S, tc.s_rows, tc.s_cols, d_pcc, d_ssd);
             cudaEventRecord(stop);
@@ -208,23 +309,37 @@ void run_test_case(TestCase tc) {
             cudaEventElapsedTime(&ms_global, start, stop);
             total_ms_global += ms_global;
 
-            // Shared Memory Version
-            size_t shared_mem_size = tc.s_rows * tc.s_cols * sizeof(unsigned char);
+            // 2. Shared Memory Version (Only S)
+            size_t shared_mem_size_s = tc.s_rows * tc.s_cols * sizeof(unsigned char);
             cudaEventRecord(start);
-            matchKernelShared<<<grid, block, shared_mem_size>>>(d_T, tc.t_rows, tc.t_cols, d_S, tc.s_rows, tc.s_cols, d_pcc, d_ssd);
+            matchKernelShared_S<<<grid, block, shared_mem_size_s>>>(d_T, tc.t_rows, tc.t_cols, d_S, tc.s_rows, tc.s_cols, d_pcc, d_ssd);
             cudaEventRecord(stop);
             cudaEventSynchronize(stop);
             
-            float ms_shared = 0;
-            cudaEventElapsedTime(&ms_shared, start, stop);
-            total_ms_shared += ms_shared;
+            float ms_shared_s = 0;
+            cudaEventElapsedTime(&ms_shared_s, start, stop);
+            total_ms_shared_s += ms_shared_s;
+
+            // 3. Shared Memory Version (Both S and T)
+            size_t shared_mem_size_st = tc.s_rows * tc.s_cols * sizeof(unsigned char) + 
+                                        (block.y + tc.s_rows - 1) * (block.x + tc.s_cols - 1) * sizeof(unsigned char);
+            cudaEventRecord(start);
+            matchKernelShared_ST<<<grid, block, shared_mem_size_st>>>(d_T, tc.t_rows, tc.t_cols, d_S, tc.s_rows, tc.s_cols, d_pcc, d_ssd);
+            cudaEventRecord(stop);
+            cudaEventSynchronize(stop);
+            
+            float ms_shared_st = 0;
+            cudaEventElapsedTime(&ms_shared_st, start, stop);
+            total_ms_shared_st += ms_shared_st;
 
             CHECK_CUDA(cudaMemcpy(h_pcc_out, d_pcc, out_size * sizeof(float), cudaMemcpyDeviceToHost));
             CHECK_CUDA(cudaMemcpy(h_ssd_out, d_ssd, out_size * sizeof(unsigned int), cudaMemcpyDeviceToHost));
 
-            printf("  [Run %d] Global Time: %8.4f ms  [Run %d(s)] Shared Time: %8.4f ms\n", r, ms_global, r, ms_shared);
+            printf("  [Run %d] Global: %8.4f ms | Shared(S): %8.4f ms | Shared(S+T): %8.4f ms\n", 
+                   r, ms_global, ms_shared_s, ms_shared_st);
         }
-        printf("平均時間 - Global: %8.4f ms, Shared: %8.4f ms\n", total_ms_global / 3.0f, total_ms_shared / 3.0f);
+        printf("平均時間 - Global: %8.4f ms | Shared(S): %8.4f ms | Shared(S+T): %8.4f ms\n", 
+               total_ms_global / 3.0f, total_ms_shared_s / 3.0f, total_ms_shared_st / 3.0f);
     }
 
     // 在執行完所有 block size 測試後，針對最後一次獲得的結果統計 Top 3 相似與不相似
@@ -232,7 +347,7 @@ void run_test_case(TestCase tc) {
     float min1 = 2.0f, min2 = 2.0f, min3 = 2.0f;
     
     // SSD 的極值預設值
-    unsigned int min_ssd1 = -1, min_ssd2 = -1, min_ssd3 = -1; // 最小的SSD (相似)
+    unsigned int min_ssd1 = ~0U, min_ssd2 = ~0U, min_ssd3 = ~0U; // 最小的SSD (相似)
     unsigned int max_ssd1 = 0, max_ssd2 = 0, max_ssd3 = 0; // 最大的SSD (不相似)
 
     for (int i = 0; i < out_size; i++) {
@@ -288,46 +403,64 @@ void run_test_case(TestCase tc) {
     }
 
     printf("---------------------------------------------------------------------------------\n");
-    printf("▶ 匹配結果 (依照 PCC 相似度)\n");
+    printf("▶ 匹配結果 (依照 PCC 相似度 - 僅顯示第一名)\n");
     
+    // PCC 僅印出 Top 1 (rank < 1)
     float top_max[] = {max1, max2, max3};
-    for(int rank = 0; rank < 3; rank++) {
+    for(int rank = 0; rank < 1; rank++) {
         if(top_max[rank] > -2.0f) {
             printf("  [Top %d相似] PCC: %7.4f, 位置: ", rank + 1, top_max[rank]);
+            int first_pos = -1;
             for (int i = 0; i < out_size; i++) {
                 if (fabs(h_pcc_out[i] - top_max[rank]) < 1e-4) {
+                    if (first_pos == -1) first_pos = i;
                     printf("(%d,%d) ", i / out_c, i % out_c);
                 }
             }
             printf("\n");
+            // 輸出對應陣列內容
+            if (first_pos != -1) {
+                print_matched_array(h_T, tc.t_cols, first_pos / out_c, first_pos % out_c, tc.s_rows, tc.s_cols);
+            }
         }
     }
 
     float top_min[] = {min1, min2, min3};
-    for(int rank = 0; rank < 3; rank++) {
+    for(int rank = 0; rank < 1; rank++) {
         if(top_min[rank] < 2.0f) {
             printf("  [Top %d不相似] PCC: %7.4f, 位置: ", rank + 1, top_min[rank]);
+            int first_pos = -1;
             for (int i = 0; i < out_size; i++) {
                 if (fabs(h_pcc_out[i] - top_min[rank]) < 1e-4) {
+                    if (first_pos == -1) first_pos = i;
                     printf("(%d,%d) ", i / out_c, i % out_c);
                 }
             }
             printf("\n");
+            if (first_pos != -1) {
+                print_matched_array(h_T, tc.t_cols, first_pos / out_c, first_pos % out_c, tc.s_rows, tc.s_cols);
+            }
         }
     }
 
-    printf("\n▶ 匹配結果 (依照 SSD 誤差)\n");
+    printf("\n▶ 匹配結果 (依照 SSD 誤差 - 顯示前三名)\n");
 
+    // SSD 印出 Top 3
     unsigned int top_min_ssd[] = {min_ssd1, min_ssd2, min_ssd3};
     for(int rank = 0; rank < 3; rank++) {
-        if(top_min_ssd[rank] != -1) {
+        if(top_min_ssd[rank] != ~0U) {
             printf("  [Top %d相似] SSD: %10u, 位置: ", rank + 1, top_min_ssd[rank]);
+            int first_pos = -1;
             for (int i = 0; i < out_size; i++) {
                 if (h_ssd_out[i] == top_min_ssd[rank]) {
+                    if (first_pos == -1) first_pos = i;
                     printf("(%d,%d) ", i / out_c, i % out_c);
                 }
             }
             printf("\n");
+            if (first_pos != -1) {
+                print_matched_array(h_T, tc.t_cols, first_pos / out_c, first_pos % out_c, tc.s_rows, tc.s_cols);
+            }
         }
     }
 
@@ -335,12 +468,17 @@ void run_test_case(TestCase tc) {
     for(int rank = 0; rank < 3; rank++) {
         if(top_max_ssd[rank] != 0) {
             printf("  [Top %d不相似] SSD: %10u, 位置: ", rank + 1, top_max_ssd[rank]);
+            int first_pos = -1;
             for (int i = 0; i < out_size; i++) {
                 if (h_ssd_out[i] == top_max_ssd[rank]) {
+                    if (first_pos == -1) first_pos = i;
                     printf("(%d,%d) ", i / out_c, i % out_c);
                 }
             }
             printf("\n");
+            if (first_pos != -1) {
+                print_matched_array(h_T, tc.t_cols, first_pos / out_c, first_pos % out_c, tc.s_rows, tc.s_cols);
+            }
         }
     }
 
