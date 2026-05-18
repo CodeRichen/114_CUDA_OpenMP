@@ -1,7 +1,7 @@
 上課用.cu
 
 cd /home/A1125515/114/CUDA_sample
-FILE=second_cuda3
+FILE=second_cuda
 nvcc ${FILE}.cu -o Exe/${FILE} && ./Exe/${FILE}
 
 專題用.cu
@@ -46,3 +46,8 @@ ffmpeg -i media.mp4 -f image2pipe -vcodec rawvideo -pix_fmt rgb24 - | \
 ./cuda_volume2 | \
 ffmpeg -y -f rawvideo -vcodec rawvideo -pix_fmt rgb24 -s 896x504 -r 20 -i - \
 -c:v libx264 -pix_fmt yuv420p output_final.mp4
+
+作業1
+
+nvcc -O3 "template_matching_final.cu" -o template_matching --compiler-options -Wall
+./template_matching "test data/1/T1_3750_4320.txt" 3750 4320 "test data/1/S1_3_3.txt" 3 3
