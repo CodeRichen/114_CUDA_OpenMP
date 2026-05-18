@@ -157,6 +157,10 @@ __global__ void matchKernelOptimized(const unsigned char* T, int T_r, int T_c,
     int block_start_c = blockIdx.x * tile_w;
     int block_start_r = blockIdx.y * tile_h;
 
+    // [改進1] Coalesced memory access:
+    // 將 1D 的 tid 拆解為 tr, tc，並對應到 global_c。
+    // 因相鄰的 thread 擁有連續的 tid，計算出的 tc 也會是連續的，
+    // 這確保了 Warp 中的 threads 讀取 T 時是連續的記憶體位置 (One memory transaction)
     for (int i = tid; i < T_area; i += blockDim.x * blockDim.y) {
         int tr = i / T_tile_w;
         int tc = i % T_tile_w;
@@ -175,38 +179,35 @@ __global__ void matchKernelOptimized(const unsigned char* T, int T_r, int T_c,
     int r = block_start_r + threadIdx.y;
 
     if (r < T_r - S_r + 1 && c < T_c - S_c + 1) {
+        // [改進2] 減少重複計算: 將兩次迴圈化簡為單次迴圈，透過數學展開 O(1) 算出變異數與共變異數
+        // sum(x-mean)^2 = sum(x^2) - n*mean^2 
+        // 且透過使用 Shared Memory 避免重複到 Global Memory 抓取資料
         float sumX = 0, sumY = 0;
+        float sumX2 = 0, sumY2 = 0, sumXY = 0;
         int n = S_r * S_c;
-        for (int i = 0; i < S_r; i++) {
-            for (int j = 0; j < S_c; j++) {
-                float valX = c_S[i * S_c + j]; // 讀取 Constant Memory
-                float valY = s_T[(threadIdx.y + i) * T_tile_w + (threadIdx.x + j)]; // 讀取 Shared Memory
-                sumX += valX;
-                sumY += valY;
-            }
-        }
-        float meanX = sumX / n;
-        float meanY = sumY / n;
-
-        float num = 0, denX = 0, denY = 0;
-        unsigned int ssd = 0;
 
         for (int i = 0; i < S_r; i++) {
             for (int j = 0; j < S_c; j++) {
                 float x = c_S[i * S_c + j];
                 float y = s_T[(threadIdx.y + i) * T_tile_w + (threadIdx.x + j)];
                 
-                float dx = x - meanX;
-                float dy = y - meanY;
-                
-                num += dx * dy;
-                denX += dx * dx;
-                denY += dy * dy;
-                
-                float diff = x - y;
-                ssd += (unsigned int)(diff * diff);
+                sumX += x;
+                sumY += y;
+                sumX2 += x * x;
+                sumY2 += y * y;
+                sumXY += x * y;
             }
         }
+        
+        float meanX = sumX / n;
+        float meanY = sumY / n;
+
+        float num = sumXY - n * meanX * meanY;
+        float denX = sumX2 - n * meanX * meanX;
+        float denY = sumY2 - n * meanY * meanY;
+
+        // 計算 SSD: (x-y)^2 = x^2 + y^2 - 2xy
+        unsigned int ssd = (unsigned int)(sumX2 + sumY2 - 2 * sumXY);
 
         float pcc = 0.0f;
         if (denX > 0 && denY > 0) {
