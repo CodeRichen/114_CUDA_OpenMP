@@ -58,3 +58,6 @@ nvcc -O3 "template_matching_final.cu" -o template_matching --compiler-options -W
 cd "/home/A1125515/114/CUDA_sample/test/專題/Template Matching/"
 nvcc -O3 test_all.cu -o test_all
 ./test_all
+
+cd "/home/A1125515/114/CUDA_sample/test/專題/Template Matching"
+python3 -m venv venv && source venv/bin/activate &&  python3 analyze_time.py
