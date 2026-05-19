@@ -48,9 +48,9 @@ def main():
         
         blocks_sorted = sorted(blocks, key=lambda x: x['opt'])
         
-        # print("【依 Globle 執行時間排名】:")
-        # for idx, b in enumerate(blocks_sorted, 1):
-        #     print(f"  {idx:2d}. {b['block']:>9} -> Opt: {b['opt']:8.4f} ms | Global: {b['global']:8.4f} ms")
+        print("【依 Globle 執行時間排名】:")
+        for idx, b in enumerate(blocks_sorted, 1):
+            print(f"  {idx:2d}. {b['block']:>9} -> Opt: {b['opt']:8.4f} ms | Global: {b['global']:8.4f} ms")
             
         # Draw chart for each test case
         # labels = [b['block'] for b in blocks]
@@ -126,19 +126,19 @@ def main():
     fig2, ax2 = plt.subplots(figsize=(10, 6))
     
     # 畫 Global (平均) 與 Opt/Share (平均)
-    rects_global = ax2.bar(x_avg - width_avg/2, avg_global_times, width_avg, label='Global Memory (Avg of 4 Tasks)', color='#1f77b4')
-    rects_opt = ax2.bar(x_avg + width_avg/2, avg_opt_times, width_avg, label='Opt/Shared Memory (Avg of 4 Tasks)', color='#ff7f0e')
+    rects_global = ax2.bar(x_avg - width_avg/2, avg_global_times, width_avg, label='Global Memory (Avg of 4 Tasks)', color='#ff8000')
+    rects_opt = ax2.bar(x_avg + width_avg/2, avg_opt_times, width_avg, label='Shared Memory (Avg of 4 Tasks)', color='#3399ff')
     
     ax2.set_ylabel('Average Execution Time (ms)')
     ax2.set_title('All Tasks Average Performance Analysis')
-    ax2.set_xticks(x_avg)TI
-    ax2.set_xticklabels(avg_labels, rotation=45, ha='right')
+    ax2.set_xticks(x_avg)
+    ax2.set_xticklabels(avg_labels, rotation=360)
     ax2.legend()
     
     def autolabel_avg(rects):
         for rect in rects:
             height = rect.get_height()
-            ax2.annotate(f'{height:.4f}',
+            ax2.annotate(f'{height:.2f}',
                         xy=(rect.get_x() + rect.get_width() / 2, height),
                         xytext=(0, 3),  
                         textcoords="offset points",
