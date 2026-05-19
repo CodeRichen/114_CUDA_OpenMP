@@ -1,81 +1,74 @@
 =================================================================================
 [測資 1] T:(3750x4320) S:(3x3)
 ---------------------------------------------------------------------------------
-▶ Block Size:  4x 4
-  [Run 1] Global:   5.6312 ms | Opt(T_share, S_const):   4.8625 ms
-  [Run 2] Global:   5.6303 ms | Opt(T_share, S_const):   4.8597 ms
-  [Run 3] Global:   5.6301 ms | Opt(T_share, S_const):   4.8610 ms
-平均時間 - Global:   5.6305 ms | Opt(T_share, S_const):   4.8611 ms
-  [PASS] 驗證結果: 合法
----------------------------------------------------------------------------------
 ▶ Block Size:  8x 4
-  [Run 1] Global:   3.0122 ms | Opt(T_share, S_const):   2.4494 ms
-  [Run 2] Global:   3.0144 ms | Opt(T_share, S_const):   2.4499 ms
-  [Run 3] Global:   3.0128 ms | Opt(T_share, S_const):   2.4498 ms
-平均時間 - Global:   3.0131 ms | Opt(T_share, S_const):   2.4497 ms
+  [Run 1] Global:   3.0127 ms | Opt(T_share, S_const):   2.4512 ms
+  [Run 2] Global:   3.0105 ms | Opt(T_share, S_const):   2.4497 ms
+  [Run 3] Global:   3.0118 ms | Opt(T_share, S_const):   2.4468 ms
+平均時間 - Global:   3.0117 ms | Opt(T_share, S_const):   2.4492 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x 8
-  [Run 1] Global:   1.9313 ms | Opt(T_share, S_const):   1.5052 ms
-  [Run 2] Global:   1.9313 ms | Opt(T_share, S_const):   1.5051 ms
-  [Run 3] Global:   1.9299 ms | Opt(T_share, S_const):   1.5045 ms
-平均時間 - Global:   1.9308 ms | Opt(T_share, S_const):   1.5049 ms
+  [Run 1] Global:   1.9863 ms | Opt(T_share, S_const):   1.5402 ms
+  [Run 2] Global:   1.9886 ms | Opt(T_share, S_const):   1.5430 ms
+  [Run 3] Global:   1.9862 ms | Opt(T_share, S_const):   1.5421 ms
+平均時間 - Global:   1.9871 ms | Opt(T_share, S_const):   1.5418 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x16
-  [Run 1] Global:   1.9117 ms | Opt(T_share, S_const):   1.5258 ms
-  [Run 2] Global:   1.9124 ms | Opt(T_share, S_const):   1.5258 ms
-  [Run 3] Global:   1.9113 ms | Opt(T_share, S_const):   1.5314 ms
-平均時間 - Global:   1.9118 ms | Opt(T_share, S_const):   1.5277 ms
+  [Run 1] Global:   1.9692 ms | Opt(T_share, S_const):   1.5637 ms
+  [Run 2] Global:   1.9681 ms | Opt(T_share, S_const):   1.5621 ms
+  [Run 3] Global:   1.9692 ms | Opt(T_share, S_const):   1.5462 ms
+平均時間 - Global:   1.9689 ms | Opt(T_share, S_const):   1.5574 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x 8
-  [Run 1] Global:   1.7492 ms | Opt(T_share, S_const):   1.4722 ms
-  [Run 2] Global:   1.7492 ms | Opt(T_share, S_const):   1.4721 ms
-  [Run 3] Global:   1.7489 ms | Opt(T_share, S_const):   1.4729 ms
-平均時間 - Global:   1.7491 ms | Opt(T_share, S_const):   1.4724 ms
+  [Run 1] Global:   1.7478 ms | Opt(T_share, S_const):   1.4718 ms
+  [Run 2] Global:   1.7477 ms | Opt(T_share, S_const):   1.4709 ms
+  [Run 3] Global:   1.7480 ms | Opt(T_share, S_const):   1.4724 ms
+平均時間 - Global:   1.7479 ms | Opt(T_share, S_const):   1.4717 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x 8
-  [Run 1] Global:   1.8808 ms | Opt(T_share, S_const):   1.5053 ms
-  [Run 2] Global:   1.8823 ms | Opt(T_share, S_const):   1.5039 ms
-  [Run 3] Global:   1.8822 ms | Opt(T_share, S_const):   1.5057 ms
-平均時間 - Global:   1.8818 ms | Opt(T_share, S_const):   1.5050 ms
+  [Run 1] Global:   1.8807 ms | Opt(T_share, S_const):   1.5048 ms
+  [Run 2] Global:   1.8821 ms | Opt(T_share, S_const):   1.5053 ms
+  [Run 3] Global:   1.8821 ms | Opt(T_share, S_const):   1.5057 ms
+平均時間 - Global:   1.8816 ms | Opt(T_share, S_const):   1.5052 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x16
-  [Run 1] Global:   1.8022 ms | Opt(T_share, S_const):   1.5338 ms
-  [Run 2] Global:   1.8087 ms | Opt(T_share, S_const):   1.5350 ms
-  [Run 3] Global:   1.8037 ms | Opt(T_share, S_const):   1.5335 ms
-平均時間 - Global:   1.8049 ms | Opt(T_share, S_const):   1.5341 ms
+  [Run 1] Global:   1.8022 ms | Opt(T_share, S_const):   1.5335 ms
+  [Run 2] Global:   1.8025 ms | Opt(T_share, S_const):   1.5323 ms
+  [Run 3] Global:   1.8029 ms | Opt(T_share, S_const):   1.5334 ms
+平均時間 - Global:   1.8025 ms | Opt(T_share, S_const):   1.5331 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x32
-  [Run 1] Global:   1.8434 ms | Opt(T_share, S_const):   1.7142 ms
-  [Run 2] Global:   1.8454 ms | Opt(T_share, S_const):   1.7162 ms
-  [Run 3] Global:   1.8435 ms | Opt(T_share, S_const):   1.7142 ms
-平均時間 - Global:   1.8441 ms | Opt(T_share, S_const):   1.7148 ms
+  [Run 1] Global:   1.8437 ms | Opt(T_share, S_const):   1.7156 ms
+  [Run 2] Global:   1.8444 ms | Opt(T_share, S_const):   1.7143 ms
+  [Run 3] Global:   1.8435 ms | Opt(T_share, S_const):   1.7163 ms
+平均時間 - Global:   1.8439 ms | Opt(T_share, S_const):   1.7154 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x16
-  [Run 1] Global:   1.9374 ms | Opt(T_share, S_const):   1.6652 ms
-  [Run 2] Global:   1.9364 ms | Opt(T_share, S_const):   1.6652 ms
-  [Run 3] Global:   1.9354 ms | Opt(T_share, S_const):   1.6658 ms
-平均時間 - Global:   1.9364 ms | Opt(T_share, S_const):   1.6654 ms
+  [Run 1] Global:   1.9343 ms | Opt(T_share, S_const):   1.6665 ms
+  [Run 2] Global:   1.9374 ms | Opt(T_share, S_const):   1.6650 ms
+  [Run 3] Global:   1.9319 ms | Opt(T_share, S_const):   1.6662 ms
+平均時間 - Global:   1.9345 ms | Opt(T_share, S_const):   1.6659 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x32
-  [Run 1] Global:   2.1484 ms | Opt(T_share, S_const):   1.8925 ms
-  [Run 2] Global:   2.1469 ms | Opt(T_share, S_const):   1.8937 ms
-  [Run 3] Global:   2.1487 ms | Opt(T_share, S_const):   1.8938 ms
-平均時間 - Global:   2.1480 ms | Opt(T_share, S_const):   1.8933 ms
+  [Run 1] Global:   2.1482 ms | Opt(T_share, S_const):   1.8941 ms
+  [Run 2] Global:   2.1484 ms | Opt(T_share, S_const):   1.8938 ms
+  [Run 3] Global:   2.1482 ms | Opt(T_share, S_const):   1.8942 ms
+平均時間 - Global:   2.1483 ms | Opt(T_share, S_const):   1.8940 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x64
   [SKIP] Block Size 32x64 (2048 threads) 超過 1024 限制，略過測試
 ---------------------------------------------------------------------------------
 ▶ CPU Sequential Version (No Parallelization)
-  CPU Time: 541.1781 ms
+  CPU Time: 531.7697 ms
   [CPU Top 1相似] PCC:  1.0000, 位置: (581,1280) 
         [   4   1   3 ]
         [   9   8   7 ]
@@ -89,81 +82,74 @@
 =================================================================================
 [測資 2] T:(7750x1320) S:(5x5)
 ---------------------------------------------------------------------------------
-▶ Block Size:  4x 4
-  [Run 1] Global:   6.6784 ms | Opt(T_share, S_const):   4.0006 ms
-  [Run 2] Global:   6.6765 ms | Opt(T_share, S_const):   3.9997 ms
-  [Run 3] Global:   6.6779 ms | Opt(T_share, S_const):   4.0003 ms
-平均時間 - Global:   6.6776 ms | Opt(T_share, S_const):   4.0002 ms
-  [PASS] 驗證結果: 合法
----------------------------------------------------------------------------------
 ▶ Block Size:  8x 4
-  [Run 1] Global:   3.4883 ms | Opt(T_share, S_const):   1.9476 ms
-  [Run 2] Global:   3.4894 ms | Opt(T_share, S_const):   1.9476 ms
-  [Run 3] Global:   3.4898 ms | Opt(T_share, S_const):   1.9465 ms
-平均時間 - Global:   3.4892 ms | Opt(T_share, S_const):   1.9473 ms
+  [Run 1] Global:   3.4877 ms | Opt(T_share, S_const):   1.9475 ms
+  [Run 2] Global:   3.4892 ms | Opt(T_share, S_const):   1.9476 ms
+  [Run 3] Global:   3.4881 ms | Opt(T_share, S_const):   1.9478 ms
+平均時間 - Global:   3.4883 ms | Opt(T_share, S_const):   1.9476 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x 8
-  [Run 1] Global:   3.0724 ms | Opt(T_share, S_const):   1.3292 ms
-  [Run 2] Global:   3.0720 ms | Opt(T_share, S_const):   1.3292 ms
-  [Run 3] Global:   3.0716 ms | Opt(T_share, S_const):   1.3292 ms
-平均時間 - Global:   3.0720 ms | Opt(T_share, S_const):   1.3292 ms
+  [Run 1] Global:   3.0720 ms | Opt(T_share, S_const):   1.3297 ms
+  [Run 2] Global:   3.0716 ms | Opt(T_share, S_const):   1.3296 ms
+  [Run 3] Global:   3.0720 ms | Opt(T_share, S_const):   1.3292 ms
+平均時間 - Global:   3.0719 ms | Opt(T_share, S_const):   1.3295 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x16
-  [Run 1] Global:   3.0488 ms | Opt(T_share, S_const):   1.2717 ms
-  [Run 2] Global:   3.0495 ms | Opt(T_share, S_const):   1.2718 ms
-  [Run 3] Global:   3.0494 ms | Opt(T_share, S_const):   1.2717 ms
-平均時間 - Global:   3.0492 ms | Opt(T_share, S_const):   1.2718 ms
+  [Run 1] Global:   3.0481 ms | Opt(T_share, S_const):   1.2706 ms
+  [Run 2] Global:   3.0474 ms | Opt(T_share, S_const):   1.2718 ms
+  [Run 3] Global:   3.0474 ms | Opt(T_share, S_const):   1.2711 ms
+平均時間 - Global:   3.0477 ms | Opt(T_share, S_const):   1.2712 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x 8
-  [Run 1] Global:   2.4038 ms | Opt(T_share, S_const):   1.2716 ms
-  [Run 2] Global:   2.4044 ms | Opt(T_share, S_const):   1.2719 ms
-  [Run 3] Global:   2.4012 ms | Opt(T_share, S_const):   1.2708 ms
-平均時間 - Global:   2.4031 ms | Opt(T_share, S_const):   1.2715 ms
+  [Run 1] Global:   2.4017 ms | Opt(T_share, S_const):   1.2703 ms
+  [Run 2] Global:   2.4012 ms | Opt(T_share, S_const):   1.2705 ms
+  [Run 3] Global:   2.4021 ms | Opt(T_share, S_const):   1.2713 ms
+平均時間 - Global:   2.4016 ms | Opt(T_share, S_const):   1.2707 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x 8
-  [Run 1] Global:   2.4453 ms | Opt(T_share, S_const):   1.3359 ms
-  [Run 2] Global:   2.4440 ms | Opt(T_share, S_const):   1.3354 ms
-  [Run 3] Global:   2.4466 ms | Opt(T_share, S_const):   1.3354 ms
-平均時間 - Global:   2.4453 ms | Opt(T_share, S_const):   1.3356 ms
+  [Run 1] Global:   2.4450 ms | Opt(T_share, S_const):   1.3354 ms
+  [Run 2] Global:   2.4446 ms | Opt(T_share, S_const):   1.3351 ms
+  [Run 3] Global:   2.4440 ms | Opt(T_share, S_const):   1.3343 ms
+平均時間 - Global:   2.4446 ms | Opt(T_share, S_const):   1.3349 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x16
-  [Run 1] Global:   2.4412 ms | Opt(T_share, S_const):   1.3226 ms
-  [Run 2] Global:   2.4428 ms | Opt(T_share, S_const):   1.3236 ms
-  [Run 3] Global:   2.4418 ms | Opt(T_share, S_const):   1.3239 ms
-平均時間 - Global:   2.4419 ms | Opt(T_share, S_const):   1.3233 ms
+  [Run 1] Global:   2.4395 ms | Opt(T_share, S_const):   1.3233 ms
+  [Run 2] Global:   2.4400 ms | Opt(T_share, S_const):   1.3228 ms
+  [Run 3] Global:   2.4398 ms | Opt(T_share, S_const):   1.3230 ms
+平均時間 - Global:   2.4398 ms | Opt(T_share, S_const):   1.3231 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x32
-  [Run 1] Global:   2.5600 ms | Opt(T_share, S_const):   1.4522 ms
-  [Run 2] Global:   2.5613 ms | Opt(T_share, S_const):   1.4537 ms
-  [Run 3] Global:   2.5606 ms | Opt(T_share, S_const):   1.4541 ms
-平均時間 - Global:   2.5606 ms | Opt(T_share, S_const):   1.4533 ms
+  [Run 1] Global:   2.5588 ms | Opt(T_share, S_const):   1.4531 ms
+  [Run 2] Global:   2.5584 ms | Opt(T_share, S_const):   1.4523 ms
+  [Run 3] Global:   2.5594 ms | Opt(T_share, S_const):   1.4519 ms
+平均時間 - Global:   2.5589 ms | Opt(T_share, S_const):   1.4524 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x16
-  [Run 1] Global:   2.5726 ms | Opt(T_share, S_const):   1.4601 ms
-  [Run 2] Global:   2.5739 ms | Opt(T_share, S_const):   1.4561 ms
-  [Run 3] Global:   2.5725 ms | Opt(T_share, S_const):   1.4597 ms
-平均時間 - Global:   2.5730 ms | Opt(T_share, S_const):   1.4586 ms
+  [Run 1] Global:   2.5740 ms | Opt(T_share, S_const):   1.4598 ms
+  [Run 2] Global:   2.5840 ms | Opt(T_share, S_const):   1.4593 ms
+  [Run 3] Global:   2.5704 ms | Opt(T_share, S_const):   1.4602 ms
+平均時間 - Global:   2.5761 ms | Opt(T_share, S_const):   1.4598 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x32
-  [Run 1] Global:   2.8073 ms | Opt(T_share, S_const):   1.7225 ms
-  [Run 2] Global:   2.8065 ms | Opt(T_share, S_const):   1.7257 ms
-  [Run 3] Global:   2.8060 ms | Opt(T_share, S_const):   1.7244 ms
-平均時間 - Global:   2.8066 ms | Opt(T_share, S_const):   1.7242 ms
+  [Run 1] Global:   2.8037 ms | Opt(T_share, S_const):   1.7230 ms
+  [Run 2] Global:   2.8070 ms | Opt(T_share, S_const):   1.7225 ms
+  [Run 3] Global:   2.8046 ms | Opt(T_share, S_const):   1.7228 ms
+平均時間 - Global:   2.8051 ms | Opt(T_share, S_const):   1.7228 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x64
   [SKIP] Block Size 32x64 (2048 threads) 超過 1024 限制，略過測試
 ---------------------------------------------------------------------------------
 ▶ CPU Sequential Version (No Parallelization)
-  CPU Time: 798.1423 ms
+  CPU Time: 802.1149 ms
   [CPU Top 1相似] PCC:  1.0000, 位置: (7691,688) 
         [   2   3   7   0   8 ]
         [   2   7   1   8   7 ]
@@ -181,81 +167,74 @@
 =================================================================================
 [測資 3] T:(8140x9925) S:(3x3)
 ---------------------------------------------------------------------------------
-▶ Block Size:  4x 4
-  [Run 1] Global:  27.4021 ms | Opt(T_share, S_const):  23.4552 ms
-  [Run 2] Global:  27.3916 ms | Opt(T_share, S_const):  23.4204 ms
-  [Run 3] Global:  27.4007 ms | Opt(T_share, S_const):  23.4410 ms
-平均時間 - Global:  27.3981 ms | Opt(T_share, S_const):  23.4389 ms
-  [PASS] 驗證結果: 合法
----------------------------------------------------------------------------------
 ▶ Block Size:  8x 4
-  [Run 1] Global:  14.6931 ms | Opt(T_share, S_const):  11.9332 ms
-  [Run 2] Global:  14.6891 ms | Opt(T_share, S_const):  11.9260 ms
-  [Run 3] Global:  14.6964 ms | Opt(T_share, S_const):  11.9327 ms
-平均時間 - Global:  14.6929 ms | Opt(T_share, S_const):  11.9307 ms
+  [Run 1] Global:  14.6907 ms | Opt(T_share, S_const):  11.9316 ms
+  [Run 2] Global:  14.6944 ms | Opt(T_share, S_const):  11.9335 ms
+  [Run 3] Global:  14.6961 ms | Opt(T_share, S_const):  11.9295 ms
+平均時間 - Global:  14.6937 ms | Opt(T_share, S_const):  11.9316 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x 8
-  [Run 1] Global:   9.5708 ms | Opt(T_share, S_const):   7.4670 ms
-  [Run 2] Global:   9.5724 ms | Opt(T_share, S_const):   7.4639 ms
-  [Run 3] Global:   9.5713 ms | Opt(T_share, S_const):   7.4669 ms
-平均時間 - Global:   9.5715 ms | Opt(T_share, S_const):   7.4659 ms
+  [Run 1] Global:   9.5638 ms | Opt(T_share, S_const):   7.4650 ms
+  [Run 2] Global:   9.5641 ms | Opt(T_share, S_const):   7.4629 ms
+  [Run 3] Global:   9.5658 ms | Opt(T_share, S_const):   7.4670 ms
+平均時間 - Global:   9.5646 ms | Opt(T_share, S_const):   7.4650 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x16
-  [Run 1] Global:   9.4799 ms | Opt(T_share, S_const):   7.5346 ms
-  [Run 2] Global:   9.4781 ms | Opt(T_share, S_const):   7.5346 ms
-  [Run 3] Global:   9.4772 ms | Opt(T_share, S_const):   7.5350 ms
-平均時間 - Global:   9.4784 ms | Opt(T_share, S_const):   7.5347 ms
+  [Run 1] Global:   9.4768 ms | Opt(T_share, S_const):   7.5347 ms
+  [Run 2] Global:   9.4748 ms | Opt(T_share, S_const):   7.5363 ms
+  [Run 3] Global:   9.4761 ms | Opt(T_share, S_const):   7.5348 ms
+平均時間 - Global:   9.4759 ms | Opt(T_share, S_const):   7.5353 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x 8
-  [Run 1] Global:   8.4908 ms | Opt(T_share, S_const):   7.3017 ms
-  [Run 2] Global:   8.4915 ms | Opt(T_share, S_const):   7.3007 ms
-  [Run 3] Global:   8.4889 ms | Opt(T_share, S_const):   7.3012 ms
-平均時間 - Global:   8.4904 ms | Opt(T_share, S_const):   7.3012 ms
+  [Run 1] Global:   8.4838 ms | Opt(T_share, S_const):   7.2972 ms
+  [Run 2] Global:   8.4853 ms | Opt(T_share, S_const):   7.2991 ms
+  [Run 3] Global:   8.4830 ms | Opt(T_share, S_const):   7.2972 ms
+平均時間 - Global:   8.4841 ms | Opt(T_share, S_const):   7.2979 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x 8
-  [Run 1] Global:   8.5956 ms | Opt(T_share, S_const):   7.4667 ms
-  [Run 2] Global:   8.5957 ms | Opt(T_share, S_const):   7.4651 ms
-  [Run 3] Global:   8.5942 ms | Opt(T_share, S_const):   7.4676 ms
-平均時間 - Global:   8.5952 ms | Opt(T_share, S_const):   7.4664 ms
+  [Run 1] Global:   8.5934 ms | Opt(T_share, S_const):   7.4664 ms
+  [Run 2] Global:   8.5937 ms | Opt(T_share, S_const):   7.4672 ms
+  [Run 3] Global:   8.5933 ms | Opt(T_share, S_const):   7.4694 ms
+平均時間 - Global:   8.5935 ms | Opt(T_share, S_const):   7.4676 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x16
-  [Run 1] Global:   8.6955 ms | Opt(T_share, S_const):   7.5876 ms
-  [Run 2] Global:   8.6979 ms | Opt(T_share, S_const):   7.5872 ms
-  [Run 3] Global:   8.6971 ms | Opt(T_share, S_const):   7.5892 ms
-平均時間 - Global:   8.6968 ms | Opt(T_share, S_const):   7.5880 ms
+  [Run 1] Global:   8.6916 ms | Opt(T_share, S_const):   7.5823 ms
+  [Run 2] Global:   8.6900 ms | Opt(T_share, S_const):   7.5861 ms
+  [Run 3] Global:   8.6918 ms | Opt(T_share, S_const):   7.5896 ms
+平均時間 - Global:   8.6911 ms | Opt(T_share, S_const):   7.5860 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x32
-  [Run 1] Global:   8.9077 ms | Opt(T_share, S_const):   8.4767 ms
-  [Run 2] Global:   8.9088 ms | Opt(T_share, S_const):   8.4769 ms
-  [Run 3] Global:   8.9096 ms | Opt(T_share, S_const):   8.4773 ms
-平均時間 - Global:   8.9087 ms | Opt(T_share, S_const):   8.4770 ms
+  [Run 1] Global:   8.9004 ms | Opt(T_share, S_const):   8.4726 ms
+  [Run 2] Global:   8.8986 ms | Opt(T_share, S_const):   8.4753 ms
+  [Run 3] Global:   8.9006 ms | Opt(T_share, S_const):   8.4726 ms
+平均時間 - Global:   8.8999 ms | Opt(T_share, S_const):   8.4735 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x16
-  [Run 1] Global:   8.8025 ms | Opt(T_share, S_const):   8.2740 ms
-  [Run 2] Global:   8.8040 ms | Opt(T_share, S_const):   8.2740 ms
-  [Run 3] Global:   8.8046 ms | Opt(T_share, S_const):   8.2723 ms
-平均時間 - Global:   8.8037 ms | Opt(T_share, S_const):   8.2734 ms
+  [Run 1] Global:   8.8003 ms | Opt(T_share, S_const):   8.2709 ms
+  [Run 2] Global:   8.8003 ms | Opt(T_share, S_const):   8.2707 ms
+  [Run 3] Global:   8.7978 ms | Opt(T_share, S_const):   8.2717 ms
+平均時間 - Global:   8.7994 ms | Opt(T_share, S_const):   8.2711 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x32
-  [Run 1] Global:  10.5267 ms | Opt(T_share, S_const):   9.2933 ms
-  [Run 2] Global:  10.5254 ms | Opt(T_share, S_const):   9.2904 ms
-  [Run 3] Global:  10.5146 ms | Opt(T_share, S_const):   9.2953 ms
-平均時間 - Global:  10.5222 ms | Opt(T_share, S_const):   9.2930 ms
+  [Run 1] Global:  10.5120 ms | Opt(T_share, S_const):   9.2877 ms
+  [Run 2] Global:  10.5144 ms | Opt(T_share, S_const):   9.2856 ms
+  [Run 3] Global:  10.5120 ms | Opt(T_share, S_const):   9.2856 ms
+平均時間 - Global:  10.5128 ms | Opt(T_share, S_const):   9.2863 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x64
   [SKIP] Block Size 32x64 (2048 threads) 超過 1024 限制，略過測試
 ---------------------------------------------------------------------------------
 ▶ CPU Sequential Version (No Parallelization)
-  CPU Time: 2621.0728 ms
+  CPU Time: 2605.8357 ms
   [CPU Top 1相似] PCC:  1.0000, 位置: (2800,6) (4653,4239) 
         [   0   7   0 ]
         [   0   9   0 ]
@@ -269,81 +248,74 @@
 =================================================================================
 [測資 4] T:(50x50) S:(5x5)
 ---------------------------------------------------------------------------------
-▶ Block Size:  4x 4
-  [Run 1] Global:   0.0120 ms | Opt(T_share, S_const):   0.0057 ms
-  [Run 2] Global:   0.0074 ms | Opt(T_share, S_const):   0.0058 ms
-  [Run 3] Global:   0.0067 ms | Opt(T_share, S_const):   0.0059 ms
-平均時間 - Global:   0.0087 ms | Opt(T_share, S_const):   0.0058 ms
-  [PASS] 驗證結果: 合法
----------------------------------------------------------------------------------
 ▶ Block Size:  8x 4
-  [Run 1] Global:   0.0064 ms | Opt(T_share, S_const):   0.0060 ms
-  [Run 2] Global:   0.0064 ms | Opt(T_share, S_const):   0.0059 ms
-  [Run 3] Global:   0.0065 ms | Opt(T_share, S_const):   0.0059 ms
-平均時間 - Global:   0.0064 ms | Opt(T_share, S_const):   0.0059 ms
+  [Run 1] Global:   0.0115 ms | Opt(T_share, S_const):   0.0061 ms
+  [Run 2] Global:   0.0072 ms | Opt(T_share, S_const):   0.0056 ms
+  [Run 3] Global:   0.0070 ms | Opt(T_share, S_const):   0.0057 ms
+平均時間 - Global:   0.0086 ms | Opt(T_share, S_const):   0.0058 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x 8
-  [Run 1] Global:   0.0064 ms | Opt(T_share, S_const):   0.0053 ms
-  [Run 2] Global:   0.0061 ms | Opt(T_share, S_const):   0.0056 ms
-  [Run 3] Global:   0.0061 ms | Opt(T_share, S_const):   0.0050 ms
-平均時間 - Global:   0.0062 ms | Opt(T_share, S_const):   0.0053 ms
+  [Run 1] Global:   0.0067 ms | Opt(T_share, S_const):   0.0057 ms
+  [Run 2] Global:   0.0070 ms | Opt(T_share, S_const):   0.0060 ms
+  [Run 3] Global:   0.0061 ms | Opt(T_share, S_const):   0.0047 ms
+平均時間 - Global:   0.0066 ms | Opt(T_share, S_const):   0.0055 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x16
-  [Run 1] Global:   0.0070 ms | Opt(T_share, S_const):   0.0041 ms
-  [Run 2] Global:   0.0145 ms | Opt(T_share, S_const):   0.0052 ms
-  [Run 3] Global:   0.0061 ms | Opt(T_share, S_const):   0.0042 ms
-平均時間 - Global:   0.0092 ms | Opt(T_share, S_const):   0.0045 ms
+  [Run 1] Global:   0.0063 ms | Opt(T_share, S_const):   0.0057 ms
+  [Run 2] Global:   0.0063 ms | Opt(T_share, S_const):   0.0052 ms
+  [Run 3] Global:   0.0061 ms | Opt(T_share, S_const):   0.0050 ms
+平均時間 - Global:   0.0063 ms | Opt(T_share, S_const):   0.0053 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x 8
-  [Run 1] Global:   0.0061 ms | Opt(T_share, S_const):   0.0043 ms
-  [Run 2] Global:   0.0061 ms | Opt(T_share, S_const):   0.0052 ms
-  [Run 3] Global:   0.0061 ms | Opt(T_share, S_const):   0.0041 ms
-平均時間 - Global:   0.0061 ms | Opt(T_share, S_const):   0.0045 ms
+  [Run 1] Global:   0.0060 ms | Opt(T_share, S_const):   0.0054 ms
+  [Run 2] Global:   0.0072 ms | Opt(T_share, S_const):   0.0043 ms
+  [Run 3] Global:   0.0063 ms | Opt(T_share, S_const):   0.0055 ms
+平均時間 - Global:   0.0065 ms | Opt(T_share, S_const):   0.0051 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x 8
-  [Run 1] Global:   0.0074 ms | Opt(T_share, S_const):   0.0099 ms
-  [Run 2] Global:   0.0069 ms | Opt(T_share, S_const):   0.0054 ms
-  [Run 3] Global:   0.0181 ms | Opt(T_share, S_const):   0.0050 ms
-平均時間 - Global:   0.0108 ms | Opt(T_share, S_const):   0.0068 ms
+  [Run 1] Global:   0.0061 ms | Opt(T_share, S_const):   0.0047 ms
+  [Run 2] Global:   0.0069 ms | Opt(T_share, S_const):   0.0048 ms
+  [Run 3] Global:   0.0064 ms | Opt(T_share, S_const):   0.0050 ms
+平均時間 - Global:   0.0065 ms | Opt(T_share, S_const):   0.0048 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x16
-  [Run 1] Global:   0.0063 ms | Opt(T_share, S_const):   0.0050 ms
-  [Run 2] Global:   0.0062 ms | Opt(T_share, S_const):   0.0048 ms
-  [Run 3] Global:   0.0063 ms | Opt(T_share, S_const):   0.0048 ms
-平均時間 - Global:   0.0063 ms | Opt(T_share, S_const):   0.0049 ms
+  [Run 1] Global:   0.0110 ms | Opt(T_share, S_const):   0.0060 ms
+  [Run 2] Global:   0.0068 ms | Opt(T_share, S_const):   0.0057 ms
+  [Run 3] Global:   0.0074 ms | Opt(T_share, S_const):   0.0053 ms
+平均時間 - Global:   0.0084 ms | Opt(T_share, S_const):   0.0057 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x32
-  [Run 1] Global:   0.0081 ms | Opt(T_share, S_const):   0.0061 ms
-  [Run 2] Global:   0.0078 ms | Opt(T_share, S_const):   0.0061 ms
-  [Run 3] Global:   0.0076 ms | Opt(T_share, S_const):   0.0062 ms
-平均時間 - Global:   0.0079 ms | Opt(T_share, S_const):   0.0062 ms
+  [Run 1] Global:   0.0078 ms | Opt(T_share, S_const):   0.0061 ms
+  [Run 2] Global:   0.0082 ms | Opt(T_share, S_const):   0.0058 ms
+  [Run 3] Global:   0.0183 ms | Opt(T_share, S_const):   0.0143 ms
+平均時間 - Global:   0.0114 ms | Opt(T_share, S_const):   0.0087 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x16
-  [Run 1] Global:   0.0079 ms | Opt(T_share, S_const):   0.0059 ms
-  [Run 2] Global:   0.0072 ms | Opt(T_share, S_const):   0.0058 ms
-  [Run 3] Global:   0.0082 ms | Opt(T_share, S_const):   0.0061 ms
-平均時間 - Global:   0.0077 ms | Opt(T_share, S_const):   0.0059 ms
+  [Run 1] Global:   0.0082 ms | Opt(T_share, S_const):   0.0061 ms
+  [Run 2] Global:   0.0081 ms | Opt(T_share, S_const):   0.0061 ms
+  [Run 3] Global:   0.0079 ms | Opt(T_share, S_const):   0.0061 ms
+平均時間 - Global:   0.0081 ms | Opt(T_share, S_const):   0.0061 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x32
-  [Run 1] Global:   0.0113 ms | Opt(T_share, S_const):   0.0078 ms
-  [Run 2] Global:   0.0108 ms | Opt(T_share, S_const):   0.0082 ms
-  [Run 3] Global:   0.0106 ms | Opt(T_share, S_const):   0.0079 ms
-平均時間 - Global:   0.0109 ms | Opt(T_share, S_const):   0.0080 ms
+  [Run 1] Global:   0.0111 ms | Opt(T_share, S_const):   0.0081 ms
+  [Run 2] Global:   0.0107 ms | Opt(T_share, S_const):   0.0082 ms
+  [Run 3] Global:   0.0107 ms | Opt(T_share, S_const):   0.0082 ms
+平均時間 - Global:   0.0108 ms | Opt(T_share, S_const):   0.0081 ms
   [PASS] 驗證結果: 合法
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x64
   [SKIP] Block Size 32x64 (2048 threads) 超過 1024 限制，略過測試
 ---------------------------------------------------------------------------------
 ▶ CPU Sequential Version (No Parallelization)
-  CPU Time:   0.1551 ms
+  CPU Time:   0.1554 ms
   [CPU Top 1相似] PCC:  1.0000, 位置: (18,17) 
         [   9   9   4   5   7 ]
         [   6   8   4   2   2 ]
