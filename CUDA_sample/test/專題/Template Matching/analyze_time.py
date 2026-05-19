@@ -92,6 +92,70 @@ def main():
         plt.close()
         print(f"-> 直方圖已儲存至 {filename}")
 
+    # ========================================================
+    # 新增：畫出所有測資 (4 個 Test Case) 的平均比較圖
+    # ========================================================
+    avg_data_map = {}
+    for test_id, test_data in data.items():
+        for b in test_data['blocks']:
+            blk = b['block']
+            if blk not in avg_data_map:
+                avg_data_map[blk] = {'opt': [], 'global': []}
+            avg_data_map[blk]['opt'].append(b['opt'])
+            avg_data_map[blk]['global'].append(b['global'])
+            
+    # 計算各 Block Size 的平均
+    avg_list = []
+    for blk, vals in avg_data_map.items():
+        avg_list.append({
+            'block': blk,
+            'opt_avg': np.mean(vals['opt']),
+            'global_avg': np.mean(vals['global'])
+        })
+        
+    # 根據 Opt 平均時間排序
+    avg_sorted = sorted(avg_list, key=lambda x: x['opt_avg'])
+    
+    avg_labels = [b['block'] for b in avg_sorted]
+    avg_opt_times = [b['opt_avg'] for b in avg_sorted]
+    avg_global_times = [b['global_avg'] for b in avg_sorted]
+    
+    x_avg = np.arange(len(avg_labels))
+    width_avg = 0.35
+    
+    fig2, ax2 = plt.subplots(figsize=(10, 6))
+    
+    # 畫 Global (平均) 與 Opt/Share (平均)
+    rects_global = ax2.bar(x_avg - width_avg/2, avg_global_times, width_avg, label='Global Memory (Avg of 4 Tasks)', color='#1f77b4')
+    rects_opt = ax2.bar(x_avg + width_avg/2, avg_opt_times, width_avg, label='Opt/Shared Memory (Avg of 4 Tasks)', color='#ff7f0e')
+    
+    ax2.set_ylabel('Average Execution Time (ms)')
+    ax2.set_title('All Tasks Average Performance Analysis')
+    ax2.set_xticks(x_avg)TI
+    ax2.set_xticklabels(avg_labels, rotation=45, ha='right')
+    ax2.legend()
+    
+    def autolabel_avg(rects):
+        for rect in rects:
+            height = rect.get_height()
+            ax2.annotate(f'{height:.4f}',
+                        xy=(rect.get_x() + rect.get_width() / 2, height),
+                        xytext=(0, 3),  
+                        textcoords="offset points",
+                        ha='center', va='bottom', fontsize=8)
+    
+    autolabel_avg(rects_global)
+    autolabel_avg(rects_opt)
+    
+    fig2.tight_layout()
+    import os
+    if not os.path.exists('./graphs'):
+        os.makedirs('./graphs')
+    avg_filename = './graphs/All_Tasks_Average_analysis.png'
+    plt.savefig(avg_filename, dpi=300)
+    plt.close()
+    print(f"-> 綜合平均直方圖已儲存至 {avg_filename}")
+
 if __name__ == '__main__':
     main()
 
