@@ -86,9 +86,20 @@ __global__ void matchKernel(const unsigned char* T, int T_r, int T_c,
     }
 }
 
+
+void print_matched_array(const unsigned char* h_T, int T_cols, int target_r, int target_c, int S_r, int S_c) {
+    for (int r = 0; r < S_r; r++) {
+        printf("        [ ");
+        for (int c = 0; c < S_c; c++) {
+            printf("%3d ", h_T[(target_r + r) * T_cols + (target_c + c)]);
+        }
+        printf("]\n");
+    }
+}
+
 int main(int argc, char** argv) {
-    if (argc != 7) {
-        printf("Usage: %s <T_file> <T_rows> <T_cols> <S_file> <S_rows> <S_cols>\n", argv[0]);
+    if (argc < 7 || argc > 9) {
+        printf("Usage: %s <T_file> <T_rows> <T_cols> <S_file> <S_rows> <S_cols> [block_x] [block_y]\n", argv[0]);
         return 1;
     }
 
@@ -98,6 +109,10 @@ int main(int argc, char** argv) {
     const char* s_file = argv[4];
     int s_rows = atoi(argv[5]);
     int s_cols = atoi(argv[6]);
+    
+    int bx = 16, by = 16;
+    if (argc >= 8) bx = atoi(argv[7]);
+    if (argc == 9) by = atoi(argv[8]);
 
     unsigned char* h_T = load_matrix(t_file, t_rows, t_cols);
     unsigned char* h_S = load_matrix(s_file, s_rows, s_cols);
@@ -118,9 +133,6 @@ int main(int argc, char** argv) {
     CHECK_CUDA(cudaMemcpy(d_T, h_T, t_rows * t_cols * sizeof(unsigned char), cudaMemcpyHostToDevice));
     CHECK_CUDA(cudaMemcpy(d_S, h_S, s_rows * s_cols * sizeof(unsigned char), cudaMemcpyHostToDevice));
 
-    int block_sizes[][2] = {{16, 16}, {32, 32}, {32, 16}};
-    int num_configs = sizeof(block_sizes) / sizeof(block_sizes[0]);
-
     float* h_pcc_out = (float*)malloc(out_size * sizeof(float));
     unsigned int* h_ssd_out = (unsigned int*)malloc(out_size * sizeof(unsigned int));
 
@@ -128,51 +140,56 @@ int main(int argc, char** argv) {
     cudaEventCreate(&start);
     cudaEventCreate(&stop);
 
-    for (int i = 0; i < num_configs; i++) {
-        dim3 block(block_sizes[i][0], block_sizes[i][1]);
-        dim3 grid((out_c + block.x - 1) / block.x, (out_r + block.y - 1) / block.y);
+    dim3 block(bx, by);
+    dim3 grid((out_c + block.x - 1) / block.x, (out_r + block.y - 1) / block.y);
 
-        cudaEventRecord(start);
-        matchKernel<<<grid, block>>>(d_T, t_rows, t_cols, d_S, s_rows, s_cols, d_pcc, d_ssd);
-        cudaEventRecord(stop);
-        cudaEventSynchronize(stop);
-        
-        float milliseconds = 0;
-        cudaEventElapsedTime(&milliseconds, start, stop);
-        printf("Block Size: %dx%d, Execution Time: %f ms\n", block.x, block.y, milliseconds);
+    if (block.x * block.y > 1024) {
+        printf("Error: Block size %d x %d = %d exceeds maximum allowed threads per block (1024).\n", block.x, block.y, block.x * block.y);
+        return 1;
     }
+
+    cudaEventRecord(start);
+    matchKernel<<<grid, block>>>(d_T, t_rows, t_cols, d_S, s_rows, s_cols, d_pcc, d_ssd);
+    CHECK_CUDA(cudaGetLastError());
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    
+    float milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    printf("Block Size: %dx%d, Execution Time: %f ms\n", block.x, block.y, milliseconds);
     
     CHECK_CUDA(cudaMemcpy(h_pcc_out, d_pcc, out_size * sizeof(float), cudaMemcpyDeviceToHost));
     CHECK_CUDA(cudaMemcpy(h_ssd_out, d_ssd, out_size * sizeof(unsigned int), cudaMemcpyDeviceToHost));
 
     float max_pcc = -2.0f;
-    unsigned int min_ssd = 0xFFFFFFFF;
 
     for (int r = 0; r < out_r; r++) {
         for (int c = 0; c < out_c; c++) {
             int idx = r * out_c + c;
             if (h_pcc_out[idx] > max_pcc) max_pcc = h_pcc_out[idx];
-            if (h_ssd_out[idx] < min_ssd) min_ssd = h_ssd_out[idx];
         }
     }
     
     printf("PCC Result (Row, Col):\n");
-    for (int r = 0; r < out_r; r++) {
-        for (int c = 0; c < out_c; c++) {
-            int idx = r * out_c + c;
-            if (fabs(h_pcc_out[idx] - max_pcc) < 1e-4) {
-                printf("(%d,%d)\n", r, c);
+    if (max_pcc > -2.0f) {
+        printf("  [Top 1相似] PCC: %7.4f, 位置: ", max_pcc);
+        int first_pos_r = -1;
+        int first_pos_c = -1;
+        for (int r = 0; r < out_r; r++) {
+            for (int c = 0; c < out_c; c++) {
+                int idx = r * out_c + c;
+                if (fabs(h_pcc_out[idx] - max_pcc) < 1e-4) {
+                    if (first_pos_r == -1) {
+                        first_pos_r = r;
+                        first_pos_c = c;
+                    }
+                    printf("(%d,%d) ", r, c);
+                }
             }
         }
-    }
-
-    printf("SSD Result (Row, Col):\n");
-    for (int r = 0; r < out_r; r++) {
-        for (int c = 0; c < out_c; c++) {
-            int idx = r * out_c + c;
-            if (h_ssd_out[idx] == min_ssd) {
-                printf("(%d,%d)\n", r, c);
-            }
+        printf("\n");
+        if (first_pos_r != -1) {
+            print_matched_array(h_T, t_cols, first_pos_r, first_pos_c, s_rows, s_cols);
         }
     }
 

@@ -157,10 +157,7 @@ __global__ void matchKernelOptimized(const unsigned char* T, int T_r, int T_c,
     int block_start_c = blockIdx.x * tile_w;
     int block_start_r = blockIdx.y * tile_h;
 
-    // [改進1] Coalesced memory access:
-    // 將 1D 的 tid 拆解為 tr, tc，並對應到 global_c。
-    // 因相鄰的 thread 擁有連續的 tid，計算出的 tc 也會是連續的，
-    // 這確保了 Warp 中的 threads 讀取 T 時是連續的記憶體位置 (One memory transaction)
+
     for (int i = tid; i < T_area; i += blockDim.x * blockDim.y) {
         int tr = i / T_tile_w;
         int tc = i % T_tile_w;
@@ -179,7 +176,7 @@ __global__ void matchKernelOptimized(const unsigned char* T, int T_r, int T_c,
     int r = block_start_r + threadIdx.y;
 
     if (r < T_r - S_r + 1 && c < T_c - S_c + 1) {
-        // [改進2] 減少重複計算: 將兩次迴圈化簡為單次迴圈，透過數學展開 O(1) 算出變異數與共變異數
+        // [改進] 減少重複計算: 將兩次迴圈化簡為單次迴圈，透過數學展開 O(1) 算出變異數與共變異數
         // sum(x-mean)^2 = sum(x^2) - n*mean^2 
         // 且透過使用 Shared Memory 避免重複到 Global Memory 抓取資料
         float sumX = 0, sumY = 0;
@@ -264,8 +261,8 @@ void run_test_case(TestCase tc) {
     CHECK_CUDA(cudaMemcpy(d_S, h_S, tc.s_rows * tc.s_cols * sizeof(unsigned char), cudaMemcpyHostToDevice));
     CHECK_CUDA(cudaMemcpyToSymbol(c_S, h_S, tc.s_rows * tc.s_cols * sizeof(unsigned char)));
 
-    int test_num = 9;
-    int block_sizes[test_num][2] = {{16, 16}, {8, 128}, {32, 32}, {128, 8},{64, 16}, {16, 64},{4, 256}, {256, 4}, {16, 32}};
+    int test_num = 8;
+    int block_sizes[test_num][2] = {{8,8},{16, 16},{32,32},{64,16},{128, 8},{256, 4},{1,1024},{1024, 1}};
     
     float* h_pcc_out = (float*)malloc(out_size * sizeof(float));
     unsigned int* h_ssd_out = (unsigned int*)malloc(out_size * sizeof(unsigned int));
@@ -305,15 +302,16 @@ void run_test_case(TestCase tc) {
             cudaEventElapsedTime(&ms_optimized, start, stop);
             total_ms_optimized += ms_optimized;
 
-            CHECK_CUDA(cudaMemcpy(h_pcc_out, d_pcc, out_size * sizeof(float), cudaMemcpyDeviceToHost));
-            CHECK_CUDA(cudaMemcpy(h_ssd_out, d_ssd, out_size * sizeof(unsigned int), cudaMemcpyDeviceToHost));
-
             printf("  [Run %d] Global: %8.4f ms | Opt(T_share, S_const): %8.4f ms\n", 
                    r_run, ms_global, ms_optimized);
         }
         printf("平均時間 - Global: %8.4f ms | Opt(T_share, S_const): %8.4f ms\n", 
                total_ms_global / 3.0f, total_ms_optimized / 3.0f);
     }
+
+    // 在所有測資 Block Size 組合跑完後，只 Memcpy 最後一次的結果出來做驗證即可
+    CHECK_CUDA(cudaMemcpy(h_pcc_out, d_pcc, out_size * sizeof(float), cudaMemcpyDeviceToHost));
+    CHECK_CUDA(cudaMemcpy(h_ssd_out, d_ssd, out_size * sizeof(unsigned int), cudaMemcpyDeviceToHost));
 
     // ========== CPU Sequential Version ==========
     printf("---------------------------------------------------------------------------------\n");
