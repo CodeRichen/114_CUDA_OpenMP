@@ -43,44 +43,47 @@ def main():
     data = parse_output('output.txt')
     
     for test_id, test_data in data.items():
-        print(f"\n================ {test_id} {test_data['info']} ================")
+        # print(f"\n================ {test_id} {test_data['info']} ================")
         blocks = test_data['blocks']
         
-        # Sort by optimized time
-        blocks_sorted = blocks
-        print("【依 Opt 執行時間排名】:")
-        for idx, b in enumerate(blocks_sorted, 1):
-            print(f"  {idx:2d}. {b['block']:>9} -> Opt: {b['opt']:8.4f} ms | Global: {b['global']:8.4f} ms")
+        blocks_sorted = sorted(blocks, key=lambda x: x['opt'])
+        
+        # print("【依 Globle 執行時間排名】:")
+        # for idx, b in enumerate(blocks_sorted, 1):
+        #     print(f"  {idx:2d}. {b['block']:>9} -> Opt: {b['opt']:8.4f} ms | Global: {b['global']:8.4f} ms")
             
         # Draw chart for each test case
+        # labels = [b['block'] for b in blocks]
+        # opt_times = [b['opt'] for b in blocks]
+        # global_times = [b['global'] for b in blocks]
         labels = [b['block'] for b in blocks_sorted]
         opt_times = [b['opt'] for b in blocks_sorted]
         global_times = [b['global'] for b in blocks_sorted]
         
         x = np.arange(len(labels))
-        width = 0.35
+        width = 0.5
         
-        fig, ax = plt.subplots(figsize=(10, 6))
-        rects1 = ax.bar(x - width/2, global_times, width, label='Global Memory', color='#1f77b4')
-        rects2 = ax.bar(x + width/2, opt_times, width, label='Opt (Shared+Const)', color='#ff7f0e')
+        fig, ax = plt.subplots(figsize=(6, 6))
+        # rects1 = ax.bar(x - width/2, global_times, width, label='Global Memory', color='#1f77b4')
+        rects2 = ax.bar(x, opt_times, width, label='Time', color='#3399ff')
         
         ax.set_ylabel('Execution Time (ms)')
         ax.set_title(f'{test_id} Performance Analysis\n{test_data["info"]}')
         ax.set_xticks(x)
-        ax.set_xticklabels(labels, rotation=45, ha='right')
+        ax.set_xticklabels(labels, rotation=360)
         ax.legend()
         
         # Add value labels
         def autolabel(rects):
             for rect in rects:
                 height = rect.get_height()
-                ax.annotate(f'{height:.2f}',
+                ax.annotate(f'{height:.4f}',
                             xy=(rect.get_x() + rect.get_width() / 2, height),
                             xytext=(0, 3),  
                             textcoords="offset points",
                             ha='center', va='bottom', fontsize=8)
         
-        autolabel(rects1)
+        # autolabel(rects1)
         autolabel(rects2)
         
         fig.tight_layout()
