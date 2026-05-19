@@ -263,8 +263,8 @@ void run_test_case(TestCase tc) {
     CHECK_CUDA(cudaMemcpy(d_S, h_S, tc.s_rows * tc.s_cols * sizeof(unsigned char), cudaMemcpyHostToDevice));
     CHECK_CUDA(cudaMemcpyToSymbol(c_S, h_S, tc.s_rows * tc.s_cols * sizeof(unsigned char)));
 
-    int test_num = 10;
-    int block_sizes[test_num][2] = {{4,4},{8,4},{8,8},{8,16},{16,8},{32,8},{16, 16},{16,32},{64, 16},{32,32}};
+    int test_num = 11;
+    int block_sizes[test_num][2] = {{4,4},{8,4},{8,8},{8,16},{16,8},{32,8},{16, 16},{16,32},{32, 16},{32,32},{32,64}};
     
     float* h_pcc_out = (float*)malloc(out_size * sizeof(float));
     unsigned int* h_ssd_out = (unsigned int*)malloc(out_size * sizeof(unsigned int));

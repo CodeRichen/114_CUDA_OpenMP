@@ -50,7 +50,10 @@ ffmpeg -y -f rawvideo -vcodec rawvideo -pix_fmt rgb24 -s 896x504 -r 20 -i - \
 作業1
 
 nvcc -O3 "template_matching_final.cu" -o template_matching --compiler-options -Wall
-./template_matching "test data/1/T1_3750_4320.txt" 3750 4320 "test data/1/S1_3_3.txt" 3 3
+./template_matching "test data/1/T1_3750_4320.txt" 3750 4320 "test data/1/S1_3_3.txt" 3 3 32 32
+./template_matching "test data/2/T2_7750_1320.txt" 7750 1320 "test data/2/S2_5_5.txt" 5 5 32 32
+./template_matching "test data/3/T3_8140_9925.txt" 8140 9925 "test data/3/S3_3_3.txt" 3 3 32 32
+./template_matching "test data/4/T4_50_50.txt" 50 50 "test data/4/S4_5_5.txt" 5 5 32 32
 
 cd "/home/A1125515/114/CUDA_sample/test/專題/Template Matching/"
 nvcc -O3 test_all.cu -o test_all
