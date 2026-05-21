@@ -36,6 +36,7 @@ cd /home/A1125515/114/CUDA_sample/test/C3
 FILE=tlforce
 g++ -O3 ${FILE}.cpp -o ${FILE}
 ./${FILE}
+g++ -O3 -std=c++20 tlforce.cpp -o bruteforce_cpp -lcrypto -lpthread
 
 ffmpeg -i media.mp4 -f f32le -acodec pcm_f32le -ac 1 -ar 44100 - | \
 ./cpp_volume | \

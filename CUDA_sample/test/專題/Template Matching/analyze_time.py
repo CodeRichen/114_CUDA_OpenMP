@@ -43,12 +43,12 @@ def main():
     data = parse_output('output.txt')
     
     for test_id, test_data in data.items():
-        # print(f"\n================ {test_id} {test_data['info']} ================")
+        print(f"\n================ {test_id} {test_data['info']} ================")
         blocks = test_data['blocks']
         
         blocks_sorted = sorted(blocks, key=lambda x: x['opt'])
         
-        print("【依 Globle 執行時間排名】:")
+        print("【依執行時間排名】:")
         for idx, b in enumerate(blocks_sorted, 1):
             print(f"  {idx:2d}. {b['block']:>9} -> Opt: {b['opt']:8.4f} ms | Global: {b['global']:8.4f} ms")
             
