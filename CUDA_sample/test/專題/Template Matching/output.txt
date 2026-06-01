@@ -2,75 +2,75 @@
 [測資 1] T:(3750x4320) S:(3x3)
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x 4
-  [Run 1] Global:   3.0126 ms | Opt(T_share, S_const):   2.4508 ms
-  [Run 2] Global:   3.0089 ms | Opt(T_share, S_const):   2.4464 ms
-  [Run 3] Global:   3.0087 ms | Opt(T_share, S_const):   2.4498 ms
-平均時間 - Global:   3.0101 ms | Opt(T_share, S_const):   2.4490 ms
+  [Run 1] Global:   3.0127 ms | Opt(T_share, S_const):   2.4534 ms
+  [Run 2] Global:   3.0100 ms | Opt(T_share, S_const):   2.4493 ms
+  [Run 3] Global:   3.0112 ms | Opt(T_share, S_const):   2.4500 ms
+平均時間 - Global:   3.0113 ms | Opt(T_share, S_const):   2.4509 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x 8
-  [Run 1] Global:   1.9857 ms | Opt(T_share, S_const):   1.5443 ms
-  [Run 2] Global:   1.9856 ms | Opt(T_share, S_const):   1.5442 ms
-  [Run 3] Global:   1.9863 ms | Opt(T_share, S_const):   1.5421 ms
-平均時間 - Global:   1.9859 ms | Opt(T_share, S_const):   1.5435 ms
+  [Run 1] Global:   1.9868 ms | Opt(T_share, S_const):   1.5444 ms
+  [Run 2] Global:   1.9862 ms | Opt(T_share, S_const):   1.5438 ms
+  [Run 3] Global:   1.9867 ms | Opt(T_share, S_const):   1.5456 ms
+平均時間 - Global:   1.9865 ms | Opt(T_share, S_const):   1.5446 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x16
-  [Run 1] Global:   1.9661 ms | Opt(T_share, S_const):   1.5613 ms
-  [Run 2] Global:   1.9661 ms | Opt(T_share, S_const):   1.5625 ms
-  [Run 3] Global:   1.9668 ms | Opt(T_share, S_const):   1.5620 ms
-平均時間 - Global:   1.9663 ms | Opt(T_share, S_const):   1.5619 ms
+  [Run 1] Global:   1.9684 ms | Opt(T_share, S_const):   1.5640 ms
+  [Run 2] Global:   1.9681 ms | Opt(T_share, S_const):   1.5606 ms
+  [Run 3] Global:   1.9681 ms | Opt(T_share, S_const):   1.5608 ms
+平均時間 - Global:   1.9682 ms | Opt(T_share, S_const):   1.5618 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x 8
-  [Run 1] Global:   1.7967 ms | Opt(T_share, S_const):   1.5068 ms
-  [Run 2] Global:   1.7977 ms | Opt(T_share, S_const):   1.5059 ms
-  [Run 3] Global:   1.7971 ms | Opt(T_share, S_const):   1.5057 ms
-平均時間 - Global:   1.7972 ms | Opt(T_share, S_const):   1.5061 ms
+  [Run 1] Global:   1.7996 ms | Opt(T_share, S_const):   1.5075 ms
+  [Run 2] Global:   1.7993 ms | Opt(T_share, S_const):   1.5083 ms
+  [Run 3] Global:   1.7986 ms | Opt(T_share, S_const):   1.5075 ms
+平均時間 - Global:   1.7991 ms | Opt(T_share, S_const):   1.5078 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x 8
-  [Run 1] Global:   1.9306 ms | Opt(T_share, S_const):   1.5414 ms
-  [Run 2] Global:   1.9292 ms | Opt(T_share, S_const):   1.5416 ms
-  [Run 3] Global:   1.9298 ms | Opt(T_share, S_const):   1.5420 ms
-平均時間 - Global:   1.9299 ms | Opt(T_share, S_const):   1.5417 ms
+  [Run 1] Global:   1.9327 ms | Opt(T_share, S_const):   1.5424 ms
+  [Run 2] Global:   1.9314 ms | Opt(T_share, S_const):   1.5434 ms
+  [Run 3] Global:   1.9308 ms | Opt(T_share, S_const):   1.5418 ms
+平均時間 - Global:   1.9316 ms | Opt(T_share, S_const):   1.5425 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x16
-  [Run 1] Global:   1.8511 ms | Opt(T_share, S_const):   1.5679 ms
-  [Run 2] Global:   1.8507 ms | Opt(T_share, S_const):   1.5686 ms
-  [Run 3] Global:   1.8512 ms | Opt(T_share, S_const):   1.5683 ms
-平均時間 - Global:   1.8510 ms | Opt(T_share, S_const):   1.5683 ms
+  [Run 1] Global:   1.8534 ms | Opt(T_share, S_const):   1.5688 ms
+  [Run 2] Global:   1.8524 ms | Opt(T_share, S_const):   1.5688 ms
+  [Run 3] Global:   1.8518 ms | Opt(T_share, S_const):   1.5683 ms
+平均時間 - Global:   1.8526 ms | Opt(T_share, S_const):   1.5686 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x32
-  [Run 1] Global:   1.8923 ms | Opt(T_share, S_const):   1.7453 ms
-  [Run 2] Global:   1.8924 ms | Opt(T_share, S_const):   1.7452 ms
-  [Run 3] Global:   1.8924 ms | Opt(T_share, S_const):   1.7480 ms
-平均時間 - Global:   1.8923 ms | Opt(T_share, S_const):   1.7462 ms
+  [Run 1] Global:   1.8944 ms | Opt(T_share, S_const):   1.7493 ms
+  [Run 2] Global:   1.8944 ms | Opt(T_share, S_const):   1.7491 ms
+  [Run 3] Global:   1.8950 ms | Opt(T_share, S_const):   1.7487 ms
+平均時間 - Global:   1.8946 ms | Opt(T_share, S_const):   1.7491 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x16
-  [Run 1] Global:   1.9825 ms | Opt(T_share, S_const):   1.7022 ms
-  [Run 2] Global:   1.9851 ms | Opt(T_share, S_const):   1.7021 ms
-  [Run 3] Global:   1.9845 ms | Opt(T_share, S_const):   1.7004 ms
-平均時間 - Global:   1.9840 ms | Opt(T_share, S_const):   1.7016 ms
+  [Run 1] Global:   1.9846 ms | Opt(T_share, S_const):   1.7004 ms
+  [Run 2] Global:   1.9863 ms | Opt(T_share, S_const):   1.7019 ms
+  [Run 3] Global:   1.9867 ms | Opt(T_share, S_const):   1.7006 ms
+平均時間 - Global:   1.9859 ms | Opt(T_share, S_const):   1.7010 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x32
-  [Run 1] Global:   2.2001 ms | Opt(T_share, S_const):   1.9316 ms
-  [Run 2] Global:   2.1996 ms | Opt(T_share, S_const):   1.9294 ms
-  [Run 3] Global:   2.1995 ms | Opt(T_share, S_const):   1.9313 ms
-平均時間 - Global:   2.1997 ms | Opt(T_share, S_const):   1.9308 ms
+  [Run 1] Global:   2.2005 ms | Opt(T_share, S_const):   1.9322 ms
+  [Run 2] Global:   2.2016 ms | Opt(T_share, S_const):   1.9309 ms
+  [Run 3] Global:   2.1998 ms | Opt(T_share, S_const):   1.9313 ms
+平均時間 - Global:   2.2006 ms | Opt(T_share, S_const):   1.9315 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x64
   [SKIP] Block Size 32x64 (2048 threads) 超過 1024 限制，略過測試
 ---------------------------------------------------------------------------------
 ▶ CPU Version (OpenMP Parallelization)
-  CPU Time (Threads:  1): 532.0367 ms
-  CPU Time (Threads:  2): 270.7657 ms
-  CPU Time (Threads:  3): 173.9282 ms
-  CPU Time (Threads:  4): 133.9092 ms
-  CPU Time (Threads:  5): 106.3422 ms
-  CPU Time (Threads:  6):  88.5577 ms
-  CPU Time (Threads:  7): 132.5487 ms
-  CPU Time (Threads:  8): 119.4023 ms
-  CPU Time (Threads:  9): 108.2630 ms
-  CPU Time (Threads: 10):  98.5319 ms
-  CPU Time (Threads: 11):  89.8932 ms
-  CPU Time (Threads: 12):  82.3937 ms
+  CPU Time (Threads:  1): 1242.4178 ms
+  CPU Time (Threads:  2): 616.0299 ms
+  CPU Time (Threads:  3): 412.3175 ms
+  CPU Time (Threads:  4): 315.0831 ms
+  CPU Time (Threads:  5): 252.8583 ms
+  CPU Time (Threads:  6): 211.1213 ms
+  CPU Time (Threads:  7): 259.1220 ms
+  CPU Time (Threads:  8): 230.8518 ms
+  CPU Time (Threads:  9): 217.7275 ms
+  CPU Time (Threads: 10): 196.4927 ms
+  CPU Time (Threads: 11): 179.7194 ms
+  CPU Time (Threads: 12): 178.5896 ms
   [CPU Top 1相似] PCC:  1.0000, 位置: (581,1280) 
         [   4   1   3 ]
         [   9   8   7 ]
@@ -85,75 +85,75 @@
 [測資 2] T:(7750x1320) S:(5x5)
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x 4
-  [Run 1] Global:   3.4796 ms | Opt(T_share, S_const):   1.9371 ms
-  [Run 2] Global:   3.4791 ms | Opt(T_share, S_const):   1.9373 ms
-  [Run 3] Global:   3.4794 ms | Opt(T_share, S_const):   1.9374 ms
-平均時間 - Global:   3.4794 ms | Opt(T_share, S_const):   1.9372 ms
+  [Run 1] Global:   3.4796 ms | Opt(T_share, S_const):   1.9364 ms
+  [Run 2] Global:   3.4797 ms | Opt(T_share, S_const):   1.9374 ms
+  [Run 3] Global:   3.4798 ms | Opt(T_share, S_const):   1.9385 ms
+平均時間 - Global:   3.4797 ms | Opt(T_share, S_const):   1.9374 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x 8
-  [Run 1] Global:   3.0632 ms | Opt(T_share, S_const):   1.3209 ms
-  [Run 2] Global:   3.0630 ms | Opt(T_share, S_const):   1.3207 ms
-  [Run 3] Global:   3.0625 ms | Opt(T_share, S_const):   1.3209 ms
-平均時間 - Global:   3.0629 ms | Opt(T_share, S_const):   1.3208 ms
+  [Run 1] Global:   3.0634 ms | Opt(T_share, S_const):   1.3209 ms
+  [Run 2] Global:   3.0636 ms | Opt(T_share, S_const):   1.3204 ms
+  [Run 3] Global:   3.0636 ms | Opt(T_share, S_const):   1.3203 ms
+平均時間 - Global:   3.0635 ms | Opt(T_share, S_const):   1.3205 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x16
-  [Run 1] Global:   3.0375 ms | Opt(T_share, S_const):   1.2626 ms
-  [Run 2] Global:   3.0384 ms | Opt(T_share, S_const):   1.2629 ms
-  [Run 3] Global:   3.0389 ms | Opt(T_share, S_const):   1.2620 ms
-平均時間 - Global:   3.0383 ms | Opt(T_share, S_const):   1.2625 ms
+  [Run 1] Global:   3.0385 ms | Opt(T_share, S_const):   1.2634 ms
+  [Run 2] Global:   3.0381 ms | Opt(T_share, S_const):   1.2625 ms
+  [Run 3] Global:   3.0381 ms | Opt(T_share, S_const):   1.2631 ms
+平均時間 - Global:   3.0383 ms | Opt(T_share, S_const):   1.2630 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x 8
-  [Run 1] Global:   2.3877 ms | Opt(T_share, S_const):   1.2648 ms
-  [Run 2] Global:   2.3878 ms | Opt(T_share, S_const):   1.2641 ms
-  [Run 3] Global:   2.3877 ms | Opt(T_share, S_const):   1.2636 ms
-平均時間 - Global:   2.3877 ms | Opt(T_share, S_const):   1.2642 ms
+  [Run 1] Global:   2.3868 ms | Opt(T_share, S_const):   1.2637 ms
+  [Run 2] Global:   2.3878 ms | Opt(T_share, S_const):   1.2637 ms
+  [Run 3] Global:   2.3877 ms | Opt(T_share, S_const):   1.2638 ms
+平均時間 - Global:   2.3874 ms | Opt(T_share, S_const):   1.2637 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x 8
-  [Run 1] Global:   2.4330 ms | Opt(T_share, S_const):   1.3306 ms
-  [Run 2] Global:   2.4329 ms | Opt(T_share, S_const):   1.3305 ms
-  [Run 3] Global:   2.4330 ms | Opt(T_share, S_const):   1.3292 ms
-平均時間 - Global:   2.4330 ms | Opt(T_share, S_const):   1.3301 ms
+  [Run 1] Global:   2.4342 ms | Opt(T_share, S_const):   1.3299 ms
+  [Run 2] Global:   2.4330 ms | Opt(T_share, S_const):   1.3308 ms
+  [Run 3] Global:   2.4331 ms | Opt(T_share, S_const):   1.3306 ms
+平均時間 - Global:   2.4335 ms | Opt(T_share, S_const):   1.3304 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x16
-  [Run 1] Global:   2.4284 ms | Opt(T_share, S_const):   1.3171 ms
-  [Run 2] Global:   2.4285 ms | Opt(T_share, S_const):   1.3189 ms
-  [Run 3] Global:   2.4283 ms | Opt(T_share, S_const):   1.3165 ms
-平均時間 - Global:   2.4284 ms | Opt(T_share, S_const):   1.3175 ms
+  [Run 1] Global:   2.4278 ms | Opt(T_share, S_const):   1.3167 ms
+  [Run 2] Global:   2.4279 ms | Opt(T_share, S_const):   1.3169 ms
+  [Run 3] Global:   2.4284 ms | Opt(T_share, S_const):   1.3168 ms
+平均時間 - Global:   2.4280 ms | Opt(T_share, S_const):   1.3168 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x32
-  [Run 1] Global:   2.5485 ms | Opt(T_share, S_const):   1.4467 ms
-  [Run 2] Global:   2.5486 ms | Opt(T_share, S_const):   1.4472 ms
-  [Run 3] Global:   2.5498 ms | Opt(T_share, S_const):   1.4476 ms
-平均時間 - Global:   2.5490 ms | Opt(T_share, S_const):   1.4472 ms
+  [Run 1] Global:   2.5493 ms | Opt(T_share, S_const):   1.4475 ms
+  [Run 2] Global:   2.5492 ms | Opt(T_share, S_const):   1.4496 ms
+  [Run 3] Global:   2.5492 ms | Opt(T_share, S_const):   1.4471 ms
+平均時間 - Global:   2.5492 ms | Opt(T_share, S_const):   1.4481 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x16
-  [Run 1] Global:   2.5656 ms | Opt(T_share, S_const):   1.4540 ms
-  [Run 2] Global:   2.5656 ms | Opt(T_share, S_const):   1.4543 ms
-  [Run 3] Global:   2.5649 ms | Opt(T_share, S_const):   1.4526 ms
-平均時間 - Global:   2.5654 ms | Opt(T_share, S_const):   1.4536 ms
+  [Run 1] Global:   2.5645 ms | Opt(T_share, S_const):   1.4520 ms
+  [Run 2] Global:   2.5645 ms | Opt(T_share, S_const):   1.4542 ms
+  [Run 3] Global:   2.5655 ms | Opt(T_share, S_const):   1.4549 ms
+平均時間 - Global:   2.5648 ms | Opt(T_share, S_const):   1.4537 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x32
-  [Run 1] Global:   2.7910 ms | Opt(T_share, S_const):   1.7103 ms
-  [Run 2] Global:   2.7906 ms | Opt(T_share, S_const):   1.7127 ms
-  [Run 3] Global:   2.7916 ms | Opt(T_share, S_const):   1.7121 ms
-平均時間 - Global:   2.7910 ms | Opt(T_share, S_const):   1.7117 ms
+  [Run 1] Global:   2.7914 ms | Opt(T_share, S_const):   1.7122 ms
+  [Run 2] Global:   2.7912 ms | Opt(T_share, S_const):   1.7121 ms
+  [Run 3] Global:   2.7914 ms | Opt(T_share, S_const):   1.7118 ms
+平均時間 - Global:   2.7913 ms | Opt(T_share, S_const):   1.7120 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x64
   [SKIP] Block Size 32x64 (2048 threads) 超過 1024 限制，略過測試
 ---------------------------------------------------------------------------------
 ▶ CPU Version (OpenMP Parallelization)
-  CPU Time (Threads:  1): 772.4857 ms
-  CPU Time (Threads:  2): 389.3709 ms
-  CPU Time (Threads:  3): 265.9715 ms
-  CPU Time (Threads:  4): 198.5376 ms
-  CPU Time (Threads:  5): 161.7109 ms
-  CPU Time (Threads:  6): 134.7846 ms
-  CPU Time (Threads:  7): 190.3618 ms
-  CPU Time (Threads:  8): 173.7148 ms
-  CPU Time (Threads:  9): 163.5773 ms
-  CPU Time (Threads: 10): 151.2652 ms
-  CPU Time (Threads: 11): 137.7255 ms
-  CPU Time (Threads: 12): 127.2478 ms
+  CPU Time (Threads:  1): 1331.7393 ms
+  CPU Time (Threads:  2): 682.3341 ms
+  CPU Time (Threads:  3): 446.8022 ms
+  CPU Time (Threads:  4): 343.2158 ms
+  CPU Time (Threads:  5): 273.6902 ms
+  CPU Time (Threads:  6): 228.6326 ms
+  CPU Time (Threads:  7): 284.0284 ms
+  CPU Time (Threads:  8): 252.1771 ms
+  CPU Time (Threads:  9): 234.0070 ms
+  CPU Time (Threads: 10): 218.7241 ms
+  CPU Time (Threads: 11): 198.8252 ms
+  CPU Time (Threads: 12): 184.3484 ms
   [CPU Top 1相似] PCC:  1.0000, 位置: (7691,688) 
         [   2   3   7   0   8 ]
         [   2   7   1   8   7 ]
@@ -172,75 +172,75 @@
 [測資 3] T:(8140x9925) S:(3x3)
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x 4
-  [Run 1] Global:  14.6223 ms | Opt(T_share, S_const):  11.8927 ms
-  [Run 2] Global:  14.6224 ms | Opt(T_share, S_const):  11.9004 ms
-  [Run 3] Global:  14.6225 ms | Opt(T_share, S_const):  11.8887 ms
-平均時間 - Global:  14.6224 ms | Opt(T_share, S_const):  11.8939 ms
+  [Run 1] Global:  14.6285 ms | Opt(T_share, S_const):  11.8876 ms
+  [Run 2] Global:  14.6268 ms | Opt(T_share, S_const):  11.8948 ms
+  [Run 3] Global:  14.6245 ms | Opt(T_share, S_const):  11.8903 ms
+平均時間 - Global:  14.6266 ms | Opt(T_share, S_const):  11.8909 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x 8
-  [Run 1] Global:   9.5151 ms | Opt(T_share, S_const):   7.4202 ms
-  [Run 2] Global:   9.5125 ms | Opt(T_share, S_const):   7.4281 ms
-  [Run 3] Global:   9.5151 ms | Opt(T_share, S_const):   7.4301 ms
-平均時間 - Global:   9.5142 ms | Opt(T_share, S_const):   7.4261 ms
+  [Run 1] Global:   9.5147 ms | Opt(T_share, S_const):   7.4241 ms
+  [Run 2] Global:   9.5148 ms | Opt(T_share, S_const):   7.4266 ms
+  [Run 3] Global:   9.5164 ms | Opt(T_share, S_const):   7.4231 ms
+平均時間 - Global:   9.5153 ms | Opt(T_share, S_const):   7.4246 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x16
-  [Run 1] Global:   9.4199 ms | Opt(T_share, S_const):   7.4940 ms
-  [Run 2] Global:   9.4194 ms | Opt(T_share, S_const):   7.4945 ms
-  [Run 3] Global:   9.4202 ms | Opt(T_share, S_const):   7.4932 ms
-平均時間 - Global:   9.4198 ms | Opt(T_share, S_const):   7.4939 ms
+  [Run 1] Global:   9.4208 ms | Opt(T_share, S_const):   7.4960 ms
+  [Run 2] Global:   9.4209 ms | Opt(T_share, S_const):   7.4954 ms
+  [Run 3] Global:   9.4210 ms | Opt(T_share, S_const):   7.4955 ms
+平均時間 - Global:   9.4209 ms | Opt(T_share, S_const):   7.4956 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x 8
-  [Run 1] Global:   8.4376 ms | Opt(T_share, S_const):   7.2636 ms
-  [Run 2] Global:   8.4386 ms | Opt(T_share, S_const):   7.2637 ms
-  [Run 3] Global:   8.4382 ms | Opt(T_share, S_const):   7.2637 ms
-平均時間 - Global:   8.4381 ms | Opt(T_share, S_const):   7.2636 ms
+  [Run 1] Global:   8.4381 ms | Opt(T_share, S_const):   7.2662 ms
+  [Run 2] Global:   8.4395 ms | Opt(T_share, S_const):   7.2623 ms
+  [Run 3] Global:   8.4403 ms | Opt(T_share, S_const):   7.2643 ms
+平均時間 - Global:   8.4393 ms | Opt(T_share, S_const):   7.2642 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x 8
-  [Run 1] Global:   8.5579 ms | Opt(T_share, S_const):   7.4286 ms
-  [Run 2] Global:   8.5586 ms | Opt(T_share, S_const):   7.4284 ms
-  [Run 3] Global:   8.5580 ms | Opt(T_share, S_const):   7.4301 ms
-平均時間 - Global:   8.5581 ms | Opt(T_share, S_const):   7.4290 ms
+  [Run 1] Global:   8.5574 ms | Opt(T_share, S_const):   7.4302 ms
+  [Run 2] Global:   8.5584 ms | Opt(T_share, S_const):   7.4317 ms
+  [Run 3] Global:   8.5590 ms | Opt(T_share, S_const):   7.4284 ms
+平均時間 - Global:   8.5583 ms | Opt(T_share, S_const):   7.4301 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x16
-  [Run 1] Global:   8.6505 ms | Opt(T_share, S_const):   7.5530 ms
-  [Run 2] Global:   8.6487 ms | Opt(T_share, S_const):   7.5527 ms
-  [Run 3] Global:   8.6487 ms | Opt(T_share, S_const):   7.5512 ms
-平均時間 - Global:   8.6493 ms | Opt(T_share, S_const):   7.5523 ms
+  [Run 1] Global:   8.6487 ms | Opt(T_share, S_const):   7.5525 ms
+  [Run 2] Global:   8.6508 ms | Opt(T_share, S_const):   7.5522 ms
+  [Run 3] Global:   8.6518 ms | Opt(T_share, S_const):   7.5552 ms
+平均時間 - Global:   8.6504 ms | Opt(T_share, S_const):   7.5533 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x32
-  [Run 1] Global:   8.8649 ms | Opt(T_share, S_const):   8.4272 ms
-  [Run 2] Global:   8.8625 ms | Opt(T_share, S_const):   8.4288 ms
-  [Run 3] Global:   8.8658 ms | Opt(T_share, S_const):   8.4296 ms
-平均時間 - Global:   8.8644 ms | Opt(T_share, S_const):   8.4285 ms
+  [Run 1] Global:   8.8680 ms | Opt(T_share, S_const):   8.4300 ms
+  [Run 2] Global:   8.8639 ms | Opt(T_share, S_const):   8.4337 ms
+  [Run 3] Global:   8.8637 ms | Opt(T_share, S_const):   8.4279 ms
+平均時間 - Global:   8.8652 ms | Opt(T_share, S_const):   8.4305 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x16
-  [Run 1] Global:   8.7648 ms | Opt(T_share, S_const):   8.2330 ms
-  [Run 2] Global:   8.7622 ms | Opt(T_share, S_const):   8.2330 ms
-  [Run 3] Global:   8.7637 ms | Opt(T_share, S_const):   8.2308 ms
-平均時間 - Global:   8.7636 ms | Opt(T_share, S_const):   8.2323 ms
+  [Run 1] Global:   8.7656 ms | Opt(T_share, S_const):   8.2346 ms
+  [Run 2] Global:   8.7651 ms | Opt(T_share, S_const):   8.2337 ms
+  [Run 3] Global:   8.7686 ms | Opt(T_share, S_const):   8.2364 ms
+平均時間 - Global:   8.7664 ms | Opt(T_share, S_const):   8.2349 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x32
-  [Run 1] Global:  10.4591 ms | Opt(T_share, S_const):   9.2553 ms
-  [Run 2] Global:  10.4591 ms | Opt(T_share, S_const):   9.2549 ms
-  [Run 3] Global:  10.4504 ms | Opt(T_share, S_const):   9.2588 ms
-平均時間 - Global:  10.4562 ms | Opt(T_share, S_const):   9.2563 ms
+  [Run 1] Global:  10.4646 ms | Opt(T_share, S_const):   9.2611 ms
+  [Run 2] Global:  10.4660 ms | Opt(T_share, S_const):   9.2608 ms
+  [Run 3] Global:  10.4485 ms | Opt(T_share, S_const):   9.2652 ms
+平均時間 - Global:  10.4597 ms | Opt(T_share, S_const):   9.2623 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x64
   [SKIP] Block Size 32x64 (2048 threads) 超過 1024 限制，略過測試
 ---------------------------------------------------------------------------------
 ▶ CPU Version (OpenMP Parallelization)
-  CPU Time (Threads:  1): 2662.4883 ms
-  CPU Time (Threads:  2): 1278.2643 ms
-  CPU Time (Threads:  3): 864.8673 ms
-  CPU Time (Threads:  4): 646.9448 ms
-  CPU Time (Threads:  5): 529.7299 ms
-  CPU Time (Threads:  6): 441.1540 ms
-  CPU Time (Threads:  7): 571.0793 ms
-  CPU Time (Threads:  8): 507.6958 ms
-  CPU Time (Threads:  9): 455.6444 ms
-  CPU Time (Threads: 10): 476.2094 ms
-  CPU Time (Threads: 11): 447.8960 ms
-  CPU Time (Threads: 12): 411.2035 ms
+  CPU Time (Threads:  1): 6086.6865 ms
+  CPU Time (Threads:  2): 3082.4397 ms
+  CPU Time (Threads:  3): 2061.8833 ms
+  CPU Time (Threads:  4): 1583.0135 ms
+  CPU Time (Threads:  5): 1275.5122 ms
+  CPU Time (Threads:  6): 1051.5409 ms
+  CPU Time (Threads:  7): 1226.4946 ms
+  CPU Time (Threads:  8): 1080.9619 ms
+  CPU Time (Threads:  9): 975.9078 ms
+  CPU Time (Threads: 10): 963.1431 ms
+  CPU Time (Threads: 11): 893.5088 ms
+  CPU Time (Threads: 12): 823.0543 ms
   [CPU Top 1相似] PCC:  1.0000, 位置: (2800,6) (4653,4239) 
         [   0   7   0 ]
         [   0   9   0 ]
@@ -255,75 +255,75 @@
 [測資 4] T:(50x50) S:(5x5)
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x 4
-  [Run 1] Global:   0.0109 ms | Opt(T_share, S_const):   0.0059 ms
-  [Run 2] Global:   0.0105 ms | Opt(T_share, S_const):   0.0059 ms
-  [Run 3] Global:   0.0065 ms | Opt(T_share, S_const):   0.0059 ms
-平均時間 - Global:   0.0093 ms | Opt(T_share, S_const):   0.0059 ms
+  [Run 1] Global:   0.0120 ms | Opt(T_share, S_const):   0.0056 ms
+  [Run 2] Global:   0.0072 ms | Opt(T_share, S_const):   0.0056 ms
+  [Run 3] Global:   0.0079 ms | Opt(T_share, S_const):   0.0058 ms
+平均時間 - Global:   0.0090 ms | Opt(T_share, S_const):   0.0057 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x 8
-  [Run 1] Global:   0.0065 ms | Opt(T_share, S_const):   0.0053 ms
-  [Run 2] Global:   0.0061 ms | Opt(T_share, S_const):   0.0046 ms
-  [Run 3] Global:   0.0062 ms | Opt(T_share, S_const):   0.0047 ms
-平均時間 - Global:   0.0063 ms | Opt(T_share, S_const):   0.0049 ms
+  [Run 1] Global:   0.0072 ms | Opt(T_share, S_const):   0.0049 ms
+  [Run 2] Global:   0.0061 ms | Opt(T_share, S_const):   0.0048 ms
+  [Run 3] Global:   0.0061 ms | Opt(T_share, S_const):   0.0048 ms
+平均時間 - Global:   0.0065 ms | Opt(T_share, S_const):   0.0048 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x16
-  [Run 1] Global:   0.0064 ms | Opt(T_share, S_const):   0.0042 ms
-  [Run 2] Global:   0.0061 ms | Opt(T_share, S_const):   0.0061 ms
-  [Run 3] Global:   0.0063 ms | Opt(T_share, S_const):   0.0052 ms
-平均時間 - Global:   0.0063 ms | Opt(T_share, S_const):   0.0052 ms
+  [Run 1] Global:   0.0061 ms | Opt(T_share, S_const):   0.0044 ms
+  [Run 2] Global:   0.0063 ms | Opt(T_share, S_const):   0.0045 ms
+  [Run 3] Global:   0.0063 ms | Opt(T_share, S_const):   0.0050 ms
+平均時間 - Global:   0.0063 ms | Opt(T_share, S_const):   0.0046 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x 8
-  [Run 1] Global:   0.0074 ms | Opt(T_share, S_const):   0.0053 ms
-  [Run 2] Global:   0.0071 ms | Opt(T_share, S_const):   0.0053 ms
-  [Run 3] Global:   0.0061 ms | Opt(T_share, S_const):   0.0048 ms
-平均時間 - Global:   0.0069 ms | Opt(T_share, S_const):   0.0051 ms
+  [Run 1] Global:   0.0064 ms | Opt(T_share, S_const):   0.0051 ms
+  [Run 2] Global:   0.0061 ms | Opt(T_share, S_const):   0.0045 ms
+  [Run 3] Global:   0.0064 ms | Opt(T_share, S_const):   0.0058 ms
+平均時間 - Global:   0.0063 ms | Opt(T_share, S_const):   0.0051 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x 8
-  [Run 1] Global:   0.0072 ms | Opt(T_share, S_const):   0.0047 ms
-  [Run 2] Global:   0.0076 ms | Opt(T_share, S_const):   0.0058 ms
-  [Run 3] Global:   0.0065 ms | Opt(T_share, S_const):   0.0046 ms
-平均時間 - Global:   0.0071 ms | Opt(T_share, S_const):   0.0050 ms
+  [Run 1] Global:   0.0067 ms | Opt(T_share, S_const):   0.0049 ms
+  [Run 2] Global:   0.0064 ms | Opt(T_share, S_const):   0.0054 ms
+  [Run 3] Global:   0.0075 ms | Opt(T_share, S_const):   0.0051 ms
+平均時間 - Global:   0.0068 ms | Opt(T_share, S_const):   0.0051 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x16
-  [Run 1] Global:   0.0182 ms | Opt(T_share, S_const):   0.0050 ms
-  [Run 2] Global:   0.0062 ms | Opt(T_share, S_const):   0.0060 ms
-  [Run 3] Global:   0.0074 ms | Opt(T_share, S_const):   0.0048 ms
-平均時間 - Global:   0.0106 ms | Opt(T_share, S_const):   0.0053 ms
+  [Run 1] Global:   0.0074 ms | Opt(T_share, S_const):   0.0060 ms
+  [Run 2] Global:   0.0068 ms | Opt(T_share, S_const):   0.0051 ms
+  [Run 3] Global:   0.0062 ms | Opt(T_share, S_const):   0.0057 ms
+平均時間 - Global:   0.0068 ms | Opt(T_share, S_const):   0.0056 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x32
-  [Run 1] Global:   0.0192 ms | Opt(T_share, S_const):   0.0061 ms
-  [Run 2] Global:   0.0184 ms | Opt(T_share, S_const):   0.0061 ms
-  [Run 3] Global:   0.0078 ms | Opt(T_share, S_const):   0.0061 ms
-平均時間 - Global:   0.0151 ms | Opt(T_share, S_const):   0.0061 ms
+  [Run 1] Global:   0.0164 ms | Opt(T_share, S_const):   0.0061 ms
+  [Run 2] Global:   0.0082 ms | Opt(T_share, S_const):   0.0139 ms
+  [Run 3] Global:   0.0080 ms | Opt(T_share, S_const):   0.0061 ms
+平均時間 - Global:   0.0108 ms | Opt(T_share, S_const):   0.0087 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x16
-  [Run 1] Global:   0.0083 ms | Opt(T_share, S_const):   0.0060 ms
-  [Run 2] Global:   0.0082 ms | Opt(T_share, S_const):   0.0059 ms
-  [Run 3] Global:   0.0082 ms | Opt(T_share, S_const):   0.0051 ms
-平均時間 - Global:   0.0082 ms | Opt(T_share, S_const):   0.0057 ms
+  [Run 1] Global:   0.0082 ms | Opt(T_share, S_const):   0.0050 ms
+  [Run 2] Global:   0.0082 ms | Opt(T_share, S_const):   0.0060 ms
+  [Run 3] Global:   0.0082 ms | Opt(T_share, S_const):   0.0063 ms
+平均時間 - Global:   0.0082 ms | Opt(T_share, S_const):   0.0058 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x32
-  [Run 1] Global:   0.0116 ms | Opt(T_share, S_const):   0.0077 ms
-  [Run 2] Global:   0.0107 ms | Opt(T_share, S_const):   0.0079 ms
-  [Run 3] Global:   0.0108 ms | Opt(T_share, S_const):   0.0080 ms
-平均時間 - Global:   0.0111 ms | Opt(T_share, S_const):   0.0079 ms
+  [Run 1] Global:   0.0109 ms | Opt(T_share, S_const):   0.0082 ms
+  [Run 2] Global:   0.0106 ms | Opt(T_share, S_const):   0.0082 ms
+  [Run 3] Global:   0.0107 ms | Opt(T_share, S_const):   0.0068 ms
+平均時間 - Global:   0.0107 ms | Opt(T_share, S_const):   0.0077 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x64
   [SKIP] Block Size 32x64 (2048 threads) 超過 1024 限制，略過測試
 ---------------------------------------------------------------------------------
 ▶ CPU Version (OpenMP Parallelization)
-  CPU Time (Threads:  1):   0.1619 ms
-  CPU Time (Threads:  2):   0.2135 ms
-  CPU Time (Threads:  3):   0.3133 ms
-  CPU Time (Threads:  4):   0.0579 ms
-  CPU Time (Threads:  5):   0.0484 ms
-  CPU Time (Threads:  6):   0.0755 ms
-  CPU Time (Threads:  7):   0.0806 ms
-  CPU Time (Threads:  8):   0.0780 ms
-  CPU Time (Threads:  9):   0.0683 ms
-  CPU Time (Threads: 10):   0.0622 ms
-  CPU Time (Threads: 11):   0.0646 ms
-  CPU Time (Threads: 12):   0.0600 ms
+  CPU Time (Threads:  1):   0.2657 ms
+  CPU Time (Threads:  2):   0.4035 ms
+  CPU Time (Threads:  3):   0.3174 ms
+  CPU Time (Threads:  4):   0.1498 ms
+  CPU Time (Threads:  5):   0.1307 ms
+  CPU Time (Threads:  6):   0.1140 ms
+  CPU Time (Threads:  7):   0.1240 ms
+  CPU Time (Threads:  8):   0.0901 ms
+  CPU Time (Threads:  9):   0.0844 ms
+  CPU Time (Threads: 10):   0.0754 ms
+  CPU Time (Threads: 11):   0.0708 ms
+  CPU Time (Threads: 12):   0.0660 ms
   [CPU Top 1相似] PCC:  1.0000, 位置: (18,17) 
         [   9   9   4   5   7 ]
         [   6   8   4   2   2 ]
@@ -342,75 +342,75 @@
 [測資 5] T:(5000x5000) S:(5x5)
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x 4
-  [Run 1] Global:   8.7189 ms | Opt(T_share, S_const):   4.7491 ms
-  [Run 2] Global:   8.7187 ms | Opt(T_share, S_const):   4.7542 ms
-  [Run 3] Global:   8.7199 ms | Opt(T_share, S_const):   4.7494 ms
-平均時間 - Global:   8.7192 ms | Opt(T_share, S_const):   4.7509 ms
+  [Run 1] Global:   8.8569 ms | Opt(T_share, S_const):   4.7976 ms
+  [Run 2] Global:   8.8531 ms | Opt(T_share, S_const):   4.8026 ms
+  [Run 3] Global:   8.8578 ms | Opt(T_share, S_const):   4.8085 ms
+平均時間 - Global:   8.8559 ms | Opt(T_share, S_const):   4.8029 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x 8
-  [Run 1] Global:   7.9230 ms | Opt(T_share, S_const):   3.2296 ms
-  [Run 2] Global:   7.9209 ms | Opt(T_share, S_const):   3.2283 ms
-  [Run 3] Global:   7.9179 ms | Opt(T_share, S_const):   3.2287 ms
-平均時間 - Global:   7.9206 ms | Opt(T_share, S_const):   3.2289 ms
+  [Run 1] Global:   8.0671 ms | Opt(T_share, S_const):   3.2911 ms
+  [Run 2] Global:   8.0643 ms | Opt(T_share, S_const):   3.2912 ms
+  [Run 3] Global:   8.0641 ms | Opt(T_share, S_const):   3.2910 ms
+平均時間 - Global:   8.0652 ms | Opt(T_share, S_const):   3.2911 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size:  8x16
-  [Run 1] Global:   7.8361 ms | Opt(T_share, S_const):   3.0820 ms
-  [Run 2] Global:   7.8371 ms | Opt(T_share, S_const):   3.0820 ms
-  [Run 3] Global:   7.8359 ms | Opt(T_share, S_const):   3.0819 ms
-平均時間 - Global:   7.8363 ms | Opt(T_share, S_const):   3.0820 ms
+  [Run 1] Global:   7.9833 ms | Opt(T_share, S_const):   3.1457 ms
+  [Run 2] Global:   7.9849 ms | Opt(T_share, S_const):   3.1457 ms
+  [Run 3] Global:   7.9836 ms | Opt(T_share, S_const):   3.1456 ms
+平均時間 - Global:   7.9839 ms | Opt(T_share, S_const):   3.1457 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x 8
-  [Run 1] Global:   6.3234 ms | Opt(T_share, S_const):   3.0708 ms
-  [Run 2] Global:   6.3220 ms | Opt(T_share, S_const):   3.0720 ms
-  [Run 3] Global:   6.3212 ms | Opt(T_share, S_const):   3.0715 ms
-平均時間 - Global:   6.3222 ms | Opt(T_share, S_const):   3.0714 ms
+  [Run 1] Global:   6.4573 ms | Opt(T_share, S_const):   3.1350 ms
+  [Run 2] Global:   6.4594 ms | Opt(T_share, S_const):   3.1355 ms
+  [Run 3] Global:   6.4598 ms | Opt(T_share, S_const):   3.1278 ms
+平均時間 - Global:   6.4588 ms | Opt(T_share, S_const):   3.1328 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x 8
-  [Run 1] Global:   5.8620 ms | Opt(T_share, S_const):   3.1992 ms
-  [Run 2] Global:   5.8631 ms | Opt(T_share, S_const):   3.1996 ms
-  [Run 3] Global:   5.8629 ms | Opt(T_share, S_const):   3.2004 ms
-平均時間 - Global:   5.8627 ms | Opt(T_share, S_const):   3.1997 ms
+  [Run 1] Global:   5.8631 ms | Opt(T_share, S_const):   3.2000 ms
+  [Run 2] Global:   5.8634 ms | Opt(T_share, S_const):   3.1990 ms
+  [Run 3] Global:   5.8614 ms | Opt(T_share, S_const):   3.2008 ms
+平均時間 - Global:   5.8626 ms | Opt(T_share, S_const):   3.1999 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x16
-  [Run 1] Global:   6.3222 ms | Opt(T_share, S_const):   3.2029 ms
-  [Run 2] Global:   6.3235 ms | Opt(T_share, S_const):   3.2049 ms
-  [Run 3] Global:   6.3226 ms | Opt(T_share, S_const):   3.2033 ms
-平均時間 - Global:   6.3228 ms | Opt(T_share, S_const):   3.2037 ms
+  [Run 1] Global:   6.3242 ms | Opt(T_share, S_const):   3.2040 ms
+  [Run 2] Global:   6.3234 ms | Opt(T_share, S_const):   3.2048 ms
+  [Run 3] Global:   6.3235 ms | Opt(T_share, S_const):   3.2032 ms
+平均時間 - Global:   6.3237 ms | Opt(T_share, S_const):   3.2040 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 16x32
-  [Run 1] Global:   6.4154 ms | Opt(T_share, S_const):   3.5260 ms
-  [Run 2] Global:   6.4181 ms | Opt(T_share, S_const):   3.5247 ms
-  [Run 3] Global:   6.4167 ms | Opt(T_share, S_const):   3.5231 ms
-平均時間 - Global:   6.4167 ms | Opt(T_share, S_const):   3.5246 ms
+  [Run 1] Global:   6.4187 ms | Opt(T_share, S_const):   3.5264 ms
+  [Run 2] Global:   6.4159 ms | Opt(T_share, S_const):   3.5243 ms
+  [Run 3] Global:   6.4190 ms | Opt(T_share, S_const):   3.5262 ms
+平均時間 - Global:   6.4179 ms | Opt(T_share, S_const):   3.5257 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x16
-  [Run 1] Global:   6.1794 ms | Opt(T_share, S_const):   3.5041 ms
-  [Run 2] Global:   6.1803 ms | Opt(T_share, S_const):   3.5035 ms
-  [Run 3] Global:   6.1802 ms | Opt(T_share, S_const):   3.5043 ms
-平均時間 - Global:   6.1799 ms | Opt(T_share, S_const):   3.5039 ms
+  [Run 1] Global:   6.1807 ms | Opt(T_share, S_const):   3.5035 ms
+  [Run 2] Global:   6.1808 ms | Opt(T_share, S_const):   3.5054 ms
+  [Run 3] Global:   6.1808 ms | Opt(T_share, S_const):   3.5010 ms
+平均時間 - Global:   6.1808 ms | Opt(T_share, S_const):   3.5033 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x32
-  [Run 1] Global:   6.7502 ms | Opt(T_share, S_const):   4.1549 ms
-  [Run 2] Global:   6.7505 ms | Opt(T_share, S_const):   4.1514 ms
-  [Run 3] Global:   6.7503 ms | Opt(T_share, S_const):   4.1535 ms
-平均時間 - Global:   6.7503 ms | Opt(T_share, S_const):   4.1533 ms
+  [Run 1] Global:   6.7523 ms | Opt(T_share, S_const):   4.1554 ms
+  [Run 2] Global:   6.7508 ms | Opt(T_share, S_const):   4.1554 ms
+  [Run 3] Global:   6.7499 ms | Opt(T_share, S_const):   4.1542 ms
+平均時間 - Global:   6.7510 ms | Opt(T_share, S_const):   4.1550 ms
 ---------------------------------------------------------------------------------
 ▶ Block Size: 32x64
   [SKIP] Block Size 32x64 (2048 threads) 超過 1024 限制，略過測試
 ---------------------------------------------------------------------------------
 ▶ CPU Version (OpenMP Parallelization)
-  CPU Time (Threads:  1): 1919.8425 ms
-  CPU Time (Threads:  2): 961.8576 ms
-  CPU Time (Threads:  3): 641.9455 ms
-  CPU Time (Threads:  4): 500.4815 ms
-  CPU Time (Threads:  5): 404.1617 ms
-  CPU Time (Threads:  6): 331.1240 ms
-  CPU Time (Threads:  7): 433.2826 ms
-  CPU Time (Threads:  8): 386.0161 ms
-  CPU Time (Threads:  9): 365.8592 ms
-  CPU Time (Threads: 10): 369.4995 ms
-  CPU Time (Threads: 11): 337.4214 ms
-  CPU Time (Threads: 12): 309.0759 ms
+  CPU Time (Threads:  1): 3193.1970 ms
+  CPU Time (Threads:  2): 1649.6177 ms
+  CPU Time (Threads:  3): 1098.3710 ms
+  CPU Time (Threads:  4): 840.8917 ms
+  CPU Time (Threads:  5): 672.3253 ms
+  CPU Time (Threads:  6): 560.6081 ms
+  CPU Time (Threads:  7): 670.5814 ms
+  CPU Time (Threads:  8): 592.9936 ms
+  CPU Time (Threads:  9): 533.8237 ms
+  CPU Time (Threads: 10): 534.8583 ms
+  CPU Time (Threads: 11): 487.4079 ms
+  CPU Time (Threads: 12): 446.8509 ms
   [CPU Top 1相似] PCC:  1.0000, 位置: (2497,2497) (4985,10) 
         [   8   6   5   4   8 ]
         [   7   9   3   4   9 ]
