@@ -9,6 +9,7 @@
 #include <thread>
 #include <atomic>
 #include <mutex>
+#include <map>
 #include <openssl/sha.h>
 
 using namespace std;
@@ -17,22 +18,18 @@ const string CHARSET = "0123456789abcdefghijklmnopqrstuvwxyz";
 int IDX[256];
 
 void init_idx() {
-    for (int i = 0; i < 36; ++i) {
+    for (int i = 0; i < 36; ++i)
         IDX[(unsigned char)CHARSET[i]] = i;
-    }
 }
 
-// ── 256-bit 大數與 SHA256 狀態結構（完全保留原版） ──────────────────
 struct Seed256 {
     array<uint32_t, 8> data;
 
     void update(char c) {
         data[7] ^= static_cast<unsigned char>(c);
         string dec_str = to_decimal_string();
-
         unsigned char hash[SHA256_DIGEST_LENGTH];
         SHA256(reinterpret_cast<const unsigned char*>(dec_str.c_str()), dec_str.length(), hash);
-
         for (int i = 0; i < 8; ++i) {
             data[i] = (static_cast<uint32_t>(hash[i * 4]) << 24) |
                       (static_cast<uint32_t>(hash[i * 4 + 1]) << 16) |
@@ -44,7 +41,6 @@ struct Seed256 {
     string to_decimal_string() const {
         vector<uint32_t> dec;
         dec.push_back(0);
-
         for (int i = 0; i < 8; ++i) {
             uint32_t val = data[i];
             for (int bit = 31; bit >= 0; --bit) {
@@ -67,37 +63,27 @@ struct Seed256 {
 
     uint32_t get_mod_997() const {
         uint64_t rem = 0;
-        for (int i = 0; i < 8; ++i) {
-            rem = ((rem << 32) + data[i]) % 997;
-        }
+        for (int i = 0; i < 8; ++i) rem = ((rem << 32) + data[i]) % 997;
         return static_cast<uint32_t>(rem);
     }
 };
 
-// ── 高效線性 Huffman 編碼（完全保留原版） ──────────────────────────
 struct Node {
-    int left = -1;
-    int right = -1;
+    int left = -1, right = -1;
     string chars = "";
 };
 
 string encode_char_fast(const Seed256& seed_obj, char target_char) {
     uint32_t seed_mod = seed_obj.get_mod_997();
-
     vector<pair<uint32_t, string>> items(36);
-    for (int i = 0; i < 36; ++i) {
+    for (int i = 0; i < 36; ++i)
         items[i] = {((i + 1) * seed_mod + 17) % 997, string(1, CHARSET[i])};
-    }
-
     sort(items.begin(), items.end(), [](const auto& a, const auto& b) {
-        if (a.first != b.first) return a.first < b.first;
-        return a.second < b.second;
+        return a.first != b.first ? a.first < b.first : a.second < b.second;
     });
 
     vector<pair<uint32_t, int>> Q1, Q2;
-    vector<Node> tree;
-    tree.reserve(72);
-
+    vector<Node> tree; tree.reserve(72);
     for (int i = 0; i < 36; ++i) {
         Node n; n.chars = items[i].second;
         tree.push_back(n);
@@ -106,10 +92,8 @@ string encode_char_fast(const Seed256& seed_obj, char target_char) {
 
     int q1_head = 0, q2_head = 0;
     auto pop_min = [&]() {
-        if (q1_head < (int)Q1.size() && q2_head < (int)Q2.size()) {
-            if (Q1[q1_head].first <= Q2[q2_head].first) return Q1[q1_head++];
-            else return Q2[q2_head++];
-        }
+        if (q1_head < (int)Q1.size() && q2_head < (int)Q2.size())
+            return Q1[q1_head].first <= Q2[q2_head].first ? Q1[q1_head++] : Q2[q2_head++];
         if (q1_head < (int)Q1.size()) return Q1[q1_head++];
         return Q2[q2_head++];
     };
@@ -126,19 +110,16 @@ string encode_char_fast(const Seed256& seed_obj, char target_char) {
     }
 
     int root = (q1_head < (int)Q1.size()) ? Q1[q1_head].second : Q2[q2_head].second;
-
     string code = "";
     int curr = root;
     while (tree[curr].left != -1) {
-        int l = tree[curr].left;
-        int r = tree[curr].right;
+        int l = tree[curr].left, r = tree[curr].right;
         if (tree[l].chars.find(target_char) != string::npos) { code += '0'; curr = l; }
         else { code += '1'; curr = r; }
     }
     return code.empty() ? "0" : code;
 }
 
-// ── 排列生成與洗牌（完全保留原版） ──────────────────────────────────
 vector<vector<int>> ALL_PERMS;
 void init_perms() {
     vector<int> p = {0, 1, 2, 3};
@@ -158,17 +139,41 @@ vector<int> shuffle_deck(uint32_t s) {
     return deck;
 }
 
-// ── 依據原本的所有規則，計算單一 Key 在 24 種排列下的最大編碼長度 ────
-int get_key_max_length(const string& plaintext, const string& key, int n, vector<int>& best_perm) {
+// ── 統計結構（執行緒本地，最後合併）────────────────────────────────────
+struct Stats {
+    uint64_t count = 0;
+    uint64_t total_len = 0;
+    int min_len = 1000;
+    int max_len = 0;
+    map<int, uint64_t> len_freq;   // 長度 → 出現次數（分佈直方圖）
+
+    void record(int len) {
+        count++;
+        total_len += len;
+        if (len < min_len) min_len = len;
+        if (len > max_len) max_len = len;
+        len_freq[len]++;
+    }
+
+    void merge(const Stats& other) {
+        count     += other.count;
+        total_len += other.total_len;
+        if (other.min_len < min_len) min_len = other.min_len;
+        if (other.max_len > max_len) max_len = other.max_len;
+        for (const auto& [l, f] : other.len_freq)
+            len_freq[l] += f;
+    }
+};
+
+// ── 對單一 key 跑完所有排列，回傳各排列的密文長度 ─────────────────────
+void measure_key(const string& plaintext, const string& key, int n, Stats& local_stats) {
     uint64_t sm = 0;
     for (char c : key) sm = sm * 36 + IDX[(unsigned char)c];
     int prev = sm % 36;
 
-    // 原版撲克洗牌規則
     vector<int> dA = shuffle_deck((sm ^ 0x1111) & 0xFFFFFFFF);
     vector<int> dB = shuffle_deck((sm ^ 0x2222) & 0xFFFFFFFF);
 
-    // 原版密文前置字元置換規則
     string after_poker = "";
     for (int i = 0; i < n; ++i) {
         int ic = IDX[(unsigned char)plaintext[i]];
@@ -182,9 +187,6 @@ int get_key_max_length(const string& plaintext, const string& key, int n, vector
     uint64_t seed_base_val = 82 + 49;
     for (char c : key) seed_base_val += static_cast<unsigned char>(c);
 
-    int max_len_across_perms = 0;
-
-    // 遍歷 24 種排列，找出哪一種排列能讓 4 個字元加總的霍夫曼編碼最長
     for (const auto& perm : ALL_PERMS) {
         string after_perm = "";
         for (int i = 0; i < n; ++i) after_perm += after_poker[perm[i]];
@@ -192,77 +194,61 @@ int get_key_max_length(const string& plaintext, const string& key, int n, vector
         Seed256 seed_obj{};
         seed_obj.data[7] = seed_base_val;
 
-        int current_perm_len = 0;
+        // 完整跑完 4 個字元，累加長度
+        int total_len = 0;
         for (char char_item : after_perm) {
-            string code = encode_char_fast(seed_obj, char_item);
-            current_perm_len += code.length();
-            seed_obj.update(char_item); // 編碼完立即更新 Seed 狀態，完全符合原版
+            total_len += (int)encode_char_fast(seed_obj, char_item).length();
+            seed_obj.update(char_item);
         }
 
-        if (current_perm_len > max_len_across_perms) {
-            max_len_across_perms = current_perm_len;
-            best_perm = perm;
-        }
+        local_stats.record(total_len);
     }
-    return max_len_across_perms;
 }
 
-// ── 針對指定長度 key 的爆破（僅追蹤全域最長的 Key） ──────────────────
-void bruteforce_single_len(
-    const string& plaintext,
-    int key_length,
-    string& global_best_key,
-    int& global_max_len,
-    vector<int>& global_best_perm,
-    mutex& global_mtx)
-{
+// ── 針對指定長度 key 的統計搜尋 ──────────────────────────────────────
+Stats bruteforce_single_len(const string& plaintext, int key_length) {
     uint64_t total = 1;
     for (int i = 0; i < key_length; ++i) total *= 36;
+    int n = (int)plaintext.length();
 
     cout << "\n" << string(62, '-') << "\n";
-    cout << "  搜尋 Key 長度 = " << key_length << "  (共 " << total << " 種)\n";
+    cout << "  Key 長度 = " << key_length << "  (共 " << total << " 種 key × 24 排列 = "
+         << total * 24 << " 次加密)\n";
     cout << string(62, '-') << "\n";
 
     atomic<uint64_t> checked(0);
     atomic<bool> done(false);
     auto start_time = chrono::high_resolution_clock::now();
 
-    // 進度條
     thread progress_thread([&]() {
         while (!done) {
-            this_thread::sleep_for(chrono::milliseconds(500));
+            this_thread::sleep_for(chrono::milliseconds(300));
             uint64_t cur = checked.load();
             if (cur == 0) continue;
-
             auto now = chrono::high_resolution_clock::now();
             double elapsed = chrono::duration<double>(now - start_time).count();
             double pct = (double)cur / total * 100.0;
             double eta = elapsed / cur * (total - cur);
-
-            int bar_width = 30;
-            int pos = (int)(bar_width * pct / 100.0);
-
+            int bar_width = 38, pos = (int)(bar_width * pct / 100.0);
             cout << "\r  [";
             for (int i = 0; i < bar_width; ++i) cout << (i < pos ? "█" : "░");
-            cout << "] " << fixed << setprecision(1) << setw(5) << pct << "%  "
-                 << cur << "/" << total << "  ETA=" << (int)eta << "s" << flush;
+            cout << "] " << fixed << setprecision(1) << setw(5) << pct << "%"
+                 << "  " << cur << "/" << total
+                 << "  ETA=" << (int)eta << "s" << flush;
         }
     });
 
     unsigned int num_threads = thread::hardware_concurrency();
     if (num_threads == 0) num_threads = 2;
     vector<thread> workers;
+    vector<Stats> thread_stats(num_threads);
     uint64_t chunk_size = total / num_threads;
 
     for (unsigned int t = 0; t < num_threads; ++t) {
         uint64_t start_idx = t * chunk_size;
         uint64_t end_idx = (t == num_threads - 1) ? total : (t + 1) * chunk_size;
 
-        workers.push_back(thread([&, start_idx, end_idx, key_length]() {
-            string local_best_key = "";
-            int local_max_len = 0;
-            vector<int> local_best_perm;
-
+        workers.push_back(thread([&, t, start_idx, end_idx, key_length]() {
             for (uint64_t idx = start_idx; idx < end_idx; ++idx) {
                 string current_key(key_length, '0');
                 uint64_t temp = idx;
@@ -270,25 +256,8 @@ void bruteforce_single_len(
                     current_key[i] = CHARSET[temp % 36];
                     temp /= 36;
                 }
-
-                vector<int> current_best_perm;
-                int len = get_key_max_length(plaintext, current_key, (int)plaintext.length(), current_best_perm);
-
-                if (len > local_max_len) {
-                    local_max_len = len;
-                    local_best_key = current_key;
-                    local_best_perm = current_best_perm;
-                }
+                measure_key(plaintext, current_key, n, thread_stats[t]);
                 checked++;
-            }
-
-            // 將此執行緒找到的最長 Key 與全域最大值做比較（執行緒安全）
-            lock_guard<mutex> lock(global_mtx);
-            if (local_max_len > global_max_len) {
-                global_max_len = local_max_len;
-                global_best_key = local_best_key;
-                global_best_perm = local_best_perm;
-                cout << "\n  🔥 [目前新高] Key = '" << global_best_key << "' -> 長度達到: " << global_max_len << "\n";
             }
         }));
     }
@@ -296,40 +265,80 @@ void bruteforce_single_len(
     for (auto& w : workers) w.join();
     done = true;
     if (progress_thread.joinable()) progress_thread.join();
+
+    // 合併所有執行緒結果
+    Stats merged;
+    for (auto& s : thread_stats) merged.merge(s);
+
+    double elapsed = chrono::duration<double>(chrono::high_resolution_clock::now() - start_time).count();
+    cout << "\n  長度 " << key_length << " 完成，耗時 " << fixed << setprecision(2) << elapsed << "s\n";
+    return merged;
 }
 
-// ── 主入口 ────────────────────────────────────────────────────────
-void bruteforce(const string& plaintext, int max_key_len = 4) {
+// ── 印出統計報告 ──────────────────────────────────────────────────────
+void print_stats(const Stats& s, const string& label, int target_len) {
+    if (s.count == 0) { cout << "  （無資料）\n"; return; }
+
+    double avg = (double)s.total_len / s.count;
+
+    cout << "\n  【" << label << "】\n";
+    cout << "  樣本數  : " << s.count << " 次加密\n";
+    cout << "  最短長度: " << s.min_len << " bits\n";
+    cout << "  最長長度: " << s.max_len << " bits\n";
+    cout << "  平均長度: " << fixed << setprecision(4) << avg << " bits\n";
+    cout << "  目標密文: " << target_len << " bits\n";
+
+
+    // 長度分佈直方圖
+    cout << "\n  長度分佈直方圖：\n";
+    uint64_t max_freq = 0;
+    for (const auto& [l, f] : s.len_freq) max_freq = max(max_freq, f);
+
+    for (const auto& [l, f] : s.len_freq) {
+        int bar = (int)((double)f / max_freq * 40);
+        cout << "  " << setw(4) << l << " bits | ";
+        for (int i = 0; i < bar; ++i) cout << "█";
+        cout << " " << f;
+        if (l == target_len) cout << "  ← 目標長度";
+        cout << "\n";
+    }
+}
+
+void bruteforce(const string& plaintext, const string& target_cipher, int max_key_len = 4) {
+    int target_len = (int)target_cipher.length();
+
+    uint64_t grand_total = 0;
+    for (int l = 1; l <= max_key_len; ++l) {
+        uint64_t t = 1;
+        for (int i = 0; i < l; ++i) t *= 36;
+        grand_total += t * 24;
+    }
+
     cout << string(62, '=') << "\n";
-    cout << "  完全保留原規則：尋找能產生最長霍夫曼編碼總長度的 Key\n";
-    cout << "  明文 : " << plaintext << "\n";
+    cout << "  Huffman 加密長度統計分析\n";
+    cout << "  明文    : " << plaintext << "  (" << plaintext.length() << " 字元)\n";
+    cout << "  目標密文: " << target_cipher << "  (" << target_len << " bits)\n";
+    cout << "  Key 範圍: 長度 1 ~ " << max_key_len << "\n";
+    cout << "  總加密次數: " << grand_total << " 次\n";
     cout << string(62, '=') << "\n";
 
     auto global_start = chrono::high_resolution_clock::now();
-    
-    // 用於追蹤全域最長紀錄的變數
-    string global_best_key = "";
-    int global_max_len = 0;
-    vector<int> global_best_perm;
-    mutex global_mtx;
+    Stats global_stats;
 
     for (int key_len = 1; key_len <= max_key_len; ++key_len) {
-        bruteforce_single_len(plaintext, key_len, global_best_key, global_max_len, global_best_perm, global_mtx);
+        Stats s = bruteforce_single_len(plaintext, key_len);
+        print_stats(s, "Key 長度 = " + to_string(key_len), target_len);
+        global_stats.merge(s);
     }
 
-    double total_elapsed = chrono::duration<double>(chrono::high_resolution_clock::now() - global_start).count();
+    double total_elapsed = chrono::duration<double>(
+        chrono::high_resolution_clock::now() - global_start).count();
 
-    // 最終只印出最長的那一組 Key
     cout << "\n" << string(62, '=') << "\n";
-    cout << "  全部搜尋完成！總耗時 " << fixed << setprecision(2) << total_elapsed << " 秒\n";
-    cout << "  🏆 最終最長的 Key 結果：\n";
-    cout << "  🔑 Key      : '" << global_best_key << "'\n";
-    cout << "  📏 總編碼長度: " << global_max_len << " bits\n";
-    cout << "  📌 對應排列  : [";
-    for (size_t i = 0; i < global_best_perm.size(); ++i) {
-        cout << global_best_perm[i] << (i == global_best_perm.size() - 1 ? "" : ", ");
-    }
-    cout << "]\n";
+    cout << "  全域統計（Key 長度 1 ~ " << max_key_len << " 合計）\n";
+    cout << string(62, '=') << "\n";
+    print_stats(global_stats, "全域", target_len);
+    cout << "\n  總耗時：" << fixed << setprecision(2) << total_elapsed << " 秒\n";
     cout << string(62, '=') << "\n";
 }
 
@@ -338,7 +347,8 @@ int main() {
     init_perms();
 
     string plaintext = "book";
-    bruteforce(plaintext, 4); // 爆破長度 1~4 的 Key
+    string target_cipher = "01110110110110000011";
 
+    bruteforce(plaintext, target_cipher, 4);
     return 0;
 }

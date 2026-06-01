@@ -4,6 +4,7 @@
 #include <cuda_runtime.h>
 #include <float.h>
 #include <chrono>
+#include <omp.h>
 
 #define CHECK_CUDA(call) \
 do { \
@@ -35,8 +36,9 @@ unsigned char* load_matrix(const char* filename, int rows, int cols) {
 
 void matchCPU(const unsigned char* T, int T_r, int T_c,
               const unsigned char* S, int S_r, int S_c,
-              float* pcc_out, unsigned int* ssd_out) 
+              float* pcc_out, unsigned int* ssd_out, int num_threads) 
 {
+    #pragma omp parallel for num_threads(num_threads) collapse(2)
     for (int r = 0; r < T_r - S_r + 1; r++) {
         for (int c = 0; c < T_c - S_c + 1; c++) {
             float sumX = 0, sumY = 0;
@@ -329,17 +331,19 @@ void run_test_case(TestCase tc) {
     CHECK_CUDA(cudaMemcpy(h_pcc_out, d_pcc, out_size * sizeof(float), cudaMemcpyDeviceToHost));
     CHECK_CUDA(cudaMemcpy(h_ssd_out, d_ssd, out_size * sizeof(unsigned int), cudaMemcpyDeviceToHost));
 
-    // ========== CPU Sequential Version ==========
+    // ========== CPU Version (OpenMP Threads 1~12) ==========
     printf("---------------------------------------------------------------------------------\n");
-    printf("▶ CPU Sequential Version (No Parallelization)\n");
+    printf("▶ CPU Version (OpenMP Parallelization)\n");
     float* h_pcc_cpu = (float*)malloc(out_size * sizeof(float));
     unsigned int* h_ssd_cpu = (unsigned int*)malloc(out_size * sizeof(unsigned int));
     
-    auto start_cpu = std::chrono::high_resolution_clock::now();
-    matchCPU(h_T, tc.t_rows, tc.t_cols, h_S, tc.s_rows, tc.s_cols, h_pcc_cpu, h_ssd_cpu);
-    auto stop_cpu = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<float, std::milli> ms_cpu = stop_cpu - start_cpu;
-    printf("  CPU Time: %8.4f ms\n", ms_cpu.count());
+    for (int t = 1; t <= 12; t++) {
+        auto start_cpu = std::chrono::high_resolution_clock::now();
+        matchCPU(h_T, tc.t_rows, tc.t_cols, h_S, tc.s_rows, tc.s_cols, h_pcc_cpu, h_ssd_cpu, t);
+        auto stop_cpu = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<float, std::milli> ms_cpu = stop_cpu - start_cpu;
+        printf("  CPU Time (Threads: %2d): %8.4f ms\n", t, ms_cpu.count());
+    }
     
     float cpu_max1 = -2.0f;
     for (int i = 0; i < out_size; i++) {

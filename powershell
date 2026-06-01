@@ -33,12 +33,14 @@ g++ -O2 ${FILE}.cpp -o ${FILE}
 測試用.cpp
 
 cd /home/A1125515/114/CUDA_sample/test/C3
-FILE=treeforce2
+nvcc -O3 -arch=sm_75 -o brute_force_gpu brute_force_gpu.cu
+
+FILE=old
 g++ -O3 ${FILE}.cpp -o ${FILE} -lcrypto
 ./${FILE}
 
 cd /home/A1125515/114/CUDA_sample/test/C3
-g++ -O3 -std=c++20 tlforce.cpp -o bruteforce_cpp -lcrypto -lpthread
+g++ -O3 -std=c++20 eforce.cpp -o bruteforce_cpp -lcrypto -lpthread
 ./bruteforce_cpp
 
 cd /home/A1125515/114/CUDA_sample/test/C4
@@ -67,7 +69,7 @@ nvcc -O3 "template_matching_final.cu" -o template_matching --compiler-options -W
 ./template_matching "test data/4/T4_50_50.txt" 50 50 "test data/4/S4_5_5.txt" 5 5 32 32
 
 cd "/home/A1125515/114/CUDA_sample/test/專題/Template Matching/"
-nvcc -O3 test_all.cu -o test_all
+nvcc -O3 -Xcompiler -fopenmp test_all.cu -o test_all
 ./test_all
 
 cd "/home/A1125515/114/CUDA_sample/test/專題/Template Matching"
