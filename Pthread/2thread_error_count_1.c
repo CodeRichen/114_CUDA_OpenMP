@@ -11,7 +11,7 @@ void *count_function(void *thread_id)
                 count++;
                 //pthread_mutex_unlock(&mutex);
          }
-        pthread_exit(0);
+        // pthread_exit(0);
 }
 int main(void)
 {
@@ -20,7 +20,7 @@ int main(void)
   char *message2="thread2";
   pthread_create(&thread1, NULL,count_function, NULL);
   pthread_create(&thread2, NULL,count_function, NULL);
-  pthread_join(thread1,NULL);
+//   pthread_join(thread1,NULL);
   pthread_join(thread2,NULL);
   printf("count= %d\n",count);
   return 0; 

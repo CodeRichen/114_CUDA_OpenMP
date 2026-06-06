@@ -42,37 +42,31 @@ void matchCPU(const unsigned char* T, int T_r, int T_c,
     for (int r = 0; r < T_r - S_r + 1; r++) {
         for (int c = 0; c < T_c - S_c + 1; c++) {
             float sumX = 0, sumY = 0;
+            float sumX2 = 0, sumY2 = 0, sumXY = 0;
             int n = S_r * S_c;
-            for (int i = 0; i < S_r; i++) {
-                for (int j = 0; j < S_c; j++) {
-                    float valX = S[i * S_c + j];
-                    float valY = T[(r + i) * T_c + (c + j)];
-                    sumX += valX;
-                    sumY += valY;
-                }
-            }
-            float meanX = sumX / n;
-            float meanY = sumY / n;
-
-            float num = 0, denX = 0, denY = 0;
-            unsigned int ssd = 0;
 
             for (int i = 0; i < S_r; i++) {
                 for (int j = 0; j < S_c; j++) {
                     float x = S[i * S_c + j];
                     float y = T[(r + i) * T_c + (c + j)];
                     
-                    float dx = x - meanX;
-                    float dy = y - meanY;
-                    
-                    num += dx * dy;
-                    denX += dx * dx;
-                    denY += dy * dy;
-                    
-                    float diff = x - y;
-                    ssd += (unsigned int)(diff * diff);
+                    sumX += x;
+                    sumY += y;
+                    sumX2 += x * x;
+                    sumY2 += y * y;
+                    sumXY += x * y;
                 }
             }
+            
+            float meanX = sumX / n;
+            float meanY = sumY / n;
+
+            float num = sumXY - n * meanX * meanY;
+            float denX = sumX2 - n * meanX * meanX;
+            float denY = sumY2 - n * meanY * meanY;
+
+            // 計算 SSD: (x-y)^2 = x^2 + y^2 - 2xy
+            unsigned int ssd = (unsigned int)(sumX2 + sumY2 - 2 * sumXY);
 
             float pcc = 0.0f;
             if (denX > 0 && denY > 0) {
