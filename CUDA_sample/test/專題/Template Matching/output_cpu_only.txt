@@ -1,19 +1,19 @@
 =================================================================================
 [測資 1] T:(3750x4320) S:(3x3)
 ---------------------------------------------------------------------------------
-▶ CPU Version (OpenMP Parallelization)
-  CPU Time (Threads:  1): 274.4473 ms
-  CPU Time (Threads:  2): 120.6291 ms
-  CPU Time (Threads:  3):  81.4049 ms
-  CPU Time (Threads:  4):  62.1894 ms
-  CPU Time (Threads:  5):  49.7551 ms
-  CPU Time (Threads:  6):  76.2172 ms
-  CPU Time (Threads:  7):  65.3139 ms
-  CPU Time (Threads:  8):  57.5825 ms
-  CPU Time (Threads:  9):  51.0872 ms
-  CPU Time (Threads: 10):  46.0746 ms
-  CPU Time (Threads: 11):  41.9553 ms
-  CPU Time (Threads: 12):  63.5014 ms
+▶ CPU Version (OpenMP Parallelization)  [每個 Thread 數重複 3 次取平均]
+  CPU Time (Threads:  1): 253.6257 ms  (avg of 3 runs)
+  CPU Time (Threads:  2): 121.8157 ms  (avg of 3 runs)
+  CPU Time (Threads:  3):  83.2040 ms  (avg of 3 runs)
+  CPU Time (Threads:  4):  62.4214 ms  (avg of 3 runs)
+  CPU Time (Threads:  5):  49.9439 ms  (avg of 3 runs)
+  CPU Time (Threads:  6):  71.8402 ms  (avg of 3 runs)
+  CPU Time (Threads:  7):  65.7146 ms  (avg of 3 runs)
+  CPU Time (Threads:  8):  57.7102 ms  (avg of 3 runs)
+  CPU Time (Threads:  9):  51.3260 ms  (avg of 3 runs)
+  CPU Time (Threads: 10):  46.5798 ms  (avg of 3 runs)
+  CPU Time (Threads: 11):  42.0513 ms  (avg of 3 runs)
+  CPU Time (Threads: 12):  65.0379 ms  (avg of 3 runs)
   [CPU Top 1相似] PCC:  1.0000, 位置: (581,1280) 
         [   4   1   3 ]
         [   9   8   7 ]
@@ -21,19 +21,19 @@
 =================================================================================
 [測資 2] T:(7750x1320) S:(5x5)
 ---------------------------------------------------------------------------------
-▶ CPU Version (OpenMP Parallelization)
-  CPU Time (Threads:  1): 338.7093 ms
-  CPU Time (Threads:  2): 170.6727 ms
-  CPU Time (Threads:  3): 106.0698 ms
-  CPU Time (Threads:  4):  81.7028 ms
-  CPU Time (Threads:  5):  65.0644 ms
-  CPU Time (Threads:  6):  92.4470 ms
-  CPU Time (Threads:  7):  80.2280 ms
-  CPU Time (Threads:  8):  69.9655 ms
-  CPU Time (Threads:  9):  62.3057 ms
-  CPU Time (Threads: 10):  56.1115 ms
-  CPU Time (Threads: 11):  51.2299 ms
-  CPU Time (Threads: 12):  68.8120 ms
+▶ CPU Version (OpenMP Parallelization)  [每個 Thread 數重複 3 次取平均]
+  CPU Time (Threads:  1): 324.1130 ms  (avg of 3 runs)
+  CPU Time (Threads:  2): 161.7642 ms  (avg of 3 runs)
+  CPU Time (Threads:  3): 106.2953 ms  (avg of 3 runs)
+  CPU Time (Threads:  4):  82.2608 ms  (avg of 3 runs)
+  CPU Time (Threads:  5):  65.3474 ms  (avg of 3 runs)
+  CPU Time (Threads:  6):  54.4741 ms  (avg of 3 runs)
+  CPU Time (Threads:  7):  75.2935 ms  (avg of 3 runs)
+  CPU Time (Threads:  8):  69.1160 ms  (avg of 3 runs)
+  CPU Time (Threads:  9):  61.8484 ms  (avg of 3 runs)
+  CPU Time (Threads: 10):  56.1848 ms  (avg of 3 runs)
+  CPU Time (Threads: 11):  51.1266 ms  (avg of 3 runs)
+  CPU Time (Threads: 12):  46.8388 ms  (avg of 3 runs)
   [CPU Top 1相似] PCC:  1.0000, 位置: (7691,688) 
         [   2   3   7   0   8 ]
         [   2   7   1   8   7 ]
@@ -43,19 +43,19 @@
 =================================================================================
 [測資 3] T:(8140x9925) S:(3x3)
 ---------------------------------------------------------------------------------
-▶ CPU Version (OpenMP Parallelization)
-  CPU Time (Threads:  1): 1331.3706 ms
-  CPU Time (Threads:  2): 601.7404 ms
-  CPU Time (Threads:  3): 403.3747 ms
-  CPU Time (Threads:  4): 309.2357 ms
-  CPU Time (Threads:  5): 248.7934 ms
-  CPU Time (Threads:  6): 206.2130 ms
-  CPU Time (Threads:  7): 278.1817 ms
-  CPU Time (Threads:  8): 248.0438 ms
-  CPU Time (Threads:  9): 232.5169 ms
-  CPU Time (Threads: 10): 231.2790 ms
-  CPU Time (Threads: 11): 209.7502 ms
-  CPU Time (Threads: 12): 192.7467 ms
+▶ CPU Version (OpenMP Parallelization)  [每個 Thread 數重複 3 次取平均]
+  CPU Time (Threads:  1): 1239.4131 ms  (avg of 3 runs)
+  CPU Time (Threads:  2): 610.5358 ms  (avg of 3 runs)
+  CPU Time (Threads:  3): 405.5741 ms  (avg of 3 runs)
+  CPU Time (Threads:  4): 312.0669 ms  (avg of 3 runs)
+  CPU Time (Threads:  5): 249.5856 ms  (avg of 3 runs)
+  CPU Time (Threads:  6): 208.1593 ms  (avg of 3 runs)
+  CPU Time (Threads:  7): 279.9145 ms  (avg of 3 runs)
+  CPU Time (Threads:  8): 250.1948 ms  (avg of 3 runs)
+  CPU Time (Threads:  9): 232.3616 ms  (avg of 3 runs)
+  CPU Time (Threads: 10): 230.1584 ms  (avg of 3 runs)
+  CPU Time (Threads: 11): 209.5558 ms  (avg of 3 runs)
+  CPU Time (Threads: 12): 192.5283 ms  (avg of 3 runs)
   [CPU Top 1相似] PCC:  1.0000, 位置: (2800,6) (4653,4239) 
         [   0   7   0 ]
         [   0   9   0 ]
@@ -63,19 +63,19 @@
 =================================================================================
 [測資 4] T:(50x50) S:(5x5)
 ---------------------------------------------------------------------------------
-▶ CPU Version (OpenMP Parallelization)
-  CPU Time (Threads:  1):   0.1233 ms
-  CPU Time (Threads:  2):   0.1332 ms
-  CPU Time (Threads:  3):   0.3752 ms
-  CPU Time (Threads:  4):   0.0561 ms
-  CPU Time (Threads:  5):   0.0304 ms
-  CPU Time (Threads:  6):   0.0569 ms
-  CPU Time (Threads:  7):   0.0527 ms
-  CPU Time (Threads:  8):   0.0454 ms
-  CPU Time (Threads:  9):   0.0431 ms
-  CPU Time (Threads: 10):   0.0446 ms
-  CPU Time (Threads: 11):   0.0370 ms
-  CPU Time (Threads: 12):   0.0423 ms
+▶ CPU Version (OpenMP Parallelization)  [每個 Thread 數重複 3 次取平均]
+  CPU Time (Threads:  1):   0.0650 ms  (avg of 3 runs)
+  CPU Time (Threads:  2):   0.0665 ms  (avg of 3 runs)
+  CPU Time (Threads:  3):   0.1600 ms  (avg of 3 runs)
+  CPU Time (Threads:  4):   0.0314 ms  (avg of 3 runs)
+  CPU Time (Threads:  5):   0.0271 ms  (avg of 3 runs)
+  CPU Time (Threads:  6):   0.0264 ms  (avg of 3 runs)
+  CPU Time (Threads:  7):   0.0293 ms  (avg of 3 runs)
+  CPU Time (Threads:  8):   0.0274 ms  (avg of 3 runs)
+  CPU Time (Threads:  9):   0.0234 ms  (avg of 3 runs)
+  CPU Time (Threads: 10):   0.0224 ms  (avg of 3 runs)
+  CPU Time (Threads: 11):   0.0232 ms  (avg of 3 runs)
+  CPU Time (Threads: 12):   0.2561 ms  (avg of 3 runs)
   [CPU Top 1相似] PCC:  1.0000, 位置: (18,17) 
         [   9   9   4   5   7 ]
         [   6   8   4   2   2 ]
@@ -85,19 +85,19 @@
 =================================================================================
 [測資 5] T:(5000x5000) S:(5x5)
 ---------------------------------------------------------------------------------
-▶ CPU Version (OpenMP Parallelization)
-  CPU Time (Threads:  1): 801.8195 ms
-  CPU Time (Threads:  2): 389.3764 ms
-  CPU Time (Threads:  3): 259.9431 ms
-  CPU Time (Threads:  4): 195.0836 ms
-  CPU Time (Threads:  5): 172.0317 ms
-  CPU Time (Threads:  6): 196.3846 ms
-  CPU Time (Threads:  7): 181.8636 ms
-  CPU Time (Threads:  8): 160.5702 ms
-  CPU Time (Threads:  9): 153.2827 ms
-  CPU Time (Threads: 10): 143.3583 ms
-  CPU Time (Threads: 11): 124.8964 ms
-  CPU Time (Threads: 12): 119.0121 ms
+▶ CPU Version (OpenMP Parallelization)  [每個 Thread 數重複 3 次取平均]
+  CPU Time (Threads:  1): 764.6271 ms  (avg of 3 runs)
+  CPU Time (Threads:  2): 391.9963 ms  (avg of 3 runs)
+  CPU Time (Threads:  3): 259.8933 ms  (avg of 3 runs)
+  CPU Time (Threads:  4): 204.7682 ms  (avg of 3 runs)
+  CPU Time (Threads:  5): 160.0839 ms  (avg of 3 runs)
+  CPU Time (Threads:  6): 133.2175 ms  (avg of 3 runs)
+  CPU Time (Threads:  7): 180.7276 ms  (avg of 3 runs)
+  CPU Time (Threads:  8): 162.7966 ms  (avg of 3 runs)
+  CPU Time (Threads:  9): 150.4971 ms  (avg of 3 runs)
+  CPU Time (Threads: 10): 136.8070 ms  (avg of 3 runs)
+  CPU Time (Threads: 11): 125.1461 ms  (avg of 3 runs)
+  CPU Time (Threads: 12): 114.9374 ms  (avg of 3 runs)
   [CPU Top 1相似] PCC:  1.0000, 位置: (2497,2497) (4985,10) 
         [   8   6   5   4   8 ]
         [   7   9   3   4   9 ]

@@ -86,7 +86,7 @@ def plot_all(results, out_dir: str = '.'):
         min_x = valid_x[valid_y.index(min_y)]
         ax.annotate(f'min {min_y:.2f} ms',
                     xy=(min_x, min_y),
-                    xytext=(min_x + 0.4, min_y + (max(valid_y) - min_y) * 0.08),
+                    xytext=(min_x-1, min_y + (max(valid_y) - min_y) * 0.15),
                     fontsize=8, color='black',
                     arrowprops=dict(arrowstyle='->', color='grey', lw=1))
 
@@ -94,7 +94,7 @@ def plot_all(results, out_dir: str = '.'):
         ax.set_xlabel('Number of Threads', fontsize=10)
         ax.set_ylabel('Time (ms)', fontsize=10)
         ax.set_xticks(THREADS)
-        ax.yaxis.set_major_formatter(ticker.FormatStrFormatter('%.1f'))
+        ax.yaxis.set_major_formatter(ticker.FormatStrFormatter('%.2f'))
         ax.grid(True, linestyle='--', alpha=0.5)
         ax.legend(fontsize=9)
         fig.tight_layout()

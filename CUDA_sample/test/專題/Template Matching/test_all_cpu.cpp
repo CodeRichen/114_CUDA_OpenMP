@@ -22,9 +22,8 @@ typedef struct {
     int s_rows, s_cols;
 } TestCase;
 
-// 生產者讀完一筆測資後，打包成 LoadedCase 放進 queue
 typedef struct {
-    TestCase    tc;
+    TestCase       tc;
     unsigned char* h_T;
     unsigned char* h_S;
 } LoadedCase;
@@ -49,7 +48,7 @@ unsigned char* load_matrix(const char* filename, int rows, int cols) {
 }
 
 // ─────────────────────────────────────────────
-// 計算核心（與原版相同）
+// 計算核心
 // ─────────────────────────────────────────────
 
 void matchCPU(const unsigned char* T, int T_r, int T_c,
@@ -121,8 +120,10 @@ void print_matched_array(const unsigned char* h_T, int T_cols,
 }
 
 // ─────────────────────────────────────────────
-// 消費者：拿到已載入資料後執行計算並輸出
+// 消費者：執行計算（每個 thread 數跑 3 次取平均）
 // ─────────────────────────────────────────────
+
+#define REPEAT 3   // ← 每個 thread 數重複量測次數
 
 void process_loaded_case(const LoadedCase& lc) {
     const TestCase& tc = lc.tc;
@@ -140,18 +141,26 @@ void process_loaded_case(const LoadedCase& lc) {
     unsigned int* h_ssd_cpu = (unsigned int*)malloc(out_size * sizeof(unsigned int));
 
     printf("---------------------------------------------------------------------------------\n");
-    printf("▶ CPU Version (OpenMP Parallelization)\n");
+    printf("▶ CPU Version (OpenMP Parallelization)  [每個 Thread 數重複 %d 次取平均]\n", REPEAT);
 
     for (int t = 1; t <= 12; t++) {
-        auto start = std::chrono::high_resolution_clock::now();
-        matchCPU(h_T, tc.t_rows, tc.t_cols,
-                 h_S, tc.s_rows, tc.s_cols,
-                 h_pcc_cpu, h_ssd_cpu, t);
-        auto stop = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<float, std::milli> ms = stop - start;
-        printf("  CPU Time (Threads: %2d): %8.4f ms\n", t, ms.count());
+        float total_ms = 0.0f;
+
+        for (int r = 0; r < REPEAT; r++) {
+            auto start = std::chrono::high_resolution_clock::now();
+            matchCPU(h_T, tc.t_rows, tc.t_cols,
+                     h_S, tc.s_rows, tc.s_cols,
+                     h_pcc_cpu, h_ssd_cpu, t);
+            auto stop = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<float, std::milli> ms = stop - start;
+            total_ms += ms.count();
+        }
+
+        float avg_ms = total_ms / REPEAT;
+        printf("  CPU Time (Threads: %2d): %8.4f ms  (avg of %d runs)\n", t, avg_ms, REPEAT);
     }
 
+    // 最後一次執行結果用於找最佳位置
     float cpu_max = -2.0f;
     for (int i = 0; i < out_size; i++) {
         float v = h_pcc_cpu[i];
@@ -181,20 +190,15 @@ void process_loaded_case(const LoadedCase& lc) {
 // 生產者-消費者共享緩衝區
 // ─────────────────────────────────────────────
 
-static std::queue<LoadedCase>   g_queue;
-static std::mutex               g_mutex;
-static std::condition_variable  g_cv;
-static bool                     g_producer_done = false;
-
-// ─────────────────────────────────────────────
-// 生產者執行緒：依序讀所有測資並推入 queue
-// ─────────────────────────────────────────────
+static std::queue<LoadedCase>  g_queue;
+static std::mutex              g_mutex;
+static std::condition_variable g_cv;
+static bool                    g_producer_done = false;
 
 void producer_thread_func(const TestCase* tests, int num_tests) {
     for (int i = 0; i < num_tests; i++) {
         const TestCase& tc = tests[i];
 
-        // ── I/O（與計算重疊的部分）──
         unsigned char* h_T = load_matrix(tc.t_file, tc.t_rows, tc.t_cols);
         unsigned char* h_S = load_matrix(tc.s_file, tc.s_rows, tc.s_cols);
 
@@ -203,18 +207,11 @@ void producer_thread_func(const TestCase* tests, int num_tests) {
         lc.h_T = h_T;
         lc.h_S = h_S;
 
-        {
-            std::unique_lock<std::mutex> lock(g_mutex);
-            g_queue.push(lc);
-        }
-        g_cv.notify_one();   // 通知消費者有新資料
+        { std::unique_lock<std::mutex> lock(g_mutex); g_queue.push(lc); }
+        g_cv.notify_one();
     }
 
-    // 通知消費者生產者已結束
-    {
-        std::unique_lock<std::mutex> lock(g_mutex);
-        g_producer_done = true;
-    }
+    { std::unique_lock<std::mutex> lock(g_mutex); g_producer_done = true; }
     g_cv.notify_all();
 }
 
@@ -238,30 +235,19 @@ int main() {
     };
     const int num_tests = (int)(sizeof(tests) / sizeof(TestCase));
 
-    // 啟動生產者執行緒
     std::thread producer(producer_thread_func, tests, num_tests);
 
-    // 消費者（主執行緒）：持續從 queue 取資料並計算
     int consumed = 0;
     while (consumed < num_tests) {
         LoadedCase lc;
-
         {
             std::unique_lock<std::mutex> lock(g_mutex);
-            // 等待：queue 非空 或 生產者已結束
-            g_cv.wait(lock, [] {
-                return !g_queue.empty() || g_producer_done;
-            });
-
-            if (g_queue.empty()) break;   // 生產者結束且 queue 空 → 離開
-
+            g_cv.wait(lock, [] { return !g_queue.empty() || g_producer_done; });
+            if (g_queue.empty()) break;
             lc = g_queue.front();
             g_queue.pop();
         }
-
-        // ── 計算（與下一筆的 I/O 重疊）──
         process_loaded_case(lc);
-
         free(lc.h_T);
         free(lc.h_S);
         consumed++;
