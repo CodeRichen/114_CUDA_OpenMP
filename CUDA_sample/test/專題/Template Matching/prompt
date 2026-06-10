@@ -1,2 +1,22 @@
 改用pthread share mem會更快?
 能夠告訴我是否還有哪些地方能夠加速是在教學pdf範例當中然後code當中並沒有的
+我發現使用的時間好像反而更久了可不可以把有可能會讓他更久的地方就不要做更動照舊就好
+給我.cpp，不用加入GPU的部分，專注在CPU的優化
+預先將 T 的比對區域複製到連續記憶體
+
+// 您的測資大小差異極大：
+// T3: 8140×9925  → out 超過 8000萬個位置
+// T4: 50×50      → out 只有 2116個位置
+// dynamic：執行完一塊再領新工作，適合計算量不均
+#pragma omp parallel for schedule(dynamic, 64)
+//                                         ↑
+//                               chunk size：每次領 64 行
+//                               太小 → 搶鎖開銷大
+//                               太大 → 負載不均
+
+// guided：chunk size 自動從大縮小，兼顧兩者
+#pragma omp parallel for schedule(guided, 32)
+
+執行緒綁核（CPU Affinity，最接近「排程調整」的有效手段）
+
+生產者消費者，I/O 與計算重疊
