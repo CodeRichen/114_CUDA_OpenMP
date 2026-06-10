@@ -73,7 +73,7 @@ nvcc -O3 -Xcompiler -fopenmp test_all.cu -o test_all
 ./test_all
 
 cd "/home/A1125515/114/CUDA_sample/test/專題/Template Matching/"
-g++ -O2 -fopenmp -pthread -o test_all_cpu test_all_cpu.cpp -lm
+g++ -O2 -march=native -fopenmp -pthread -o test_all_cpu test_all_cpu.cpp -lm
 ./test_all_cpu
 
 cd "/home/A1125515/114/CUDA_sample/test/專題/Template Matching"

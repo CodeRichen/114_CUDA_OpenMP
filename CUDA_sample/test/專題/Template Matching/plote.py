@@ -84,7 +84,7 @@ def plot_all(results, out_dir: str = '.'):
         # 標最小值
         min_y = min(valid_y)
         min_x = valid_x[valid_y.index(min_y)]
-        ax.annotate(f'min {min_y:.2f} ms',
+        ax.annotate(f'min {min_y:.4f} ms',
                     xy=(min_x, min_y),
                     xytext=(min_x-1, min_y + (max(valid_y) - min_y) * 0.15),
                     fontsize=8, color='black',
