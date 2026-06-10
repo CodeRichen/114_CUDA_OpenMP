@@ -13,8 +13,8 @@ def main():
     
     with open(log_file, "r", encoding="utf-8") as f:
         for line in f:
-            # 尋找「測資 ID」的開始標籤
-            test_match = re.search(r"\[(測資 \d+)\]", line)
+            # 尋找「Test Case ID」的開始標籤
+            test_match = re.search(r"\[(Test Case \d+)\]", line)
             if test_match:
                 current_test = test_match.group(1)
                 data[current_test] = ([], []) # (threads_list, times_list)
@@ -27,14 +27,14 @@ def main():
                 data[current_test][0].append(threads)
                 data[current_test][1].append(time_ms)
 
-    # 針對每一筆測資畫出一張獨立的圖
+    # 針對每一筆Test Case畫出一張獨立的圖
     for test_name, (threads, times) in data.items():
         if not threads:
             continue
             
         plt.figure(figsize=(10, 6))
         
-        # 繪製該測資的折線圖
+        # 繪製該Test Case的折線圖
         plt.plot(threads, times, marker='o', color='b', linewidth=2, label=test_name)
 
         # 標出每一個點的數值 (取小數點後兩位)
@@ -45,8 +45,8 @@ def main():
         plt.xlabel("Number of Threads")
         plt.ylabel("Execution Time (ms)")
         
-        # 將 "測資 1" 轉換為 "Test Case 1" 避免中文字型顯示出問題
-        en_title = test_name.replace("測資", "Test Case")
+        # 將 "Test Case 1" 轉換為 "Test Case 1" 避免中文字型顯示出問題
+        en_title = test_name.replace("Test Case", "Test Case")
         plt.title(f"CPU Execution Time vs Number of Threads ({en_title})")
         
         plt.xticks(range(1, 13)) # X軸範圍 1 ~ 12
@@ -54,7 +54,7 @@ def main():
         plt.legend()
         plt.tight_layout()
         
-        # 設定檔案名稱 (例如：測資_1.png)
+        # 設定檔案名稱 (例如：Test Case_1.png)
         safe_name = test_name.replace(" ", "_")
         out_img = f"cpu_time_threads_{safe_name}.png"
         

@@ -27,7 +27,7 @@ void *increment_count()
 	{
 		pthread_mutex_lock(&count_lock);
 		if(count==0)
-			pthread_cond_signal(&count_nonzero);
+			pthread_cond_signal(&count_nonzero); 
 		count=count+1;
 		printf("+\n");
 		//getchar();

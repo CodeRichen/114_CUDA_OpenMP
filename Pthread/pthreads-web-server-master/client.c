@@ -70,7 +70,6 @@ int main(int argc, char **argv) {
   }
   printf("request=%s\n",buff);
   // get hostname line
-  printf("Enter server IP:\n");
   if (fgets(host, MAXBUFF, stdin) == NULL) {
     printf("Error or end of input -- aborting\n");
     return 1;

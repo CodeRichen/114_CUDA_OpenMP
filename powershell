@@ -72,11 +72,15 @@ cd "/home/A1125515/114/CUDA_sample/test/專題/Template Matching/"
 nvcc -O3 -Xcompiler -fopenmp test_all.cu -o test_all
 ./test_all
 
+cd "/home/A1125515/114/CUDA_sample/test/專題/Template Matching/"
+g++ test_all_cpu.cpp -o test_all_cpu -O3 -fopenmp
+./test_all_cpu
+
 cd "/home/A1125515/114/CUDA_sample/test/專題/Template Matching"
 python3 -m venv venv && source venv/bin/activate &&  python3 analyze_time.py
 
 cd "/home/A1125515/114/Pthread"
-FILE=deadlock
+FILE=race_mutex_cond
 gcc -O3 ${FILE}.c -o ${FILE} -lpthread
 ./${FILE}
 

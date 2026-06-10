@@ -642,15 +642,3 @@ int main(int argc, char **argv) {
   
   return 0;
 }
-
-
-
-
-
-
-//http://140.127.208.250:8888/client.c
-
-
-
-
-
