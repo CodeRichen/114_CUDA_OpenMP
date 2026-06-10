@@ -5,6 +5,34 @@
 #include <chrono>
 #include <omp.h>
 
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+#include <queue>
+
+// ─────────────────────────────────────────────
+// 資料結構
+// ─────────────────────────────────────────────
+
+typedef struct {
+    int id;
+    const char* t_file;
+    int t_rows, t_cols;
+    const char* s_file;
+    int s_rows, s_cols;
+} TestCase;
+
+// 生產者讀完一筆測資後，打包成 LoadedCase 放進 queue
+typedef struct {
+    TestCase    tc;
+    unsigned char* h_T;
+    unsigned char* h_S;
+} LoadedCase;
+
+// ─────────────────────────────────────────────
+// I/O
+// ─────────────────────────────────────────────
+
 unsigned char* load_matrix(const char* filename, int rows, int cols) {
     FILE* fp = fopen(filename, "r");
     if (!fp) {
@@ -20,6 +48,10 @@ unsigned char* load_matrix(const char* filename, int rows, int cols) {
     return mat;
 }
 
+// ─────────────────────────────────────────────
+// 計算核心（與原版相同）
+// ─────────────────────────────────────────────
+
 void matchCPU(const unsigned char* T, int T_r, int T_c,
               const unsigned char* S, int S_r, int S_c,
               float* pcc_out, unsigned int* ssd_out, int num_threads)
@@ -28,7 +60,6 @@ void matchCPU(const unsigned char* T, int T_r, int T_c,
     const int out_c = T_c - S_c + 1;
     const int n     = S_r * S_c;
 
-    // ── 優化①：S 統計量只算一次（迴圈提升） ──
     float sumX = 0, sumX2 = 0;
     for (int i = 0; i < n; i++) {
         float x = S[i];
@@ -38,7 +69,6 @@ void matchCPU(const unsigned char* T, int T_r, int T_c,
     const float meanX = sumX / n;
     const float denX  = sumX2 - n * meanX * meanX;
 
-    // ── 優化②：S 預先轉 float，避免內層重複轉型 ──
     float* Sf = (float*)malloc(n * sizeof(float));
     for (int i = 0; i < n; i++) Sf[i] = (float)S[i];
 
@@ -76,13 +106,9 @@ void matchCPU(const unsigned char* T, int T_r, int T_c,
     free(Sf);
 }
 
-typedef struct {
-    int id;
-    const char* t_file;
-    int t_rows, t_cols;
-    const char* s_file;
-    int s_rows, s_cols;
-} TestCase;
+// ─────────────────────────────────────────────
+// 輸出工具
+// ─────────────────────────────────────────────
 
 void print_matched_array(const unsigned char* h_T, int T_cols,
                          int target_r, int target_c, int S_r, int S_c) {
@@ -94,12 +120,17 @@ void print_matched_array(const unsigned char* h_T, int T_cols,
     }
 }
 
-void run_test_case(TestCase tc) {
+// ─────────────────────────────────────────────
+// 消費者：拿到已載入資料後執行計算並輸出
+// ─────────────────────────────────────────────
+
+void process_loaded_case(const LoadedCase& lc) {
+    const TestCase& tc = lc.tc;
+    const unsigned char* h_T = lc.h_T;
+    const unsigned char* h_S = lc.h_S;
+
     printf("=================================================================================\n");
     printf("[測資 %d] T:(%dx%d) S:(%dx%d)\n", tc.id, tc.t_rows, tc.t_cols, tc.s_rows, tc.s_cols);
-
-    unsigned char* h_T = load_matrix(tc.t_file, tc.t_rows, tc.t_cols);
-    unsigned char* h_S = load_matrix(tc.s_file, tc.s_rows, tc.s_cols);
 
     const int out_r    = tc.t_rows - tc.s_rows + 1;
     const int out_c    = tc.t_cols - tc.s_cols + 1;
@@ -142,9 +173,54 @@ void run_test_case(TestCase tc) {
                                 tc.s_rows, tc.s_cols);
     }
 
-    free(h_T); free(h_S);
-    free(h_pcc_cpu); free(h_ssd_cpu);
+    free(h_pcc_cpu);
+    free(h_ssd_cpu);
 }
+
+// ─────────────────────────────────────────────
+// 生產者-消費者共享緩衝區
+// ─────────────────────────────────────────────
+
+static std::queue<LoadedCase>   g_queue;
+static std::mutex               g_mutex;
+static std::condition_variable  g_cv;
+static bool                     g_producer_done = false;
+
+// ─────────────────────────────────────────────
+// 生產者執行緒：依序讀所有測資並推入 queue
+// ─────────────────────────────────────────────
+
+void producer_thread_func(const TestCase* tests, int num_tests) {
+    for (int i = 0; i < num_tests; i++) {
+        const TestCase& tc = tests[i];
+
+        // ── I/O（與計算重疊的部分）──
+        unsigned char* h_T = load_matrix(tc.t_file, tc.t_rows, tc.t_cols);
+        unsigned char* h_S = load_matrix(tc.s_file, tc.s_rows, tc.s_cols);
+
+        LoadedCase lc;
+        lc.tc  = tc;
+        lc.h_T = h_T;
+        lc.h_S = h_S;
+
+        {
+            std::unique_lock<std::mutex> lock(g_mutex);
+            g_queue.push(lc);
+        }
+        g_cv.notify_one();   // 通知消費者有新資料
+    }
+
+    // 通知消費者生產者已結束
+    {
+        std::unique_lock<std::mutex> lock(g_mutex);
+        g_producer_done = true;
+    }
+    g_cv.notify_all();
+}
+
+// ─────────────────────────────────────────────
+// main
+// ─────────────────────────────────────────────
 
 int main() {
     FILE* out_file = freopen("output_cpu_only.txt", "w", stdout);
@@ -160,10 +236,37 @@ int main() {
         {4, "test data/4/T4_50_50.txt",        50,   50, "test data/4/S4_5_5.txt", 5, 5},
         {5, "test data/5/T5_5000_5000.txt",  5000, 5000, "test data/5/S5_5_5.txt", 5, 5}
     };
+    const int num_tests = (int)(sizeof(tests) / sizeof(TestCase));
 
-    int num_tests = sizeof(tests) / sizeof(TestCase);
-    for (int i = 0; i < num_tests; i++)
-        run_test_case(tests[i]);
+    // 啟動生產者執行緒
+    std::thread producer(producer_thread_func, tests, num_tests);
 
+    // 消費者（主執行緒）：持續從 queue 取資料並計算
+    int consumed = 0;
+    while (consumed < num_tests) {
+        LoadedCase lc;
+
+        {
+            std::unique_lock<std::mutex> lock(g_mutex);
+            // 等待：queue 非空 或 生產者已結束
+            g_cv.wait(lock, [] {
+                return !g_queue.empty() || g_producer_done;
+            });
+
+            if (g_queue.empty()) break;   // 生產者結束且 queue 空 → 離開
+
+            lc = g_queue.front();
+            g_queue.pop();
+        }
+
+        // ── 計算（與下一筆的 I/O 重疊）──
+        process_loaded_case(lc);
+
+        free(lc.h_T);
+        free(lc.h_S);
+        consumed++;
+    }
+
+    producer.join();
     return 0;
 }
