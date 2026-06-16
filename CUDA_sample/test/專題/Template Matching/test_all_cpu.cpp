@@ -231,7 +231,8 @@ int main() {
         {2, "test data/2/T2_7750_1320.txt",  7750, 1320, "test data/2/S2_5_5.txt", 5, 5},
         {3, "test data/3/T3_8140_9925.txt",  8140, 9925, "test data/3/S3_3_3.txt", 3, 3},
         {4, "test data/4/T4_50_50.txt",        50,   50, "test data/4/S4_5_5.txt", 5, 5},
-        {5, "test data/5/T5_5000_5000.txt",  5000, 5000, "test data/5/S5_5_5.txt", 5, 5}
+        {5, "test data/5/T5_5000_5000.txt",  5000, 5000, "test data/5/S5_5_5.txt", 5, 5},
+        {6, "test data/6/T6_2500_2500.txt", 2500, 2500, "test data/6/S6_7_7.txt", 7, 7}
     };
     const int num_tests = (int)(sizeof(tests) / sizeof(TestCase));
 

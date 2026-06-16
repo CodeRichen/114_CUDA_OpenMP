@@ -1,0 +1,17 @@
+講解如何配置或使用多執行續GPU
+嘗試把影片拆分成好多個小區塊然後使用不同的GPU各自將聲音放大之後再組合起來
+改成輸入輸出都是影片
+我沒有opencv，用stbi或ffmpeg來讀取或輸出影片
+我希望能夠輸出一個影片是畫它的過程
+我希望測試不同的blacksise並且輸出每個size他所花的ms
+使用sharemem
+使用你想到的加速方法全部用上去可以犧牲一點精確度也沒關係重點可以體現GPU加速就好
+給我.cu
+Background Subtraction
+Sobel
++
+Threshold
++
+Morphology
+Frame Difference
+加入用CPUfor實作和pthread比較速度
