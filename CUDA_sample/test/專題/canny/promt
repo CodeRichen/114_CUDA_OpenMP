@@ -6,6 +6,11 @@
 我希望測試不同的blacksise並且輸出每個size他所花的ms
 使用sharemem
 使用你想到的加速方法全部用上去可以犧牲一點精確度也沒關係重點可以體現GPU加速就好
+用 __ldg() 明確走 texture cache（read-only path）
+
+改用 cudaTextureObject_t，硬體 texture cache 對 2D spatial locality 最佳化，比 shared memory 更適合 Sobel 這種存取模式。
+
+向量化讀取（uchar4），一次讀 4 個 byte，減少記憶體交易次數。
 給我.cu
 Background Subtraction
 Sobel

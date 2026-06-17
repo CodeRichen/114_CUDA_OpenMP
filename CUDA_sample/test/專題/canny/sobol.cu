@@ -7,28 +7,38 @@
 #include <cuda_runtime.h>
 
 // CUDA Kernel: 邊緣偵測
-__global__ void sobel_kernel(unsigned char* input, unsigned char* output, int w, int h) {
+__global__ void sobel_kernel(const unsigned char* __restrict__ input,
+                              unsigned char* output, int w, int h) {
     int x = blockIdx.x * blockDim.x + threadIdx.x;
     int y = blockIdx.y * blockDim.y + threadIdx.y;
 
     if (x > 0 && x < w - 1 && y > 0 && y < h - 1) {
-        // 計算 Sobel 梯度
-        float dx = (-1 * input[(y-1)*w + (x-1)]) + (1 * input[(y-1)*w + (x+1)]) +
-                   (-2 * input[(y)*w   + (x-1)]) + (2 * input[(y)*w   + (x+1)]) +
-                   (-1 * input[(y+1)*w + (x-1)]) + (1 * input[(y+1)*w + (x+1)]);
-        
-        float dy = (-1 * input[(y-1)*w + (x-1)]) + (-2 * input[(y-1)*w + x]) + (-1 * input[(y-1)*w + (x+1)]) +
-                   ( 1 * input[(y+1)*w + (x-1)]) + ( 2 * input[(y+1)*w + x]) + ( 1 * input[(y+1)*w + (x+1)]);
-        
+        // 用 __ldg() 走 read-only texture cache 載入 3x3 鄰域
+        unsigned char p00 = __ldg(&input[(y-1)*w + (x-1)]);
+        unsigned char p01 = __ldg(&input[(y-1)*w +  x   ]);
+        unsigned char p02 = __ldg(&input[(y-1)*w + (x+1)]);
+        unsigned char p10 = __ldg(&input[ y   *w + (x-1)]);
+        unsigned char p12 = __ldg(&input[ y   *w + (x+1)]);
+        unsigned char p20 = __ldg(&input[(y+1)*w + (x-1)]);
+        unsigned char p21 = __ldg(&input[(y+1)*w +  x   ]);
+        unsigned char p22 = __ldg(&input[(y+1)*w + (x+1)]);
+
+        float dx = (-1.0f * p00) + (1.0f * p02)
+                 + (-2.0f * p10) + (2.0f * p12)
+                 + (-1.0f * p20) + (1.0f * p22);
+
+        float dy = (-1.0f * p00) + (-2.0f * p01) + (-1.0f * p02)
+                 + ( 1.0f * p20) + ( 2.0f * p21) + ( 1.0f * p22);
+
         float grad = sqrtf(dx*dx + dy*dy);
-        output[y*w + x] = (grad > 255) ? 255 : (unsigned char)grad;
+        output[y*w + x] = (grad > 255.0f) ? 255 : (unsigned char)grad;
     }
 }
 
 int main() {
     int width, height, channels;
     // 1. 讀取圖片 (強制轉為灰階 1 channel)
-    unsigned char *h_in = stbi_load("input.jpg", &width, &height, &channels, 1);
+    unsigned char *h_in = stbi_load("input2.jpg", &width, &height, &channels, 1);
     if (!h_in) {
         printf("找不到 input.jpg 檔案！\n");
         return -1;
@@ -44,7 +54,7 @@ int main() {
     cudaMemcpy(d_in, h_in, size, cudaMemcpyHostToDevice);
 
     // 3. 配置 Thread 塊 (16x16)
-    dim3 blockSize(16, 16);
+    dim3 blockSize(16, 8);
     dim3 gridSize((width + blockSize.x - 1) / blockSize.x, (height + blockSize.y - 1) / blockSize.y);
 
     // 4. 執行與計時

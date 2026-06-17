@@ -7,7 +7,7 @@ nvcc ${FILE}.cu -o Exe/${FILE} && ./Exe/${FILE}
 專題用.cu
 
 cd /home/A1125515/114/CUDA_sample/test/專題/canny
-FILE=canny_cuda
+FILE=sobol
 nvcc ${FILE}.cu -o ${FILE} && ./${FILE}
 
 cd /home/A1125515/114/CUDA_sample/test/專題/ffmpeg
@@ -17,6 +17,10 @@ nvcc ${FILE}.cu -o ${FILE} && ./${FILE}
 cd /home/A1125515/114/CUDA_sample/test/專題/ffmpeg
 nvcc -O2 multi_gpu_audio_amplify.cu -o multi_gpu_audio_amplify
 ./multi_gpu_audio_amplify Dale.wav Dale2.wav [gain]
+
+cd /home/A1125515/114/CUDA_sample/test/專題/canny
+nvcc -O2 -o sobel_benchmark sobel_benchmark.cu
+./sobel_benchmark
 
 專題用.cpp
 
